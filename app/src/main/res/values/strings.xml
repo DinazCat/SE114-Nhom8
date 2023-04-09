@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">HealthcareApp</string>
+    <string name="facebook_app_id">911478286828834</string>
+    <string name="fb_login_protocol_scheme">fb911478286828834</string>
+    <string name="facebook_client_token">93696f2f3e0e88a386d56b07513c32b0</string>
+</resources>

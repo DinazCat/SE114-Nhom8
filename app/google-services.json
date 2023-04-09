@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "213203285893",
+    "project_id": "healthcareapp-bb365",
+    "storage_bucket": "healthcareapp-bb365.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213203285893:android:ae072a1ce2f33e07de36ec",
+        "android_client_info": {
+          "package_name": "com.example.healthcareapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213203285893-g2t1cdkgcm9kcvp3qd2vkuqgft0up9dh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcBM_Zwjc3s77DHgJELjmZdq40g29n4hk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213203285893-g2t1cdkgcm9kcvp3qd2vkuqgft0up9dh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
