@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
@@ -19,12 +21,26 @@ public class HomeActivity extends AppCompatActivity {
     private Button logoutButton;
     GoogleSignInOptions gOptions;
     GoogleSignInClient gClient;
-
+    TextView textView, textView2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+       // new
+        Intent intent = getIntent();
+        String _name = intent.getStringExtra("name");
+        String _age = intent.getStringExtra("age");
+        String _height = intent.getStringExtra("height");
+        String _weight = intent.getStringExtra("weight");
+        int _sex=0, _goal=0, _level=0;
+        intent.getIntExtra("sex",_sex);
+        intent.getIntExtra("goal",_goal);
+        intent.getIntExtra("level",_level);
 
+        textView = findViewById(R.id.textViewBMI);
+        textView.setText(_name);
+
+        //
         auth = FirebaseAuth.getInstance();
 
         logoutButton = findViewById(R.id.logoutbtn);

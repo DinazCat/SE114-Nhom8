@@ -19,12 +19,20 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     Button gotoLogin;
+    Button gotoQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        gotoQuestion = findViewById(R.id.gotoQuestionGetInformation);
+        gotoQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,QuestionNameAgeActivity.class));
+            }
+        });
         gotoLogin = findViewById(R.id.gotoLogin);
         gotoLogin.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/gotoLogin"
@@ -15,5 +16,13 @@
         android:background="@drawable/formbutton_bg"
         android:layout_marginTop="20dp"
         />
-
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/gotoQuestionGetInformation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Go to Question, to get information"
+        android:textColor="@color/black"
+        android:background="@drawable/formbutton_bg"
+        android:layout_marginTop="20dp"
+        />
 </LinearLayout>
