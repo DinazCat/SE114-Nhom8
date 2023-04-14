@@ -20,9 +20,8 @@ public class QuestionActivityLevelActivity extends AppCompatActivity {
         String _age = intent.getStringExtra("age");
         String _height = intent.getStringExtra("height");
         String _weight = intent.getStringExtra("weight");
-        int _sex=0, _goal=0;
-        intent.getIntExtra("sex",_sex);
-        intent.getIntExtra("goal",_goal);
+        String _sex = intent.getStringExtra("sex");
+        String _goal = intent.getStringExtra("goal");
 
         notVeryActive = findViewById(R.id.notVeryActive_btn);
         lightlyActive = findViewById(R.id.lightlyActive_btn);
@@ -32,28 +31,28 @@ public class QuestionActivityLevelActivity extends AppCompatActivity {
         notVeryActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuestionActivityLevelActivity.this, HomeActivity.class);
+                Intent intent = new Intent(QuestionActivityLevelActivity.this, MainActivity2.class);
                 intent.putExtra("name",_name);
                 intent.putExtra("age",_age);
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
                 intent.putExtra("sex",_sex);
                 intent.putExtra("goal",_goal);
-                intent.putExtra("level",1);
+                intent.putExtra("level","1");
                 startActivity(intent);
             }
         });
         lightlyActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuestionActivityLevelActivity.this, HomeActivity.class);
+                Intent intent = new Intent(QuestionActivityLevelActivity.this, MainActivity2.class);
                 intent.putExtra("name",_name);
                 intent.putExtra("age",_age);
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
                 intent.putExtra("sex",_sex);
                 intent.putExtra("goal",_goal);
-                intent.putExtra("level",2);
+                intent.putExtra("level","2");
                 startActivity(intent);
             }
         });
@@ -61,28 +60,28 @@ public class QuestionActivityLevelActivity extends AppCompatActivity {
         active.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuestionActivityLevelActivity.this, HomeActivity.class);
+                Intent intent = new Intent(QuestionActivityLevelActivity.this, MainActivity2.class);
                 intent.putExtra("name",_name);
                 intent.putExtra("age",_age);
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
                 intent.putExtra("sex",_sex);
                 intent.putExtra("goal",_goal);
-                intent.putExtra("level",3);
+                intent.putExtra("level","3");
                 startActivity(intent);
             }
         });
         veryActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuestionActivityLevelActivity.this, HomeActivity.class);
+                Intent intent = new Intent(QuestionActivityLevelActivity.this, MainActivity2.class);
                 intent.putExtra("name",_name);
                 intent.putExtra("age",_age);
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
                 intent.putExtra("sex",_sex);
                 intent.putExtra("goal",_goal);
-                intent.putExtra("level",4);
+                intent.putExtra("level","4");
                 startActivity(intent);
             }
         });

@@ -19,8 +19,7 @@ public class QuestionGoalActivity extends AppCompatActivity {
         String _age = intent.getStringExtra("age");
         String _height = intent.getStringExtra("height");
         String _weight = intent.getStringExtra("weight");
-        int _sex=0;
-        intent.getIntExtra("sex",_sex);
+        String _sex = intent.getStringExtra("sex");
 
 
         gainWeight = findViewById(R.id.gainWeight_btn);
@@ -36,7 +35,7 @@ public class QuestionGoalActivity extends AppCompatActivity {
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
                 intent.putExtra("sex",_sex);
-                intent.putExtra("goal",1);
+                intent.putExtra("goal","1");
                 startActivity(intent);
             }
         });
@@ -49,7 +48,7 @@ public class QuestionGoalActivity extends AppCompatActivity {
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
                 intent.putExtra("sex",_sex);
-                intent.putExtra("goal",2);
+                intent.putExtra("goal","2");
                 startActivity(intent);
             }
         });
@@ -63,7 +62,7 @@ public class QuestionGoalActivity extends AppCompatActivity {
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
                 intent.putExtra("sex",_sex);
-                intent.putExtra("goal",3);
+                intent.putExtra("goal","3");
                 startActivity(intent);
             }
         });

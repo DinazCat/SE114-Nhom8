@@ -31,7 +31,7 @@ public class QuestionSexActivityy extends AppCompatActivity {
                 intent.putExtra("age",_age);
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
-                intent.putExtra("sex",1);
+                intent.putExtra("sex","1");
                 startActivity(intent);
             }
         });
@@ -44,7 +44,7 @@ public class QuestionSexActivityy extends AppCompatActivity {
                 intent.putExtra("age",_age);
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
-                intent.putExtra("sex",0);
+                intent.putExtra("sex","2");
                 startActivity(intent);
             }
         });

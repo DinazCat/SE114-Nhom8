@@ -26,22 +26,29 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-       // new
+       // get Information of User
         Intent intent = getIntent();
         String _name = intent.getStringExtra("name");
         String _age = intent.getStringExtra("age");
         String _height = intent.getStringExtra("height");
         String _weight = intent.getStringExtra("weight");
-        int _sex=0, _goal=0, _level=0;
-        intent.getIntExtra("sex",_sex);
-        intent.getIntExtra("goal",_goal);
-        intent.getIntExtra("level",_level);
+        String _sex = intent.getStringExtra("sex");
+        String _goal = intent.getStringExtra("goal");
+        String _level = intent.getStringExtra("level");
 
         textView = findViewById(R.id.textViewBMI);
-        textView.setText(_name);
+        textView2 = findViewById(R.id.textViewBMI2);
+        if (Integer.parseInt(_level)==1)
+        textView.setText("so mot");
+        else
+        if (Integer.parseInt(_level)==2)
+            textView.setText("so hai");
 
-        //
-        auth = FirebaseAuth.getInstance();
+        if (Integer.parseInt(_sex)==1)
+            textView2.setText("Nam");
+        else textView2.setText("Nu");
+
+       /* auth = FirebaseAuth.getInstance();
 
         logoutButton = findViewById(R.id.logoutbtn);
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -72,5 +79,9 @@ public class HomeActivity extends AppCompatActivity {
 //        if (gAccount != null){
 //            String name = gAccount.getDisplayName();
 //        }
+
+        */
     }
+
+
 }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class QuestionWeightHeightActivity extends AppCompatActivity {
     private ConstraintLayout next_btn;
@@ -22,6 +23,7 @@ public class QuestionWeightHeightActivity extends AppCompatActivity {
 
         editTextHeight = findViewById(R.id.profileHeight);
         editTextWeight = findViewById(R.id.profileWeight);
+
         next_btn = findViewById(R.id.next_btn2);
 
         next_btn.setOnClickListener(new View.OnClickListener() {
@@ -30,8 +32,8 @@ public class QuestionWeightHeightActivity extends AppCompatActivity {
                Intent intent = new Intent(QuestionWeightHeightActivity.this, QuestionSexActivityy.class);
                intent.putExtra("name",_name);
                intent.putExtra("age",_age);
-               intent.putExtra("height",editTextHeight.getText());
-               intent.putExtra("weight", editTextWeight.getText());
+               intent.putExtra("height",editTextHeight.getText().toString());
+               intent.putExtra("weight", editTextWeight.getText().toString());
                startActivity(intent);
             }
         });

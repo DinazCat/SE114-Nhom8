@@ -19,15 +19,14 @@ public class QuestionNameAgeActivity extends AppCompatActivity {
         next_btn=findViewById(R.id.next_btn);
         editTextName = findViewById(R.id.profileName);
         editTextAge = findViewById(R.id.profileAge);
-        Intent intent = new Intent(QuestionNameAgeActivity.this, HomeActivity.class);
-        intent.putExtra("name",editTextName.getText());
+
 
         next_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(QuestionNameAgeActivity.this, QuestionWeightHeightActivity.class);
-                intent1.putExtra("name",editTextName.getText());
-                intent1.putExtra("age", editTextAge.getText());
+                intent1.putExtra("name",editTextName.getText().toString());
+                intent1.putExtra("age", editTextAge.getText()).toString();
                 startActivity(intent1);
             }
         });
