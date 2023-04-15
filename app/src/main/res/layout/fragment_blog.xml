@@ -5,13 +5,37 @@
     android:layout_height="match_parent"
     android:background="@color/forestgreen"
     tools:context=".BlogFragment">
-
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Blog"
-        android:gravity="center"
-        android:textSize="30dp"/>
+   <androidx.appcompat.widget.LinearLayoutCompat
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="50dp"
+           android:orientation="horizontal">
+           <TextView
+               android:layout_width="300dp"
+               android:layout_height="50dp"
+               android:text="social page"
+               android:textAlignment="center"
+               android:textSize="30dp"
+               android:background="@color/lightyellow"/>
+           <Button
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Add"
+               android:id="@+id/addP"
+               android:backgroundTint="@color/green3"
+               android:layout_marginLeft="5dp"/>
 
+       </LinearLayout>
+
+       <ListView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/listpost"/>
+
+
+   </androidx.appcompat.widget.LinearLayoutCompat>
 </FrameLayout>
