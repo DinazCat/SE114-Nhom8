@@ -31,13 +31,14 @@
         android:drawablePadding="10dp"
         />
     <EditText
+        android:id="@+id/name"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:background="@drawable/forminput_bg"
         android:padding="10dp"
         android:layout_marginTop="15dp"
         android:textSize="17dp"
-        android:hint="Username"
+        android:hint="Name"
         android:drawableLeft="@drawable/ic_user"
         android:drawablePadding="10dp"
         />

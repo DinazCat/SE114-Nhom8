@@ -13,5 +13,14 @@
         android:text="Settings"
         android:gravity="center"
         android:textSize="30dp"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/logoutbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log out"
+        android:textColor="@color/black"
+        android:background="@drawable/formbutton_bg"
+        android:layout_marginTop="20dp"
+        />
 
 </FrameLayout>

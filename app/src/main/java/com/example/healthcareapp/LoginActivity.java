@@ -42,8 +42,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -78,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(AuthResult authResult) {
                                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                startActivity(new Intent(LoginActivity.this, MainActivity2.class));
                                 finish();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -115,7 +119,10 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        gOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString((R.string.default_web_client_id)))
+                .requestEmail()
+                .build();
         gClient = GoogleSignIn.getClient(this, gOptions);
 
 //        GoogleSignInAccount gAccount = GoogleSignIn.getLastSignedInAccount(this);
@@ -133,10 +140,8 @@ public class LoginActivity extends AppCompatActivity {
                             Intent data = result.getData();
                             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
                             try {
-                                task.getResult(ApiException.class);
-                                finish();
-                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                startActivity(intent);
+                                GoogleSignInAccount account = task.getResult(ApiException.class);
+                                firebaseAuthwithGoogle(account);
                             } catch (ApiException e){
                                 Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                             }
@@ -194,9 +199,48 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser currentUser = auth.getCurrentUser();
         if(currentUser != null){
             finish();
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
             startActivity(intent);
         }
+    }
+    private void firebaseAuthwithGoogle(GoogleSignInAccount acct){
+        AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        auth.signInWithCredential(firebaseCredential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = auth.getCurrentUser();
+                            String email = user.getEmail();
+                            String uid = user.getUid();
+                            String name = user.getDisplayName();
+                            String img = user.getPhotoUrl().toString();
+                            HashMap<Object,String> hashMap = new HashMap<>();
+                            hashMap.put("email", email);
+                            hashMap.put("id", uid);
+                            hashMap.put("name", name);
+                            hashMap.put("img", img);
+                            hashMap.put("phone", "");
+                            hashMap.put("city", "");
+                            hashMap.put("country", "");
+                            hashMap.put("about", "");
+
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference databaseReference = database.getReference("users");
+                            databaseReference.child(uid).setValue(hashMap);
+
+
+                            startActivity(new Intent(LoginActivity.this, MainActivity2.class));
+                            finish();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
@@ -210,6 +254,26 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
+
+                            FirebaseUser user = auth.getCurrentUser();
+                            String email = user.getEmail();
+                            String uid = user.getUid();
+                            String name = user.getDisplayName();
+                            String img = user.getPhotoUrl().toString();
+                            HashMap<Object,String> hashMap = new HashMap<>();
+                            hashMap.put("email", email);
+                            hashMap.put("id", uid);
+                            hashMap.put("name", name);
+                            hashMap.put("img", img);
+                            hashMap.put("phone", "");
+                            hashMap.put("city", "");
+                            hashMap.put("country", "");
+                            hashMap.put("about", "");
+
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference databaseReference = database.getReference("users");
+                            databaseReference.child(uid).setValue(hashMap);
+
                             onStart();
                         } else {
                             // If sign in fails, display a message to the user.
