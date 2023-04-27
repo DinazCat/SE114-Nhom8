@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,13 +46,10 @@ public class PostActivity extends AppCompatActivity {
     ImageButton back;
     //Map<String, Object> user;
     List<String> fileimgs = new ArrayList<>();
-
-
-    public static ArrayList<Uri> images = new ArrayList<>();
-   public static ListView listView;
-    EditText post;
+    Button baivietBtn, hinhanhBtn;
     PostInformation postInfo;
-
+    BaivietFragment baivietFragment = new BaivietFragment();
+    AddImgFragment addImgFragment = new AddImgFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +60,26 @@ public class PostActivity extends AppCompatActivity {
 //
 //        ImageView circularImageView = findViewById(R.id.add);
 //        circularImageView.setImageBitmap(circularBitmap);
+        baivietBtn = findViewById(R.id.bvBtn);
+        hinhanhBtn = findViewById(R.id.haBtn);
+        replaceFragment(baivietFragment);
+        baivietBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                replaceFragment(baivietFragment);
+               // System.out.println("ten1"+ BaivietFragment.FoodName.getText());
+
+            }
+        });
+        hinhanhBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new AddImgFragment());
+
+            }
+        });
         back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,32 +92,11 @@ public class PostActivity extends AppCompatActivity {
         storageReference = storage.getReference();
         db = FirebaseFirestore.getInstance();
 
-        post = findViewById(R.id.write);
-
-
-
-        ImageButton Addimg = findViewById(R.id.imgpicker);
-        Addimg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ImagePicker.Companion.with(PostActivity.this)
-                        .crop()
-                        .maxResultSize(1080,1080)
-                        .start(101);
-
-            }
-        });
-
         Button Postbtn =  findViewById(R.id.dang);
-//        if(post.getText().toString()!="" || images.size() != 0)
-//        {
-//            Postbtn.setBackgroundColor(getColor(R.color.green3));
-//        }
-//        else   { Postbtn.setBackgroundColor(getColor(R.color.gray));}
         Postbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(post.getText().toString()!="" || images.size() != 0)
+                if(BaivietFragment.FName !="" || AddImgFragment.images.size() != 0)
                 {
                     addDatatoFirestore();
                 }
@@ -107,21 +105,26 @@ public class PostActivity extends AppCompatActivity {
         });
 
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        listView = findViewById(R.id.listview);
-        Uri uri = data.getData();
-        if(uri != null) images.add(uri);
-        CustomAdapter1 adapter = new CustomAdapter1(this, images);
-        listView.setAdapter(adapter);
+    private  void replaceFragment(Fragment f){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.addPframe,f);
+        fragmentTransaction.commit();
     }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        listView = findViewById(R.id.listview);
+//        Uri uri = data.getData();
+//        if(uri != null) images.add(uri);
+//        CustomAdapter1 adapter = new CustomAdapter1(this, images);
+//        listView.setAdapter(adapter);
+//    }
     private void addDatatoFirestore(){
         try{
-            if(images.size() > 0)
-            for(int i = 0; i < images.size(); i++) {
-                uploadImage(images.get(i), i);
+            if(AddImgFragment.images.size() > 0)
+            for(int i = 0; i < AddImgFragment.images.size(); i++) {
+                uploadImage(AddImgFragment.images.get(i), i);
             }
             else {
                 uploadpost();
@@ -212,7 +215,7 @@ public class PostActivity extends AppCompatActivity {
             public void onSuccess(Uri uri) {
                 // Got the download URL
                    fileimgs.add(uri.toString());
-                   if(i + 1 == images.size()) {
+                   if(i + 1 == AddImgFragment.images.size()) {
                       uploadpost();
                    }
 
@@ -230,7 +233,11 @@ public class PostActivity extends AppCompatActivity {
         postInfo = new PostInformation();
         postInfo.userid = user.getUid();
         postInfo.username = user.getDisplayName();
-        postInfo.post = post.getText().toString();
+        postInfo.postFoodName = BaivietFragment.FoodName.getText().toString();
+        postInfo.postFoodRating = BaivietFragment.FRating;
+        postInfo.postFoodIngredient = BaivietFragment.Ingredient.getText().toString();
+        postInfo.postFoodMaking = BaivietFragment.Making.getText().toString();
+        postInfo.postFoodSummary = BaivietFragment.Summary.getText().toString();
         postInfo.postimgs = new ArrayList<>();
         postInfo.postimgs.addAll(fileimgs);
         postInfo.likes = 0;

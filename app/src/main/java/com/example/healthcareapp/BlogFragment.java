@@ -7,6 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +41,6 @@ public class BlogFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blog, container, false);
-        listp = view.findViewById(R.id.listpost);
         db = FirebaseFirestore.getInstance();
         db.collection("posts")
                 .get()
@@ -52,8 +54,12 @@ public class BlogFragment extends Fragment {
                                 Info = document.toObject(PostInformation.class);
                                 postlist.add(Info);
                             }
-                            CustomAdapter2 adapter = new CustomAdapter2( BlogFragment.this,postlist);
-                            listp.setAdapter(adapter);
+                            CustomAdapter3 adapter = new CustomAdapter3(postlist,getContext());
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                            RecyclerView mRecyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
+                            mRecyclerView.setLayoutManager(linearLayoutManager);
+                            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                            mRecyclerView.setAdapter(adapter);
 
 
                         } else {

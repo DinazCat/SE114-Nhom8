@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
-    tools:context=".PostitemActivity"
-    tools:ignore="MissingClass">
+    android:orientation="vertical"
+    tools:context=".Layout4ImgActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -137,34 +136,99 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:id="@+id/img1"
-                android:background="@color/lightyellow"
-                android:scaleType="fitXY" />
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/layout2img"
-                android:orientation="horizontal">
+                android:id="@+id/layout3img"
+                android:orientation="vertical">
                 <ImageView
-                    android:layout_width="200dp"
-                    android:layout_height="250dp"
-                    android:id="@+id/img2"
+                    android:layout_width="match_parent"
+                    android:layout_height="246dp"
+                    android:id="@+id/img4"
                     android:background="@color/lightyellow"
                     android:scaleType="fitXY" />
-                <ImageView
-                    android:layout_width="205dp"
-                    android:layout_height="250dp"
-                    android:layout_marginLeft="2dp"
-                    android:id="@+id/img3"
-                    android:background="@color/lightyellow"
-                    android:scaleType="fitXY" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:id="@+id/img5"
+                        android:background="@color/lightyellow"
+                        android:scaleType="fitXY" />
+                    <ImageView
+                        android:layout_width="205dp"
+                        android:layout_height="200dp"
+                        android:layout_marginLeft="2dp"
+                        android:id="@+id/img6"
+                        android:background="@color/lightyellow"
+                        android:scaleType="fitXY" />
 
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout4img"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="223dp"
+                        android:id="@+id/img7"
+                        android:background="@color/lightyellow"
+                        android:scaleType="fitXY" />
+                    <ImageView
+                        android:layout_width="205dp"
+                        android:layout_height="223dp"
+                        android:layout_marginLeft="2dp"
+                        android:id="@+id/img8"
+                        android:background="@color/lightyellow"
+                        android:scaleType="fitXY" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="223dp"
+                        android:id="@+id/img9"
+                        android:background="@color/lightyellow"
+                        android:scaleType="fitXY" />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <com.jgabrielfreitas.core.BlurImageView
+                            android:layout_width="205dp"
+                            android:layout_height="223dp"
+                            android:layout_marginLeft="2dp"
+                            android:id="@+id/img10"
+                            android:background="@color/lightyellow"
+                            android:scaleType="fitXY" />
+                        <TextView
+                            android:layout_width="205dp"
+                            android:layout_height="223dp"
+                            android:id="@+id/countimg"
+                            android:gravity="center"
+                            android:text="abc"
+                            android:textSize="30dp"/>
+                    </RelativeLayout>
+
+
+                </LinearLayout>
             </LinearLayout>
 
         </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:background="@color/lightyellow"
@@ -190,8 +254,6 @@
 
 
         </LinearLayout>
-
-
     </LinearLayout>
 
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
@@ -48,11 +49,14 @@ public class CustomAdapter1 extends BaseAdapter {
         deletebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PostActivity.images.remove(items.get(i));
-                CustomAdapter1 adapter = new CustomAdapter1(activity, PostActivity.images);
-                PostActivity.listView.setAdapter(adapter);
+                AddImgFragment.images.remove(items.get(i));
+                if(AddImgFragment.images.size()==0) AddImgFragment.Layout.setVisibility(View.VISIBLE);
+                CustomAdapter1 adapter = new CustomAdapter1(activity, AddImgFragment.images);
+                AddImgFragment.listView.setAdapter(adapter);
             }
         });
+        if(AddImgFragment.images.size()!=0) {AddImgFragment.Layout.setVisibility(View.INVISIBLE);}
+        else AddImgFragment.Layout.setVisibility(View.VISIBLE);
         return view;
     }
 }
