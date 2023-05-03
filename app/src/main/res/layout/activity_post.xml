@@ -39,18 +39,19 @@
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/add"
+            android:id="@+id/iv_user"
             android:layout_marginLeft="5dp"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/food" />
+            android:src="@drawable/user" />
         <TextView
+            android:id="@+id/tv_username"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="UserName"
             android:gravity="center_vertical"
             android:textSize="20dp"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="10dp"/>
         </LinearLayout>
 
       <FrameLayout

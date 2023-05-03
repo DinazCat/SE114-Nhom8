@@ -54,7 +54,7 @@ public class BlogFragment extends Fragment {
                                 Info = document.toObject(PostInformation.class);
                                 postlist.add(Info);
                             }
-                            CustomAdapter3 adapter = new CustomAdapter3(postlist,getContext());
+                            CustomAdapter3 adapter = new CustomAdapter3(postlist,getContext(), getActivity().getSupportFragmentManager());
                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                             RecyclerView mRecyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
                             mRecyclerView.setLayoutManager(linearLayoutManager);

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.appevents.ml.Model;
@@ -34,20 +37,25 @@ import java.util.Locale;
 
 import javax.annotation.Nullable;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class CustomAdapter3 extends RecyclerView.Adapter {
     private ArrayList<PostInformation> dataSet;
     Context mContext;
     int total_types;
-
+    FragmentManager fragmentManager;
 
 
     public static class NoImageType extends RecyclerView.ViewHolder{
         TextView FName, FIngredient, FMaking, FSummary ;
         RatingBar FRating;
-        TextView time ;
+        TextView time, username ;
+        CircleImageView userimg;
         public NoImageType(View itemView) {
             super(itemView);
+            this.username = itemView.findViewById(R.id.username);
+            this.userimg = itemView.findViewById(R.id.userimg);
             this.FName = itemView.findViewById(R.id.write);
             this.FRating = itemView.findViewById(R.id.ratingbar);
             this.FIngredient = itemView.findViewById(R.id.write1);
@@ -59,11 +67,14 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
     public static class TwoImageType extends RecyclerView.ViewHolder{
         TextView FName, FIngredient, FMaking, FSummary ;
         RatingBar FRating;
-        TextView time ;
+        TextView time, username ;
         ImageView img1, img2, img3;
+        CircleImageView userimg;
         LinearLayout layout2;
         public TwoImageType(View itemView) {
             super(itemView);
+            this.username = itemView.findViewById(R.id.username);
+            this.userimg = itemView.findViewById(R.id.userimg);
             this.FName = itemView.findViewById(R.id.write);
             this.FRating = itemView.findViewById(R.id.ratingbar);
             this.FIngredient = itemView.findViewById(R.id.write1);
@@ -81,10 +92,13 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
         RatingBar FRating;
         ImageView img1, img2, img3, img4, img5, img6;
         BlurImageView img7;
-        TextView time, countimg ;
+        TextView time, countimg, username ;
+        CircleImageView userimg;
         LinearLayout layout3, layout4;
         public FourImageType(View itemView) {
             super(itemView);
+            this.username = itemView.findViewById(R.id.username);
+            this.userimg = itemView.findViewById(R.id.userimg);
             this.FName = itemView.findViewById(R.id.write);
             this.FRating = itemView.findViewById(R.id.ratingbar);
             this.FIngredient = itemView.findViewById(R.id.write1);
@@ -103,10 +117,11 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
             this.layout4 = itemView.findViewById(R.id.layout4img);
         }
     }
-    public CustomAdapter3(ArrayList<PostInformation> data, Context context) {
+    public CustomAdapter3(ArrayList<PostInformation> data, Context context, FragmentManager fragmentManager) {
         this.dataSet = data;
         this.mContext = context;
         total_types = dataSet.size();
+        this.fragmentManager = fragmentManager;
     }
     @Override
     public int getItemViewType(int position) {
@@ -158,6 +173,20 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
                 mContext.startActivity(new Intent(mContext,PostDetailActivity.class));
             }
         };
+        View.OnClickListener userimgListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String userId = object.userid;
+                ProfileFragment fragment = new ProfileFragment();
+                Bundle args = new Bundle();
+                args.putString("userId", userId);
+                fragment.setArguments(args);
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.frame_layout, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        };
         if(object !=null){
             if(object.postimgs.size() == 0)
             {
@@ -167,7 +196,15 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
                 ((NoImageType) viewHolder).FMaking.setText(object.postFoodMaking);
                 ((NoImageType) viewHolder).FSummary.setText(object.postFoodSummary);
                 ((NoImageType) viewHolder).time.setText(pTime);
-
+                ((NoImageType) viewHolder).username.setText(object.username);
+                try{
+                    Picasso.get().load(object.userimg).into(((NoImageType) viewHolder).userimg);
+                }
+                catch (Exception e){
+                    String uri = "https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png";
+                    Picasso.get().load(uri).into(((NoImageType) viewHolder).userimg);
+                }
+                ((NoImageType) viewHolder).userimg.setOnClickListener(userimgListener);
             }
             else if(object.postimgs.size() < 3)
             {
@@ -177,6 +214,15 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
                 ((TwoImageType) viewHolder).FMaking.setText(object.postFoodMaking);
                 ((TwoImageType) viewHolder).FSummary.setText(object.postFoodSummary);
                 ((TwoImageType) viewHolder).time.setText(pTime);
+                ((TwoImageType) viewHolder).username.setText(object.username);
+                try{
+                    Picasso.get().load(object.userimg).into(((TwoImageType) viewHolder).userimg);
+                }
+                catch (Exception e){
+                    String uri = "https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png";
+                    Picasso.get().load(uri).into(((TwoImageType) viewHolder).userimg);
+                }
+                ((TwoImageType) viewHolder).userimg.setOnClickListener(userimgListener);
                 if(object.postimgs.size() == 1)
                 {
                     Picasso.get().load(object.postimgs.get(0)).into(((TwoImageType) viewHolder).img1);
@@ -203,6 +249,15 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
                 ((FourImageType) viewHolder).FMaking.setText(object.postFoodMaking);
                 ((FourImageType) viewHolder).FSummary.setText(object.postFoodSummary);
                 ((FourImageType) viewHolder).time.setText(pTime);
+                ((FourImageType) viewHolder).username.setText(object.username);
+                try{
+                    Picasso.get().load(object.userimg).into(((FourImageType) viewHolder).userimg);
+                }
+                catch (Exception e){
+                    String uri = "https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png";
+                    Picasso.get().load(uri).into(((FourImageType) viewHolder).userimg);
+                }
+                ((FourImageType) viewHolder).userimg.setOnClickListener(userimgListener);
                 if(object.postimgs.size() == 3)
                 {
                     Picasso.get().load(object.postimgs.get(0)).into(((FourImageType) viewHolder).img1);

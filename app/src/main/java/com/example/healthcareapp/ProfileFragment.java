@@ -90,7 +90,7 @@ public class ProfileFragment extends Fragment {
 
                 }
             });
-            if(userId == curUser.getUid()){
+            if(userId.equals(curUser.getUid())){
                 btn1.setText("Edit");
                 btn2.setText("Logout");
                 btn1.setOnClickListener(new View.OnClickListener() {

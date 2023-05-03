@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,16 +27,21 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class PostActivity extends AppCompatActivity {
@@ -43,10 +49,14 @@ public class PostActivity extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference;
     ImageButton back;
     //Map<String, Object> user;
     List<String> fileimgs = new ArrayList<>();
     Button baivietBtn, hinhanhBtn;
+    CircleImageView userimg;
+    TextView username;
     PostInformation postInfo;
     BaivietFragment baivietFragment = new BaivietFragment();
     AddImgFragment addImgFragment = new AddImgFragment();
@@ -62,6 +72,17 @@ public class PostActivity extends AppCompatActivity {
 //        circularImageView.setImageBitmap(circularBitmap);
         baivietBtn = findViewById(R.id.bvBtn);
         hinhanhBtn = findViewById(R.id.haBtn);
+        userimg = findViewById(R.id.iv_user);
+        username = findViewById(R.id.tv_username);
+        if(user.getPhotoUrl()!=null){
+            Picasso.get().load(user.getPhotoUrl()).into(userimg);
+        }
+        else{
+            String uri = "https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png";
+            Picasso.get().load(uri).into(userimg);
+        }
+        if(user.getDisplayName()!=null)
+            username.setText(user.getDisplayName());
         replaceFragment(baivietFragment);
         baivietBtn.setOnClickListener(new View.OnClickListener(){
 
@@ -242,7 +263,7 @@ public class PostActivity extends AppCompatActivity {
         postInfo.postimgs.addAll(fileimgs);
         postInfo.likes = 0;
         postInfo.comments = 0;
-        postInfo.userimg = "";
+        postInfo.userimg = user.getPhotoUrl()!=null ? user.getPhotoUrl().toString() : "";
         postInfo.posttime = String.valueOf(System.currentTimeMillis());
 
         db.collection("posts")
