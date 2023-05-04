@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ProfileFragment">
+    tools:context=".Fragments.ProfileFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,12 +50,90 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/bt_1"
                 android:layout_marginRight="40dp"
-                android:textSize="15dp"/>
+                android:textSize="14dp"/>
             <Button
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/bt_2"
-                android:textSize="15dp"/>
+                android:textSize="14dp"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/posts"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:clickable="true"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:id="@+id/tv_posts_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:text="0" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#000000"
+                    android:text="Posts"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/followers"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:clickable="true"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:id="@+id/tv_followers_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:text="0" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#000000"
+                    android:text="Followers"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/following"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:clickable="true"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:id="@+id/tv_following_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:text="0" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#000000"
+                    android:text="Following"/>
+            </LinearLayout>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recyclerview"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
 </ScrollView>

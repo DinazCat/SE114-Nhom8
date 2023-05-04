@@ -1,4 +1,4 @@
-package com.example.healthcareapp;
+package com.example.healthcareapp.Fragments;
 
 import static android.content.ContentValues.TAG;
 
@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.healthcareapp.R;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

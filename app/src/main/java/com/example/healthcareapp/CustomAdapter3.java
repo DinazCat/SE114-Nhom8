@@ -1,41 +1,29 @@
 package com.example.healthcareapp;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.facebook.appevents.ml.Model;
+import com.example.healthcareapp.Fragments.ProfileFragment;
 import com.jgabrielfreitas.core.BlurImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
-
-import javax.annotation.Nullable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
