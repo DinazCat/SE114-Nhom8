@@ -21,10 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.healthcareapp.Adapter.UserAdapter;
-import com.example.healthcareapp.CustomAdapter3;
+import com.example.healthcareapp.Adapter.CustomAdapter3;
 import com.example.healthcareapp.LoginActivity;
 import com.example.healthcareapp.Model.User;
-import com.example.healthcareapp.PostInformation;
+import com.example.healthcareapp.Model.PostInformation;
 import com.example.healthcareapp.R;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
@@ -259,6 +259,7 @@ public class ProfileFragment extends Fragment {
                         PostInformation Info ;
                         System.out.println(document.toObject(PostInformation.class));
                         Info = document.toObject(PostInformation.class);
+                        Info.id = document.getId();
                         postlist.add(Info);
                     }
                     CustomAdapter3 adapter = new CustomAdapter3(postlist,getContext(), getActivity().getSupportFragmentManager());

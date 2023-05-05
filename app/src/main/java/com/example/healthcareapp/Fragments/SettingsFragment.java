@@ -1,4 +1,4 @@
-package com.example.healthcareapp;
+package com.example.healthcareapp.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.healthcareapp.LoginActivity;
+import com.example.healthcareapp.R;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

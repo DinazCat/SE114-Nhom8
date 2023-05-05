@@ -4,27 +4,21 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.example.healthcareapp.Model.PostInformation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -261,8 +255,8 @@ public class PostActivity extends AppCompatActivity {
         postInfo.postFoodSummary = BaivietFragment.Summary.getText().toString();
         postInfo.postimgs = new ArrayList<>();
         postInfo.postimgs.addAll(fileimgs);
-        postInfo.likes = 0;
-        postInfo.comments = 0;
+        postInfo.likes = new ArrayList<>();
+        postInfo.comments = new ArrayList<>();
         postInfo.userimg = user.getPhotoUrl()!=null ? user.getPhotoUrl().toString() : "";
         postInfo.posttime = String.valueOf(System.currentTimeMillis());
 
@@ -272,11 +266,7 @@ public class PostActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         //Log.d("TB", "DocumentSnapshot added with ID: " + documentReference.getId());
-                        Toast
-                                .makeText(PostActivity.this,
-                                        "Post Uploaded!!",
-                                        Toast.LENGTH_SHORT)
-                                .show();
+                        Toast.makeText(PostActivity.this, "Post Uploaded!!", Toast.LENGTH_SHORT).show();
                         System.out.println("post success.");
                     }
                 })

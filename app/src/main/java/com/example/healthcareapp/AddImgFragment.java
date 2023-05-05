@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
@@ -18,10 +17,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.healthcareapp.Adapter.CustomAdapter1;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AddImgFragment extends Fragment {
     public static ArrayList<Uri> images = new ArrayList<>();

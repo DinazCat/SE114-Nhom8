@@ -1,4 +1,4 @@
-package com.example.healthcareapp;
+package com.example.healthcareapp.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,8 +17,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.example.healthcareapp.Fragments.ProfileFragment;
+import com.example.healthcareapp.Adapter.CustomAdapter3;
+import com.example.healthcareapp.Model.PostInformation;
+import com.example.healthcareapp.PostActivity;
+import com.example.healthcareapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +41,7 @@ public class BlogFragment extends Fragment {
 
     Button addpost;
     ImageView imgUser;
+    TextView tvAddpost;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +58,7 @@ public class BlogFragment extends Fragment {
                                 PostInformation Info ;
                                 System.out.println(document.toObject(PostInformation.class));
                                 Info = document.toObject(PostInformation.class);
+                                Info.id = document.getId();
                                 postlist.add(Info);
                             }
                             CustomAdapter3 adapter = new CustomAdapter3(postlist,getContext(), getActivity().getSupportFragmentManager());
@@ -78,9 +84,10 @@ public class BlogFragment extends Fragment {
             }
         });
 
+        imgUser = view.findViewById(R.id.img_avatar);
+        tvAddpost = view.findViewById(R.id.tv_addPost);
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser curUser = auth.getCurrentUser();
-        imgUser = view.findViewById(R.id.img_avatar);
         if(curUser.getPhotoUrl() != null) {
             Picasso.get().load(curUser.getPhotoUrl()).into(imgUser);
         }else {
@@ -102,6 +109,12 @@ public class BlogFragment extends Fragment {
                 transaction.replace(R.id.frame_layout, fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
+            }
+        });
+        tvAddpost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), PostActivity.class));
             }
         });
         // Inflate the layout for this fragment

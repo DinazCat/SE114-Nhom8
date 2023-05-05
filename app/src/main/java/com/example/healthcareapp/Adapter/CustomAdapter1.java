@@ -1,4 +1,4 @@
-package com.example.healthcareapp;
+package com.example.healthcareapp.Adapter;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+
+import com.example.healthcareapp.AddImgFragment;
+import com.example.healthcareapp.R;
 
 import java.util.ArrayList;
 

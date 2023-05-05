@@ -1,4 +1,4 @@
-package com.example.healthcareapp;
+package com.example.healthcareapp.Adapter;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.healthcareapp.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

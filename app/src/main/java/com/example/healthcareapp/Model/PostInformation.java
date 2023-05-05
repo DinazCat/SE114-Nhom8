@@ -1,8 +1,9 @@
-package com.example.healthcareapp;
+package com.example.healthcareapp.Model;
 
 import java.util.List;
 
 public class PostInformation {
+    public String id;
    public String username;
    public String userid;
    public String postFoodName;
@@ -11,11 +12,10 @@ public class PostInformation {
     public String postFoodMaking;
     public String postFoodSummary;
    public List<String> postimgs;
-  // public String postimgs;
-   public int likes;
-   public int comments;
    public String userimg;
    public String posttime;
+   public List<String> likes;
+   public List<String> comments;
 
 //    public String getUsername() {
 //        return username;

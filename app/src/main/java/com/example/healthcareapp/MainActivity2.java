@@ -8,6 +8,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.healthcareapp.Fragments.BlogFragment;
+import com.example.healthcareapp.Fragments.GraphFragment;
+import com.example.healthcareapp.Fragments.HomeFragment;
+import com.example.healthcareapp.Fragments.SettingsFragment;
 import com.example.healthcareapp.databinding.ActivityMain2Binding;
 
 public class MainActivity2 extends AppCompatActivity {
