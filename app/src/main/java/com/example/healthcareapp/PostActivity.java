@@ -99,7 +99,7 @@ public class PostActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PostActivity.this, MainActivity2.class));
+                startActivity(new Intent(PostActivity.this, MainActivity.class));
             }
         });
 

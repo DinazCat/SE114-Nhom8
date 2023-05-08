@@ -1,14 +1,12 @@
 package com.example.healthcareapp;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -43,8 +41,18 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -58,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInOptions gOptions;
     GoogleSignInClient gClient;
     CallbackManager callbackManager;
+    Query query;
     private static final String TAG = "FacebookAuthentication";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +76,6 @@ public class LoginActivity extends AppCompatActivity {
         Init();
 
         auth = FirebaseAuth.getInstance();
-
         onStart();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(AuthResult authResult) {
                                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, MainActivity2.class));
-                                finish();
+                                isQuestionNull();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -131,6 +138,7 @@ public class LoginActivity extends AppCompatActivity {
 //            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 //            startActivity(intent);
 //        }
+
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -185,6 +193,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     private void Init(){
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
@@ -196,12 +205,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if(currentUser != null){
-            finish();
-            Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
-            startActivity(intent);
-        }
+        isQuestionNull();
     }
     private void firebaseAuthwithGoogle(GoogleSignInAccount acct){
         AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -209,6 +213,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
@@ -231,9 +236,7 @@ public class LoginActivity extends AppCompatActivity {
                             DatabaseReference databaseReference = database.getReference("users");
                             databaseReference.child(uid).setValue(hashMap);
 
-
-                            startActivity(new Intent(LoginActivity.this, MainActivity2.class));
-                            finish();
+                            isQuestionNull();
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
@@ -274,7 +277,8 @@ public class LoginActivity extends AppCompatActivity {
                             DatabaseReference databaseReference = database.getReference("users");
                             databaseReference.child(uid).setValue(hashMap);
 
-                            onStart();
+                            isQuestionNull();
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -292,5 +296,45 @@ public class LoginActivity extends AppCompatActivity {
 
         // Pass the activity result back to the Facebook SDK
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+    public void isQuestionNull(){
+        FirebaseUser currentUser = auth.getCurrentUser();
+        CollectionReference bmiRef = FirebaseFirestore.getInstance().collection("bmi");
+        if(currentUser != null){
+            bmiRef.document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()){
+                        DocumentSnapshot document = task.getResult();
+                        if(!document.exists()){
+                            HashMap<Object,String> bmiHashMap = new HashMap<>();
+                            bmiHashMap.put("userID", currentUser.getUid());
+                            bmiHashMap.put("userName", currentUser.getDisplayName());
+                            bmiHashMap.put("age", "");
+                            bmiHashMap.put("height", "");
+                            bmiHashMap.put("weight", "");
+                            bmiHashMap.put("sex", "");
+                            bmiHashMap.put("goal", "");
+                            bmiHashMap.put("goalKg", "0");
+                            bmiHashMap.put("activityLevel", "");
+                            FirebaseFirestore firebaseFireStore = FirebaseFirestore.getInstance();
+                            firebaseFireStore.collection("bmi").document(currentUser.getUid()).set(bmiHashMap);
+                        }
+                        else {
+                            String level = document.getString("activityLevel");
+                            if (level == ""){
+                                finish();
+                                startActivity(new Intent(LoginActivity.this, QuestionNameAgeActivity.class));
+                            }
+                            else {
+                                finish();
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            }
+                        }
+
+                    }
+                }
+            });
+        }
     }
 }

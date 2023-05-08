@@ -9,11 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthcareapp.Fragments.ProfileFragment;
-import com.example.healthcareapp.MainActivity2;
+import com.example.healthcareapp.MainActivity;
 import com.example.healthcareapp.Model.User;
 import com.example.healthcareapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -95,7 +94,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
                     Bundle args = new Bundle();
                     args.putString("userId", user.getId());
                     fragment.setArguments(args);
-                    ((MainActivity2)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+                    ((MainActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
                 } else {
 //                    Intent intent = new Intent(mContext, MainActivity.class);
 //                    intent.putExtra("userId", user.getId());

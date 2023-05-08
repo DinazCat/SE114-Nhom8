@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class QuestionSexActivityy extends AppCompatActivity {
+public class QuestionSexActivity extends AppCompatActivity {
     Button malebtn, femalebtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +26,12 @@ public class QuestionSexActivityy extends AppCompatActivity {
         malebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuestionSexActivityy.this, QuestionGoalActivity.class);
+                Intent intent = new Intent(QuestionSexActivity.this, QuestionGoalActivity.class);
                 intent.putExtra("name",_name);
                 intent.putExtra("age",_age);
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
-                intent.putExtra("sex","1");
+                intent.putExtra("sex","Male");
                 startActivity(intent);
             }
         });
@@ -39,12 +39,12 @@ public class QuestionSexActivityy extends AppCompatActivity {
         femalebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuestionSexActivityy.this, QuestionGoalActivity.class);
+                Intent intent = new Intent(QuestionSexActivity.this, QuestionGoalActivity.class);
                 intent.putExtra("name",_name);
                 intent.putExtra("age",_age);
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
-                intent.putExtra("sex","2");
+                intent.putExtra("sex","Female");
                 startActivity(intent);
             }
         });

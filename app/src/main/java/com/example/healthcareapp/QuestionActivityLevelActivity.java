@@ -7,13 +7,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+
 public class QuestionActivityLevelActivity extends AppCompatActivity {
     Button notVeryActive, active, lightlyActive, veryActive;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_level);
-
 
         Intent intent = getIntent();
         String _name = intent.getStringExtra("name");
@@ -31,28 +37,46 @@ public class QuestionActivityLevelActivity extends AppCompatActivity {
         notVeryActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuestionActivityLevelActivity.this, MainActivity2.class);
-                intent.putExtra("name",_name);
-                intent.putExtra("age",_age);
-                intent.putExtra("height",_height);
-                intent.putExtra("weight", _weight);
-                intent.putExtra("sex",_sex);
-                intent.putExtra("goal",_goal);
-                intent.putExtra("level","1");
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference = database.getReference("bmi");
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                Intent intent = new Intent(QuestionActivityLevelActivity.this, MainActivity.class);
+                HashMap<Object,String> bmiHashMap = new HashMap<>();
+                bmiHashMap.put("userID", uid);
+                bmiHashMap.put("userName", _name);
+                bmiHashMap.put("age", _age);
+                bmiHashMap.put("height", _height);
+                bmiHashMap.put("weight", _weight);
+                bmiHashMap.put("sex", _sex);
+                bmiHashMap.put("goal", _goal);
+                bmiHashMap.put("goalKg", "0");
+                bmiHashMap.put("activityLevel", "Not very active");
+
+                databaseReference.child(uid).setValue(bmiHashMap);
                 startActivity(intent);
             }
         });
         lightlyActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuestionActivityLevelActivity.this, MainActivity2.class);
-                intent.putExtra("name",_name);
-                intent.putExtra("age",_age);
-                intent.putExtra("height",_height);
-                intent.putExtra("weight", _weight);
-                intent.putExtra("sex",_sex);
-                intent.putExtra("goal",_goal);
-                intent.putExtra("level","2");
+
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                Intent intent = new Intent(QuestionActivityLevelActivity.this, MainActivity.class);
+                HashMap<Object,String> bmiHashMap = new HashMap<>();
+                bmiHashMap.put("userID", uid);
+                bmiHashMap.put("userName", _name);
+                bmiHashMap.put("age", _age);
+                bmiHashMap.put("height", _height);
+                bmiHashMap.put("weight", _weight);
+                bmiHashMap.put("sex", _sex);
+                bmiHashMap.put("goal", _goal);
+                bmiHashMap.put("goalKg", "0");
+                bmiHashMap.put("activityLevel", "Lightly active");
+                FirebaseFirestore firebaseFireStore = FirebaseFirestore.getInstance();
+                firebaseFireStore.collection("bmi").document(uid).set(bmiHashMap);
+
                 startActivity(intent);
             }
         });
@@ -60,28 +84,48 @@ public class QuestionActivityLevelActivity extends AppCompatActivity {
         active.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuestionActivityLevelActivity.this, MainActivity2.class);
-                intent.putExtra("name",_name);
-                intent.putExtra("age",_age);
-                intent.putExtra("height",_height);
-                intent.putExtra("weight", _weight);
-                intent.putExtra("sex",_sex);
-                intent.putExtra("goal",_goal);
-                intent.putExtra("level","3");
+
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                Intent intent = new Intent(QuestionActivityLevelActivity.this, MainActivity.class);
+                HashMap<Object,String> bmiHashMap = new HashMap<>();
+                bmiHashMap.put("userID", uid);
+                bmiHashMap.put("userName", _name);
+                bmiHashMap.put("age", _age);
+                bmiHashMap.put("height", _height);
+                bmiHashMap.put("weight", _weight);
+                bmiHashMap.put("sex", _sex);
+                bmiHashMap.put("goal", _goal);
+                bmiHashMap.put("goalKg", "0");
+                bmiHashMap.put("activityLevel", "Active");
+
+                FirebaseFirestore firebaseFireStore = FirebaseFirestore.getInstance();
+                firebaseFireStore.collection("bmi").document(uid).set(bmiHashMap);
+
                 startActivity(intent);
             }
         });
         veryActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuestionActivityLevelActivity.this, MainActivity2.class);
-                intent.putExtra("name",_name);
-                intent.putExtra("age",_age);
-                intent.putExtra("height",_height);
-                intent.putExtra("weight", _weight);
-                intent.putExtra("sex",_sex);
-                intent.putExtra("goal",_goal);
-                intent.putExtra("level","4");
+
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                Intent intent = new Intent(QuestionActivityLevelActivity.this, MainActivity.class);
+                HashMap<Object,String> bmiHashMap = new HashMap<>();
+                bmiHashMap.put("userID", uid);
+                bmiHashMap.put("userName", _name);
+                bmiHashMap.put("age", _age);
+                bmiHashMap.put("height", _height);
+                bmiHashMap.put("weight", _weight);
+                bmiHashMap.put("sex", _sex);
+                bmiHashMap.put("goal", _goal);
+                bmiHashMap.put("goalKg", "0");
+                bmiHashMap.put("activityLevel", "Very Active");
+
+                FirebaseFirestore firebaseFireStore = FirebaseFirestore.getInstance();
+                firebaseFireStore.collection("bmi").document(uid).set(bmiHashMap);
+
                 startActivity(intent);
             }
         });

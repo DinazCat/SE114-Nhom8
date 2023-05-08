@@ -35,7 +35,7 @@ public class QuestionGoalActivity extends AppCompatActivity {
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
                 intent.putExtra("sex",_sex);
-                intent.putExtra("goal","1");
+                intent.putExtra("goal","Lose weight");
                 startActivity(intent);
             }
         });
@@ -48,7 +48,7 @@ public class QuestionGoalActivity extends AppCompatActivity {
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
                 intent.putExtra("sex",_sex);
-                intent.putExtra("goal","2");
+                intent.putExtra("goal","Maintain weight");
                 startActivity(intent);
             }
         });
@@ -62,7 +62,7 @@ public class QuestionGoalActivity extends AppCompatActivity {
                 intent.putExtra("height",_height);
                 intent.putExtra("weight", _weight);
                 intent.putExtra("sex",_sex);
-                intent.putExtra("goal","3");
+                intent.putExtra("goal","Gain weight");
                 startActivity(intent);
             }
         });

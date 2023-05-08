@@ -35,7 +35,7 @@
             android:name=".PostActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity2"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".QuestionActivityLevelActivity"
@@ -44,7 +44,7 @@
             android:name=".QuestionGoalActivity"
             android:exported="false" />
         <activity
-            android:name=".QuestionSexActivityy"
+            android:name=".QuestionSexActivity"
             android:exported="false" />
         <activity
             android:name=".QuestionWeightHeightActivity"
@@ -60,9 +60,6 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

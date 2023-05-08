@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 public class QuestionWeightHeightActivity extends AppCompatActivity {
     private ConstraintLayout next_btn;
@@ -29,12 +29,18 @@ public class QuestionWeightHeightActivity extends AppCompatActivity {
         next_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent = new Intent(QuestionWeightHeightActivity.this, QuestionSexActivityy.class);
-               intent.putExtra("name",_name);
-               intent.putExtra("age",_age);
-               intent.putExtra("height",editTextHeight.getText().toString());
-               intent.putExtra("weight", editTextWeight.getText().toString());
-               startActivity(intent);
+                if (editTextHeight.getText().toString().trim().isEmpty() || editTextWeight.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(QuestionWeightHeightActivity.this, "Input cannot be blank", Toast.LENGTH_LONG).show();
+
+                }
+                else{
+                    Intent intent = new Intent(QuestionWeightHeightActivity.this, QuestionSexActivity.class);
+                    intent.putExtra("name", _name);
+                    intent.putExtra("age", _age);
+                    intent.putExtra("height", editTextHeight.getText().toString());
+                    intent.putExtra("weight", editTextWeight.getText().toString());
+                    startActivity(intent);
+                }
             }
         });
     }

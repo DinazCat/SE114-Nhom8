@@ -74,7 +74,7 @@
         android:id="@+id/signupRedirect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Don't have an account? Create hear"
+        android:text="Don't have an account? Create here"
         android:textAlignment="center"
         android:textSize="17dp"
         android:layout_marginTop="30dp"

@@ -49,8 +49,10 @@ public class SettingsFragment extends Fragment {
                 else if (auth.getCurrentUser() != null) {
                     auth.signOut();
                 }
+
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
+
             }
         });
 
