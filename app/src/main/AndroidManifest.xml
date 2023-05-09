@@ -53,6 +53,9 @@
             android:name=".QuestionNameAgeActivity"
             android:exported="false" />
         <activity
+            android:name=".QuestionGoalWeightActivity"
+            android:exported="false" />
+        <activity
             android:name=".ForgotPasswordActivity"
             android:exported="false" />
         <activity

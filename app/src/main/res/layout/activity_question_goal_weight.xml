@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#84D07D"
-    tools:context=".QuestionNameAgeActivity">
+    tools:context=".QuestionGoalWeightActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -13,11 +13,11 @@
         android:layout_height="170dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.443"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.08"
-        app:srcCompat="@drawable/fox1" />
+        app:layout_constraintVertical_bias="0.028"
+        app:srcCompat="@drawable/fox5" />
 
     <TextView
         android:id="@+id/textView"
@@ -44,82 +44,62 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
-        android:id="@+id/textViewQuestionName"
+        android:id="@+id/textViewQuestionGoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="What is your name?"
+        android:text="What is your weekly goal?"
         android:textColor="#3D7238"
         android:textSize="24dp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <com.google.android.material.textfield.TextInputEditText
-
-        android:id="@+id/profileName"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn0_25perweek"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/white_btn"
         android:layout_marginStart="50dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="50dp"
-        android:background="@drawable/white_btn"
-        android:hint="your name"
         android:padding="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewQuestionName" />
-
-    <TextView
-        android:id="@+id/textViewQuestionAge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="How old are you?"
-        android:textColor="#3D7238"
+        android:text="Lose 0,25 kg per week"
         android:textSize="24dp"
+        android:textColor="#3D7238"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileName" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewQuestionGoal" />
 
-    <com.google.android.material.textfield.TextInputEditText
-
-        android:id="@+id/profileAge"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn0_5perweek"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/white_btn"
         android:layout_marginStart="50dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="50dp"
-        android:background="@drawable/white_btn"
-        android:hint="your age"
         android:padding="20dp"
+        android:text="Lose 0,5 kg per week"
+        android:textSize="24dp"
+        android:textColor="#3D7238"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewQuestionAge" />
+        app:layout_constraintTop_toBottomOf="@+id/btn0_25perweek" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/next_btn"
-        android:layout_width="190dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/forestgreen_btn"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn1perweek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_btn"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp"
+        android:padding="20dp"
+        android:text="Lose 1 kg per week"
+        android:textSize="24dp"
+        android:textColor="#3D7238"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileAge">
-
-        <TextView
-            android:id="@+id/textViewNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next"
-            android:textColor="#fff"
-            android:textSize="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        app:layout_constraintTop_toBottomOf="@+id/btn0_5perweek" />
 </androidx.constraintlayout.widget.ConstraintLayout>

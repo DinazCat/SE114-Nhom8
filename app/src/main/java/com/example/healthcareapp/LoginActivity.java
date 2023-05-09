@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.healthcareapp.Model.bmiInfo;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -76,8 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         Init();
 
         auth = FirebaseAuth.getInstance();
-        onStart();
-
+        isQuestionNull();
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -307,22 +307,22 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()){
                         DocumentSnapshot document = task.getResult();
                         if(!document.exists()){
-                            HashMap<Object,String> bmiHashMap = new HashMap<>();
-                            bmiHashMap.put("userID", currentUser.getUid());
-                            bmiHashMap.put("userName", currentUser.getDisplayName());
-                            bmiHashMap.put("age", "");
-                            bmiHashMap.put("height", "");
-                            bmiHashMap.put("weight", "");
-                            bmiHashMap.put("sex", "");
-                            bmiHashMap.put("goal", "");
-                            bmiHashMap.put("goalKg", "0");
-                            bmiHashMap.put("activityLevel", "");
+                            bmiInfo bmi_info = new bmiInfo();
+                            bmi_info.userID = currentUser.getUid();
+                            bmi_info.userName = currentUser.getDisplayName();
+                            bmi_info.age = "";
+                            bmi_info.height = "";
+                            bmi_info.weight = "";
+                            bmi_info.sex = "";
+                            bmi_info.goal = "";
+                            bmi_info.weeklyGoal = "";
+                            bmi_info.activityLevel = "";
                             FirebaseFirestore firebaseFireStore = FirebaseFirestore.getInstance();
-                            firebaseFireStore.collection("bmi").document(currentUser.getUid()).set(bmiHashMap);
+                            firebaseFireStore.collection("bmi").document(currentUser.getUid()).set(bmi_info);
                         }
                         else {
                             String level = document.getString("activityLevel");
-                            if (level == ""){
+                            if (level.isEmpty()){
                                 finish();
                                 startActivity(new Intent(LoginActivity.this, QuestionNameAgeActivity.class));
                             }
