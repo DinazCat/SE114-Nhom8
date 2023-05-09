@@ -40,11 +40,10 @@ public class QuestionActivityLevelActivity extends AppCompatActivity {
         notVeryActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference databaseReference = database.getReference("bmi");
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                 Intent intent = new Intent(QuestionActivityLevelActivity.this, MainActivity.class);
+
                 bmiInfo bmi_info = new bmiInfo();
                 bmi_info.userID = uid;
                 bmi_info.userName = _name;
@@ -55,6 +54,7 @@ public class QuestionActivityLevelActivity extends AppCompatActivity {
                 bmi_info.goal = _goal;
                 bmi_info.weeklyGoal = _weeklyGoal;
                 bmi_info.activityLevel = "Not very active";
+
                 FirebaseFirestore firebaseFireStore = FirebaseFirestore.getInstance();
                 firebaseFireStore.collection("bmi").document(uid).set(bmi_info);
 
