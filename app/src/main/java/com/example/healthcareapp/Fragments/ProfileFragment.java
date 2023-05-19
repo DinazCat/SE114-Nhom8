@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +24,11 @@ import android.widget.TextView;
 import com.example.healthcareapp.Adapter.UserAdapter;
 import com.example.healthcareapp.Adapter.CustomAdapter3;
 import com.example.healthcareapp.LoginActivity;
+import com.example.healthcareapp.MainActivity;
 import com.example.healthcareapp.Model.User;
 import com.example.healthcareapp.Model.PostInformation;
 import com.example.healthcareapp.R;
+import com.example.healthcareapp.service.FcmNotificationsSender;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -68,6 +71,7 @@ public class ProfileFragment extends Fragment {
     private LinearLayout bt_posts, bt_followers, bt_following;
     private TextView postsCount, followersCount, followingCount;
     private boolean isFollowed = false;
+    private String userToken;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,6 +164,7 @@ public class ProfileFragment extends Fragment {
                         if(isFollowed) {
                             btn1.setText("Unfollow");
                             followersCount.setText("" + (followerlist.size() + 1));
+                            sendNotification();
                         }
                         else {
                             btn1.setText("Follow");
@@ -347,5 +352,29 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+    }
+    private void sendNotification(){
+        FirebaseDatabase.getInstance().getReference().child(userId).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                userToken = snapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                        userToken, "Social Food Blog", auth.getCurrentUser().getDisplayName() + "started following you!", getContext()
+                );
+                notificationsSender.sendNotification();
+            }
+        }, 3000);
     }
 }
