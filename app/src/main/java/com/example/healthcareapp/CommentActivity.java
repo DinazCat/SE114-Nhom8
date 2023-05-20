@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -19,10 +20,15 @@ import com.example.healthcareapp.Adapter.CommentAdapter;
 import com.example.healthcareapp.Adapter.CustomAdapter3;
 import com.example.healthcareapp.Model.Comment;
 import com.example.healthcareapp.Model.PostInformation;
+import com.example.healthcareapp.service.FcmNotificationsSender;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -48,7 +54,7 @@ public class CommentActivity extends AppCompatActivity {
 
     private String postId;
     private String authorId;
-
+    private String userToken;
     FirebaseUser curUser;
 
     @Override
@@ -141,6 +147,7 @@ public class CommentActivity extends AppCompatActivity {
                     DocumentReference postRef = FirebaseFirestore.getInstance().collection("posts").document(postId);
                     postRef.update("comments", FieldValue.arrayUnion(commentId));
                     Toast.makeText(CommentActivity.this, "Comment added!", Toast.LENGTH_SHORT).show();
+                    sendNotification(authorId, comment.getComment());
                 } else {
                     Toast.makeText(CommentActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -148,6 +155,30 @@ public class CommentActivity extends AppCompatActivity {
         });
         addComment.setText("");
 
+    }
+    private void sendNotification(String userId, String comment){
+        FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                userToken = snapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                        userToken, "Social Food Blog", FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " commented on your post: " + comment, getApplicationContext()
+                );
+                notificationsSender.sendNotification();
+            }
+        }, 3000);
     }
 
 }

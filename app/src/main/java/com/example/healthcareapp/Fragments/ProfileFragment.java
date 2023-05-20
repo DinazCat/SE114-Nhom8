@@ -354,7 +354,7 @@ public class ProfileFragment extends Fragment {
         });
     }
     private void sendNotification(){
-        FirebaseDatabase.getInstance().getReference().child(userId).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userToken = snapshot.getValue(String.class);
@@ -371,7 +371,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void run() {
                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                        userToken, "Social Food Blog", auth.getCurrentUser().getDisplayName() + "started following you!", getContext()
+                        userToken, "Social Food Blog", auth.getCurrentUser().getDisplayName() + " started following you!", getContext()
                 );
                 notificationsSender.sendNotification();
             }

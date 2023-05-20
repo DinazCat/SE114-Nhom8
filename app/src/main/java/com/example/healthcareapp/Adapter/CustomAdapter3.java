@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,15 @@ import com.example.healthcareapp.Fragments.ProfileFragment;
 import com.example.healthcareapp.Model.PostInformation;
 import com.example.healthcareapp.PostDetailActivity;
 import com.example.healthcareapp.R;
+import com.example.healthcareapp.service.FcmNotificationsSender;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -49,6 +55,7 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
     int total_types;
     FragmentManager fragmentManager;
     FirebaseUser curUser;
+    String userToken;
 
 
     public static class NoImageType extends RecyclerView.ViewHolder{
@@ -232,6 +239,7 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
                                 ((FourImageType) viewHolder).noOfLikes.setTextColor(ContextCompat.getColor(mContext, R.color.red));
                                 ((FourImageType) viewHolder).noOfLikes.setText("" + object.likes.size());
                             }
+                            sendNotification(object.userid);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -438,6 +446,31 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
                 }
             }
         });
+    }
+    private void sendNotification(String userId){
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                userToken = snapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                        userToken, "Social Food Blog", FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " liked your post!", mContext
+                );
+                notificationsSender.sendNotification();
+            }
+        }, 3000);
     }
 }
 
