@@ -74,7 +74,7 @@ public class PostAdapter extends RecyclerView.Adapter {
         RatingBar FRating;
         TextView time, username ;
         CircleImageView userimg;
-        ImageButton btLike, btComment, menu;
+        ImageButton btLike, btComment, menu, btShare;
         TextView noOfLikes, noOfComments;
         public NoImageType(View itemView) {
             super(itemView);
@@ -91,6 +91,7 @@ public class PostAdapter extends RecyclerView.Adapter {
             this.noOfLikes = itemView.findViewById(R.id.tv_likes_count);
             this.noOfComments = itemView.findViewById(R.id.tv_cmts_count);
             this.menu = itemView.findViewById(R.id.btn_menu);
+            this.btShare = itemView.findViewById(R.id.btn_share);
         }
     }
     public static class TwoImageType extends RecyclerView.ViewHolder{
@@ -100,7 +101,7 @@ public class PostAdapter extends RecyclerView.Adapter {
         ImageView img1, img2, img3;
         CircleImageView userimg;
         LinearLayout layout2;
-        ImageButton btLike, btComment, menu;
+        ImageButton btLike, btComment, menu, btShare;
         TextView noOfLikes, noOfComments;
         public TwoImageType(View itemView) {
             super(itemView);
@@ -121,6 +122,7 @@ public class PostAdapter extends RecyclerView.Adapter {
             this.noOfLikes = itemView.findViewById(R.id.tv_likes_count);
             this.noOfComments = itemView.findViewById(R.id.tv_cmts_count);
             this.menu = itemView.findViewById(R.id.btn_menu);
+            this.btShare = itemView.findViewById(R.id.btn_share);
         }
     }
     public static class FourImageType extends RecyclerView.ViewHolder{
@@ -131,7 +133,7 @@ public class PostAdapter extends RecyclerView.Adapter {
         TextView time, countimg, username ;
         CircleImageView userimg;
         LinearLayout layout3, layout4;
-        ImageButton btLike, btComment, menu;
+        ImageButton btLike, btComment, menu, btShare;
         TextView noOfLikes, noOfComments;
         public FourImageType(View itemView) {
             super(itemView);
@@ -158,6 +160,7 @@ public class PostAdapter extends RecyclerView.Adapter {
             this.noOfLikes = itemView.findViewById(R.id.tv_likes_count);
             this.noOfComments = itemView.findViewById(R.id.tv_cmts_count);
             this.menu = itemView.findViewById(R.id.btn_menu);
+            this.btShare = itemView.findViewById(R.id.btn_share);
         }
     }
     public PostAdapter(ArrayList<PostInformation> data, Context context, FragmentManager fragmentManager, String page) {
@@ -367,6 +370,31 @@ public class PostAdapter extends RecyclerView.Adapter {
                 mContext.startActivity(intent);
             }
         };
+
+        View.OnClickListener shareClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri.Builder builder = new Uri.Builder();
+                builder.scheme("https")
+                        .authority("healthcareapp")
+                        .appendQueryParameter("id", object.id)
+                        .appendQueryParameter("title", object.postFoodName);
+                String postUri = builder.build().toString();
+                String shareBody = "Tên món ăn: " + object.postFoodName + "\n" +
+                        "Nguyên liệu: " + object.postFoodIngredient + "\n" +
+                        "Độ khó: " + object.postFoodRating+ "\n" +
+                        "Cách làm: \n" + object.postFoodMaking+ "\n" +
+                        "Tổng kết: " + object.postFoodSummary + "\n\n" +
+                        "Xem chi tiết tại: \n" + postUri;
+
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/*");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Food Recipe");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+
+                mContext.startActivity(Intent.createChooser(shareIntent, "Share via"));
+            }
+        };
         if(object !=null){
             if(object.postimgs.size() == 0)
             {
@@ -400,6 +428,7 @@ public class PostAdapter extends RecyclerView.Adapter {
                 ((NoImageType) viewHolder).btLike.setOnClickListener(likeListener);
                 ((NoImageType) viewHolder).noOfComments.setText("" + object.comments.size());
                 ((NoImageType) viewHolder).btComment.setOnClickListener(commentClickListener);
+                ((NoImageType) viewHolder).btShare.setOnClickListener(shareClickListener);
             }
             else if(object.postimgs.size() < 3)
             {
@@ -432,6 +461,7 @@ public class PostAdapter extends RecyclerView.Adapter {
                 ((TwoImageType) viewHolder).username.setOnClickListener(userimgListener);
                 ((TwoImageType) viewHolder).btLike.setOnClickListener(likeListener);
                 ((TwoImageType) viewHolder).btComment.setOnClickListener(commentClickListener);
+                ((TwoImageType) viewHolder).btShare.setOnClickListener(shareClickListener);
                 if(object.postimgs.size() == 1)
                 {
                     Picasso.get().load(object.postimgs.get(0)).into(((TwoImageType) viewHolder).img1);
@@ -481,6 +511,7 @@ public class PostAdapter extends RecyclerView.Adapter {
                 ((FourImageType) viewHolder).username.setOnClickListener(userimgListener);
                 ((FourImageType) viewHolder).btLike.setOnClickListener(likeListener);
                 ((FourImageType) viewHolder).btComment.setOnClickListener(commentClickListener);
+                ((FourImageType) viewHolder).btShare.setOnClickListener(shareClickListener);
                 if(object.postimgs.size() == 3)
                 {
                     Picasso.get().load(object.postimgs.get(0)).into(((FourImageType) viewHolder).img1);
