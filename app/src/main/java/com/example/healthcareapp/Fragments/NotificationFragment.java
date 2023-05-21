@@ -64,7 +64,7 @@ public class NotificationFragment extends Fragment {
                                 Noti Info ;
                                 Info = document.toObject(Noti.class);
                                 Info.id = document.getId();
-                                if(!Info.PostownerId.equals(curUser.getUid())) {
+                                if(Info.PostownerId.equals(curUser.getUid())) {
                                     if ( Info.Read.equals("no") ){
                                         System.out.println("count"+Info.id);
                                         noread.add(Info);

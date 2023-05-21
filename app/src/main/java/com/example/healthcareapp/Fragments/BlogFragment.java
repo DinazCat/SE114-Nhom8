@@ -24,12 +24,18 @@ import android.widget.TextView;
 import com.example.healthcareapp.Adapter.PostAdapter;
 import com.example.healthcareapp.Model.Noti;
 import com.example.healthcareapp.Model.PostInformation;
+import com.example.healthcareapp.Model.User;
 import com.example.healthcareapp.PostActivity;
 import com.example.healthcareapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -41,16 +47,23 @@ public class BlogFragment extends Fragment {
     public static ArrayList<PostInformation> postlist;
     ListView listp ;
     private FirebaseFirestore db;
-
+    public static ArrayList<User> friendlist;
+    DatabaseReference databaseReference;
     ImageButton  notibtn;
+    ImageButton Searchbtn;
     ImageView imgUser, signal;
     TextView tvAddpost;
     SwipeRefreshLayout refresh;
     RecyclerView mRecyclerView;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser curUser = auth.getCurrentUser();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blog, container, false);
+        friendlist = new ArrayList<>();
+        getFrienduknow("followers");
+        getFrienduknow("following");
         postlist = new ArrayList<>();
         signal = view.findViewById(R.id.signal);
         refresh = view.findViewById(R.id.refresh);
@@ -66,6 +79,18 @@ public class BlogFragment extends Fragment {
         mRecyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
         getPost();
         checkNoti();
+        Searchbtn = view.findViewById(R.id.search);
+        Searchbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SearchFragment fragment = new SearchFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_layout, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+
+            }
+        });
 
         notibtn=view.findViewById(R.id.noti);
         notibtn.setOnClickListener(new View.OnClickListener() {
@@ -179,5 +204,40 @@ public class BlogFragment extends Fragment {
 
                 });
 
+    }
+    public void getFrienduknow(String path)
+    {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Follow").child(curUser.getUid()).child(path);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //arr = new ArrayList<>();
+                final long count = dataSnapshot.getChildrenCount();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String followerID = snapshot.getKey();
+                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(followerID);
+                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            User user = dataSnapshot.getValue(User.class);
+                            friendlist.add(user);
+
+
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            System.out.println(databaseError);
+                        }
+
+                    });
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println(error);
+            }
+        });
     }
 }

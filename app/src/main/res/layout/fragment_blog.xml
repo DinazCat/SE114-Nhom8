@@ -16,19 +16,28 @@
             android:layout_height="50dp"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="300dp"
+                android:layout_width="290dp"
                 android:layout_height="40dp"
                 android:text="social page"
                 android:textAlignment="center"
                 android:textSize="27dp"
                 android:background="@color/lightyellow"
                 android:layout_marginTop="5dp"/>
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="Add"
+                android:id="@+id/search"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/search_icon"
+                android:layout_marginLeft="5dp"/>
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
                 <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:id="@+id/noti"
                     android:background="@drawable/noti_icon"
                     android:layout_marginLeft="5dp"/>
@@ -39,7 +48,7 @@
                     android:background="@drawable/signal"
                     android:visibility="invisible"
                     android:layout_marginTop="5dp"
-                    android:layout_marginLeft="35dp"/>
+                    android:layout_marginLeft="30dp"/>
 
             </RelativeLayout>
 
