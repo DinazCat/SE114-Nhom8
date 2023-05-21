@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.healthcareapp.Fragments.AddImgFragment;
+import com.example.healthcareapp.Fragments.BaivietFragment;
 import com.example.healthcareapp.Model.PostInformation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -32,7 +35,9 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -50,24 +55,22 @@ public class PostActivity extends AppCompatActivity {
     List<String> fileimgs = new ArrayList<>();
     Button baivietBtn, hinhanhBtn;
     CircleImageView userimg;
-    TextView username;
+    TextView username, header;
     PostInformation postInfo;
+    public static String postIdtoUpdate;
+    public static String thaotac;
     BaivietFragment baivietFragment = new BaivietFragment();
     AddImgFragment addImgFragment = new AddImgFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-
-//        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.food);
-//        Bitmap circularBitmap = ImageConverter.getRoundedCornerBitmap(bitmap, 100);
-//
-//        ImageView circularImageView = findViewById(R.id.add);
-//        circularImageView.setImageBitmap(circularBitmap);
         baivietBtn = findViewById(R.id.bvBtn);
         hinhanhBtn = findViewById(R.id.haBtn);
         userimg = findViewById(R.id.iv_user);
         username = findViewById(R.id.tv_username);
+        header = findViewById(R.id.header);
+        if(thaotac.equals( "edit")) header.setText("Sửa bài viết");
         if(user.getPhotoUrl()!=null){
             Picasso.get().load(user.getPhotoUrl()).into(userimg);
         }
@@ -111,7 +114,7 @@ public class PostActivity extends AppCompatActivity {
         Postbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(BaivietFragment.FName !="" || AddImgFragment.images.size() != 0)
+                if(BaivietFragment.FoodName.getText().toString() !="" || AddImgFragment.images.size() != 0)
                 {
                     addDatatoFirestore();
                 }
@@ -126,23 +129,25 @@ public class PostActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.addPframe,f);
         fragmentTransaction.commit();
     }
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        listView = findViewById(R.id.listview);
-//        Uri uri = data.getData();
-//        if(uri != null) images.add(uri);
-//        CustomAdapter1 adapter = new CustomAdapter1(this, images);
-//        listView.setAdapter(adapter);
-//    }
+
     private void addDatatoFirestore(){
         try{
-            if(AddImgFragment.images.size() > 0)
-            for(int i = 0; i < AddImgFragment.images.size(); i++) {
-                uploadImage(AddImgFragment.images.get(i), i);
+            if(AddImgFragment.images.size() > 0){
+                int sum = 0;
+                for(int i = 0; i < AddImgFragment.images.size(); i++) {
+                    if(AddImgFragment.images.get(i).toString().substring(0,5).equals("https"))
+                    {
+                        sum = sum + 1;
+                        fileimgs.add(AddImgFragment.images.get(i).toString());
+                    }
+                    uploadImage(AddImgFragment.images.get(i), i);
+                }
+                if(sum == AddImgFragment.images.size()) editpost();
             }
             else {
-                uploadpost();
+                if(thaotac.equals("push"))
+                    uploadpost();
+                else editpost();
             }
         }
         catch(Exception e) {
@@ -153,6 +158,7 @@ public class PostActivity extends AppCompatActivity {
 
      private void uploadImage(Uri filePath, int i) {
         if (filePath != null) {
+            if(filePath.toString().substring(0,5).equals("https"))return;
             String ImageName = filePath.toString();
             String  imgName = UUID.randomUUID().toString();
             String extension = ImageName.substring(ImageName.lastIndexOf('.'));
@@ -229,10 +235,12 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Uri uri) {
                 // Got the download URL
-                   fileimgs.add(uri.toString());
-                   if(i + 1 == AddImgFragment.images.size()) {
-                      uploadpost();
-                   }
+                fileimgs.add(uri.toString());
+                if(i + 1 == AddImgFragment.images.size()) {
+                    if(thaotac.equals("push"))
+                        uploadpost();
+                    else editpost();
+                }
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -278,5 +286,21 @@ public class PostActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+    public void editpost(){
+        Map<String, Object> update = new HashMap<>();
+        update.put("postFoodIngredient", BaivietFragment.Ingredient.getText().toString());
+        update.put("postFoodMaking", BaivietFragment.Making.getText().toString());
+        update.put("postFoodName", BaivietFragment.FoodName.getText().toString());
+        update.put("postFoodRating", BaivietFragment.FRating);
+        update.put("postFoodSummary", BaivietFragment.Summary.getText().toString());
+        update.put("postimgs", fileimgs);
+
+        db.collection("posts").document(postIdtoUpdate).set(update, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(PostActivity.this, "Post saved!!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

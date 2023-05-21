@@ -10,10 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.healthcareapp.Adapter.CustomAdapter2;
+import com.example.healthcareapp.Adapter.DetailimgAdapter;
 import com.example.healthcareapp.Fragments.ProfileFragment;
 import com.example.healthcareapp.Model.PostInformation;
 import com.squareup.picasso.Picasso;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -45,8 +48,12 @@ public class PostDetailActivity extends AppCompatActivity {
         FMaking.setText(info.postFoodMaking);
         FSummary.setText(info.postFoodSummary);
         FRate.setRating(Float.parseFloat(info.postFoodRating));
-        time.setText(info.posttime);
-        CustomAdapter2 adapter = new CustomAdapter2(this, info.postimgs);
+        FRate.setEnabled(false);
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        calendar.setTimeInMillis(Long.parseLong(info.posttime));
+        String pTime = android.text.format.DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
+        time.setText(pTime);
+        DetailimgAdapter adapter = new DetailimgAdapter(this, info.postimgs);
         lv.setAdapter(adapter);
 
         userimg.setOnClickListener(new View.OnClickListener() {

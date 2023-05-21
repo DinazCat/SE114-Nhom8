@@ -1,4 +1,4 @@
-package com.example.healthcareapp;
+package com.example.healthcareapp.Fragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,7 +17,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.example.healthcareapp.Adapter.CustomAdapter1;
+import com.example.healthcareapp.Adapter.ImageAdapter;
+import com.example.healthcareapp.R;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class AddImgFragment extends Fragment {
         listView = view.findViewById(R.id.listview);
         if(images.size()>0)
         {
-            CustomAdapter1 adapter = new CustomAdapter1(this.getActivity(), images);
+            ImageAdapter adapter = new ImageAdapter(this.getActivity(), images);
             listView.setAdapter(adapter);
         }
         Layout = view.findViewById(R.id.imginP);
@@ -71,7 +72,7 @@ public class AddImgFragment extends Fragment {
                 if (data != null && result.getResultCode() == Activity.RESULT_OK) {
                     Uri uri = data.getData();
                     if(uri != null) images.add(uri);
-                    CustomAdapter1 adapter = new CustomAdapter1(this.getActivity(), images);
+                    ImageAdapter adapter = new ImageAdapter(this.getActivity(), images);
                     listView.setAdapter(adapter);
                 }});
 }

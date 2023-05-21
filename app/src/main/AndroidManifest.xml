@@ -31,15 +31,6 @@
             android:name=".PostDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".Layout0ImgActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Layout4ImgActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PostitemActivity"
-            android:exported="false" />
-        <activity
             android:name=".ImgItemActivity"
             android:exported="false" />
         <activity

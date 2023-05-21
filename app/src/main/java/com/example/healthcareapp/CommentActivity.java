@@ -17,11 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healthcareapp.Adapter.CommentAdapter;
-import com.example.healthcareapp.Adapter.CustomAdapter3;
 import com.example.healthcareapp.Model.Comment;
-import com.example.healthcareapp.Model.PostInformation;
+import com.example.healthcareapp.Model.Noti;
 import com.example.healthcareapp.service.FcmNotificationsSender;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -55,6 +56,7 @@ public class CommentActivity extends AppCompatActivity {
     private String postId;
     private String authorId;
     private String userToken;
+    private String foodname;
     FirebaseUser curUser;
 
     @Override
@@ -65,6 +67,7 @@ public class CommentActivity extends AppCompatActivity {
         Intent intent = getIntent();
         postId = intent.getStringExtra("postId");
         authorId = intent.getStringExtra("authorId");
+        foodname = intent.getStringExtra("foodname");
         curUser = FirebaseAuth.getInstance().getCurrentUser();
 
         addComment = findViewById(R.id.add_comment);
@@ -147,6 +150,29 @@ public class CommentActivity extends AppCompatActivity {
                     DocumentReference postRef = FirebaseFirestore.getInstance().collection("posts").document(postId);
                     postRef.update("comments", FieldValue.arrayUnion(commentId));
                     Toast.makeText(CommentActivity.this, "Comment added!", Toast.LENGTH_SHORT).show();
+                    Noti item = new Noti();
+                    item.PostownerId = authorId;
+                    item.guestId = curUser.getUid();
+                    item.classify = "cmt";
+                    item.postid = postId;
+                    item.message = " đã bình luận bài viết của bạn về món ăn: "+foodname;
+                    item.Read = "no";
+                    item.time = String.valueOf(System.currentTimeMillis());
+                    if(!curUser.getUid().equals(authorId))
+                        FirebaseFirestore.getInstance().collection("Notification")
+                                .add(item)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        System.out.println("send noti success");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        System.out.println(e);
+                                    }
+                                });
                     sendNotification(authorId, comment.getComment());
                 } else {
                     Toast.makeText(CommentActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();

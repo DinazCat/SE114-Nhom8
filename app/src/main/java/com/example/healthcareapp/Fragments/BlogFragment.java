@@ -10,16 +10,19 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.healthcareapp.Adapter.CustomAdapter3;
+import com.example.healthcareapp.Adapter.PostAdapter;
+import com.example.healthcareapp.Model.Noti;
 import com.example.healthcareapp.Model.PostInformation;
 import com.example.healthcareapp.PostActivity;
 import com.example.healthcareapp.R;
@@ -35,52 +38,44 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class BlogFragment extends Fragment {
-    public static ArrayList<PostInformation> postlist = new ArrayList<>();
+    public static ArrayList<PostInformation> postlist;
     ListView listp ;
     private FirebaseFirestore db;
 
-    Button addpost;
-    ImageView imgUser;
+    ImageButton  notibtn;
+    ImageView imgUser, signal;
     TextView tvAddpost;
-
+    SwipeRefreshLayout refresh;
+    RecyclerView mRecyclerView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blog, container, false);
-        db = FirebaseFirestore.getInstance();
-        db.collection("posts")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                PostInformation Info ;
-                                System.out.println(document.toObject(PostInformation.class));
-                                Info = document.toObject(PostInformation.class);
-                                Info.id = document.getId();
-                                postlist.add(Info);
-                            }
-                            CustomAdapter3 adapter = new CustomAdapter3(postlist,getContext(), getActivity().getSupportFragmentManager());
-                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-                            RecyclerView mRecyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
-                            mRecyclerView.setLayoutManager(linearLayoutManager);
-                            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                            mRecyclerView.setAdapter(adapter);
+        postlist = new ArrayList<>();
+        signal = view.findViewById(R.id.signal);
+        refresh = view.findViewById(R.id.refresh);
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                postlist = new ArrayList<>();
+                checkNoti();
+                getPost();
+            }
+        });
+        postlist = new ArrayList<>();
+        mRecyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
+        getPost();
+        checkNoti();
 
-
-                        } else {
-                            System.out.println(task.getException());
-                        }
-                    }
-
-
-                });
-        addpost=view.findViewById(R.id.addP);
-        addpost.setOnClickListener(new View.OnClickListener() {
+        notibtn=view.findViewById(R.id.noti);
+        notibtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), PostActivity.class));
+                NotificationFragment fragment = new NotificationFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_layout, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -114,10 +109,75 @@ public class BlogFragment extends Fragment {
         tvAddpost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                PostActivity.thaotac="push";
+                AddImgFragment.images = new ArrayList<>();
                 startActivity(new Intent(getContext(), PostActivity.class));
             }
         });
         // Inflate the layout for this fragment
         return view;
+    }
+    private void checkNoti(){
+
+        db = FirebaseFirestore.getInstance();
+        db.collection("Notification")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            int i = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Noti Info ;
+                                Info = document.toObject(Noti.class);
+                                Info.id = document.getId();
+                                if(!Info.PostownerId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                    if ( Info.Read.equals("no") ){
+                                        i = 1;
+                                    }
+                                }
+                            }
+                            if(i==1){
+                                signal.setVisibility(View.VISIBLE);
+                            }
+                            else  signal.setVisibility(View.INVISIBLE);
+                        } else {
+                            System.out.println(task.getException());
+                        }
+                    }
+                });
+
+    }
+    private void getPost(){
+        db = FirebaseFirestore.getInstance();
+        db.collection("posts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                PostInformation Info ;
+                                System.out.println(document.toObject(PostInformation.class));
+                                Info = document.toObject(PostInformation.class);
+                                Info.id = document.getId();
+                                postlist.add(Info);
+                            }
+                            PostAdapter adapter = new PostAdapter(postlist,getContext(), getActivity().getSupportFragmentManager(),"blog");
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+//                            RecyclerView mRecyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
+                            mRecyclerView.setLayoutManager(linearLayoutManager);
+                            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                            mRecyclerView.setAdapter(adapter);
+                            refresh.setRefreshing(false);
+
+                        } else {
+                            System.out.println(task.getException());
+                        }
+                    }
+
+
+                });
+
     }
 }

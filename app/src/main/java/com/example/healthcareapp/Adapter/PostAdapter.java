@@ -3,16 +3,20 @@ package com.example.healthcareapp.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -21,8 +25,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthcareapp.CommentActivity;
+import com.example.healthcareapp.Fragments.AddImgFragment;
+import com.example.healthcareapp.Fragments.BaivietFragment;
+import com.example.healthcareapp.Fragments.BlogFragment;
 import com.example.healthcareapp.Fragments.ProfileFragment;
+import com.example.healthcareapp.Model.Noti;
 import com.example.healthcareapp.Model.PostInformation;
+import com.example.healthcareapp.PostActivity;
 import com.example.healthcareapp.PostDetailActivity;
 import com.example.healthcareapp.R;
 import com.example.healthcareapp.service.FcmNotificationsSender;
@@ -38,6 +47,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.jgabrielfreitas.core.BlurImageView;
 import com.squareup.picasso.Picasso;
 
@@ -49,21 +60,21 @@ import java.util.Locale;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class CustomAdapter3 extends RecyclerView.Adapter {
+public class PostAdapter extends RecyclerView.Adapter {
     private ArrayList<PostInformation> dataSet;
     Context mContext;
     int total_types;
     FragmentManager fragmentManager;
     FirebaseUser curUser;
+    String Page;
     String userToken;
-
 
     public static class NoImageType extends RecyclerView.ViewHolder{
         TextView FName, FIngredient, FMaking, FSummary ;
         RatingBar FRating;
         TextView time, username ;
         CircleImageView userimg;
-        ImageButton btLike, btComment;
+        ImageButton btLike, btComment, menu;
         TextView noOfLikes, noOfComments;
         public NoImageType(View itemView) {
             super(itemView);
@@ -79,6 +90,7 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
             this.btComment = itemView.findViewById(R.id.btn_comment);
             this.noOfLikes = itemView.findViewById(R.id.tv_likes_count);
             this.noOfComments = itemView.findViewById(R.id.tv_cmts_count);
+            this.menu = itemView.findViewById(R.id.btn_menu);
         }
     }
     public static class TwoImageType extends RecyclerView.ViewHolder{
@@ -88,7 +100,7 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
         ImageView img1, img2, img3;
         CircleImageView userimg;
         LinearLayout layout2;
-        ImageButton btLike, btComment;
+        ImageButton btLike, btComment, menu;
         TextView noOfLikes, noOfComments;
         public TwoImageType(View itemView) {
             super(itemView);
@@ -108,6 +120,7 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
             this.btComment = itemView.findViewById(R.id.btn_comment);
             this.noOfLikes = itemView.findViewById(R.id.tv_likes_count);
             this.noOfComments = itemView.findViewById(R.id.tv_cmts_count);
+            this.menu = itemView.findViewById(R.id.btn_menu);
         }
     }
     public static class FourImageType extends RecyclerView.ViewHolder{
@@ -118,7 +131,7 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
         TextView time, countimg, username ;
         CircleImageView userimg;
         LinearLayout layout3, layout4;
-        ImageButton btLike, btComment;
+        ImageButton btLike, btComment, menu;
         TextView noOfLikes, noOfComments;
         public FourImageType(View itemView) {
             super(itemView);
@@ -144,14 +157,16 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
             this.btComment = itemView.findViewById(R.id.btn_comment);
             this.noOfLikes = itemView.findViewById(R.id.tv_likes_count);
             this.noOfComments = itemView.findViewById(R.id.tv_cmts_count);
+            this.menu = itemView.findViewById(R.id.btn_menu);
         }
     }
-    public CustomAdapter3(ArrayList<PostInformation> data, Context context, FragmentManager fragmentManager) {
+    public PostAdapter(ArrayList<PostInformation> data, Context context, FragmentManager fragmentManager, String page) {
         this.dataSet = data;
         this.mContext = context;
         total_types = dataSet.size();
         this.fragmentManager = fragmentManager;
         curUser = FirebaseAuth.getInstance().getCurrentUser();
+        this.Page = page;
     }
     @Override
     public int getItemViewType(int position) {
@@ -197,6 +212,46 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         calendar.setTimeInMillis(Long.parseLong(object.posttime));
         String pTime = android.text.format.DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
+        View.OnClickListener menuclick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+                popupMenu.inflate(R.menu.delete_editmenu);
+                popupMenu.show();
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId())
+                        {
+                            case R.id.edit:
+                                PostActivity.thaotac="edit";
+//                                FName, FIngredient, FMaking, FSummary, FRating
+                                BaivietFragment.FName = dataSet.get(i).postFoodName;
+                                BaivietFragment.FIngredient = dataSet.get(i).postFoodIngredient;
+                                BaivietFragment.FMaking = dataSet.get(i).postFoodMaking;
+                                BaivietFragment.FSummary = dataSet.get(i).postFoodSummary;
+                                BaivietFragment.FRating= dataSet.get(i).postFoodRating;
+                                PostActivity.postIdtoUpdate = dataSet.get(i).id;
+                                AddImgFragment.images = new ArrayList<>();
+                                for(int j = 0; j < dataSet.get(i).postimgs.size();j++)
+                                {
+                                    Uri uri = Uri.parse(dataSet.get(i).postimgs.get(j));
+                                    AddImgFragment.images.add(uri);
+                                }
+                                mContext.startActivity(new Intent(mContext, PostActivity.class));
+                                return true;
+                            case R.id.delete:
+                                beginDelete(dataSet.get(i).id, dataSet.get(i).postimgs, i);
+                                return true;
+
+                        }
+
+                        return false;
+                    }
+
+            });
+        }
+        };
         View.OnClickListener mListener = new View.OnClickListener(){
             public void onClick(View view){
                 PostDetailActivity.info = dataSet.get(i);
@@ -240,6 +295,29 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
                                 ((FourImageType) viewHolder).noOfLikes.setText("" + object.likes.size());
                             }
                             sendNotification(object.userid);
+                            Noti item = new Noti();
+                            item.PostownerId = object.userid;
+                            item.guestId = curUser.getUid();
+                            item.classify = "like";
+                            item.postid = object.id;
+                            item.message = " đã thích bài viết của bạn về món ăn: "+object.postFoodName;
+                            item.Read = "no";
+                            item.time = String.valueOf(System.currentTimeMillis());
+                            if(!curUser.getUid().equals(object.userid))
+                            FirebaseFirestore.getInstance().collection("Notification")
+                                    .add(item)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            System.out.println("send noti success");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            System.out.println(e);
+                                        }
+                                    });
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -285,6 +363,7 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
                 Intent intent = new Intent(mContext, CommentActivity.class);
                 intent.putExtra("postId", object.id);
                 intent.putExtra("authorId", object.userid);
+                intent.putExtra("foodname", object.postFoodName);
                 mContext.startActivity(intent);
             }
         };
@@ -293,11 +372,20 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
             {
                 ((NoImageType) viewHolder).FName.setText(object.postFoodName);
                 ((NoImageType) viewHolder).FRating.setRating(Float.parseFloat(object.postFoodRating));
+                ((NoImageType) viewHolder).FRating.setEnabled(false);
                 ((NoImageType) viewHolder).FIngredient.setText(object.postFoodIngredient);
                 ((NoImageType) viewHolder).FMaking.setText(object.postFoodMaking);
                 ((NoImageType) viewHolder).FSummary.setText(object.postFoodSummary);
                 ((NoImageType) viewHolder).time.setText(pTime);
                 ((NoImageType) viewHolder).username.setText(object.username);
+                if(Page.equals("profile") && curUser.getUid().equals(dataSet.get(i).userid))
+                {
+                    ((NoImageType)viewHolder).menu.setVisibility(View.VISIBLE);
+                    ((NoImageType) viewHolder).menu.setOnClickListener(menuclick);
+                }
+                else {
+                    ((NoImageType)viewHolder).menu.setVisibility(View.INVISIBLE);
+                }
                 try{
                     Picasso.get().load(object.userimg).into(((NoImageType) viewHolder).userimg);
                 }
@@ -317,6 +405,7 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
             {
                 ((TwoImageType) viewHolder).FName.setText(object.postFoodName);
                 ((TwoImageType) viewHolder).FRating.setRating(Float.parseFloat(object.postFoodRating));
+                ((TwoImageType) viewHolder).FRating.setEnabled(false);
                 ((TwoImageType) viewHolder).FIngredient.setText(object.postFoodIngredient);
                 ((TwoImageType) viewHolder).FMaking.setText(object.postFoodMaking);
                 ((TwoImageType) viewHolder).FSummary.setText(object.postFoodSummary);
@@ -324,6 +413,14 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
                 ((TwoImageType) viewHolder).username.setText(object.username);
                 ((TwoImageType) viewHolder).noOfLikes.setText("" + object.likes.size());
                 ((TwoImageType) viewHolder).noOfComments.setText("" + object.comments.size());
+                if(Page.equals("profile")&& curUser.getUid().equals(dataSet.get(i).userid))
+                {
+                    ((TwoImageType)viewHolder).menu.setVisibility(View.VISIBLE);
+                    ((TwoImageType) viewHolder).menu.setOnClickListener(menuclick);
+                }
+                else {
+                    ((TwoImageType)viewHolder).menu.setVisibility(View.INVISIBLE);
+                }
                 try{
                     Picasso.get().load(object.userimg).into(((TwoImageType) viewHolder).userimg);
                 }
@@ -357,6 +454,7 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
             {
                 ((FourImageType) viewHolder).FName.setText(object.postFoodName);
                 ((FourImageType) viewHolder).FRating.setRating(Float.parseFloat(object.postFoodRating));
+                ((FourImageType) viewHolder).FRating.setEnabled(false);
                 ((FourImageType) viewHolder).FIngredient.setText(object.postFoodIngredient);
                 ((FourImageType) viewHolder).FMaking.setText(object.postFoodMaking);
                 ((FourImageType) viewHolder).FSummary.setText(object.postFoodSummary);
@@ -364,6 +462,14 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
                 ((FourImageType) viewHolder).username.setText(object.username);
                 ((FourImageType) viewHolder).noOfLikes.setText("" + object.likes.size());
                 ((FourImageType) viewHolder).noOfComments.setText("" + object.comments.size());
+                if(Page.equals("profile")&& curUser.getUid().equals(dataSet.get(i).userid))
+                {
+                    ((FourImageType)viewHolder).menu.setVisibility(View.VISIBLE);
+                    ((FourImageType) viewHolder).menu.setOnClickListener(menuclick);
+                }
+                else {
+                    ((FourImageType)viewHolder).menu.setVisibility(View.INVISIBLE);
+                }
                 try{
                     Picasso.get().load(object.userimg).into(((FourImageType) viewHolder).userimg);
                 }
@@ -446,6 +552,83 @@ public class CustomAdapter3 extends RecyclerView.Adapter {
                 }
             }
         });
+    }
+    private void beginDelete(String postId, List<String> Images, int position)
+    {
+        if(Images.size() > 0)
+        for(int i = 0; i<Images.size(); i++)
+        {
+            int s = i;
+            StorageReference picRef = FirebaseStorage.getInstance().getReferenceFromUrl(Images.get(i));
+            picRef.delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            if(s == Images.size()-1){
+                                FirebaseFirestore.getInstance().collection("posts").document(postId)
+                                        .delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                BlogFragment.postlist.remove(position);
+                                               ProfileFragment.postlist.remove(position);
+                                                ProfileFragment fragment = new ProfileFragment();
+                                                Bundle args = new Bundle();
+                                                args.putString("userId", curUser.getUid());
+                                                fragment.setArguments(args);
+                                                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                                                transaction.replace(R.id.frame_layout, fragment);
+                                                transaction.addToBackStack(null);
+                                                transaction.commit();
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                               System.out.println(e);
+                                            }
+                                        });
+
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(mContext, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+        else {
+            System.out.println("i "+postId);
+            FirebaseFirestore.getInstance().collection("posts").document(postId)
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            BlogFragment.postlist.remove(position);
+                            ProfileFragment.postlist.remove(position);
+                            ProfileFragment fragment = new ProfileFragment();
+                            Bundle args = new Bundle();
+                            args.putString("userId", curUser.getUid());
+                            fragment.setArguments(args);
+                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+                            transaction.replace(R.id.frame_layout, fragment);
+                            transaction.addToBackStack(null);
+                            transaction.commit();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            System.out.println(e);
+                        }
+                    });
+
+        }
+
+
     }
     private void sendNotification(String userId){
 

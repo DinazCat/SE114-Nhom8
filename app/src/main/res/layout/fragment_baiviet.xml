@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
-    tools:context=".BaivietFragment">
+    tools:context=".Fragments.BaivietFragment">
 
     <!-- TODO: Update blank fragment layout -->
    <LinearLayout
@@ -93,6 +93,9 @@
                    android:inputType="textMultiLine"
                    android:layout_marginLeft="15dp"
                    android:scrollHorizontally="false"/>
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="400dp"/>
            </LinearLayout>
 
 

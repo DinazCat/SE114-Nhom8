@@ -1,4 +1,4 @@
-package com.example.healthcareapp;
+package com.example.healthcareapp.Fragments;
 
 import android.os.Bundle;
 
@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RatingBar;
+
+import com.example.healthcareapp.PostActivity;
+import com.example.healthcareapp.R;
 
 public class BaivietFragment extends Fragment {
 public  static EditText FoodName, Ingredient, Making, Summary;
@@ -23,14 +26,27 @@ public static String FName, FIngredient, FMaking, FSummary, FRating;
         Ingredient = view.findViewById(R.id.write1);
         Making= view.findViewById(R.id.write2);
         Summary = view.findViewById(R.id.write3);
-
-        FName = FoodName.getText().toString();
-        FIngredient = Ingredient.getText().toString();
-        FMaking = Making.getText().toString();
-        FSummary = Summary.getText().toString();
-
         FoodReview = view.findViewById(R.id.ratingbar);
-        FoodReview.setRating(0.0f);
+        if( PostActivity.thaotac.equals("push"))
+        {
+            FName=""; FIngredient=""; FMaking = ""; FSummary = ""; FRating = "";
+            FoodReview.setRating(1.0f);
+        }
+        else{
+            FoodReview.setRating(Float.parseFloat(FRating));
+            FoodName.setText(FName);
+            Ingredient.setText(FIngredient);
+            Making.setText(FMaking);
+            Summary.setText(FSummary);
+        }
+
+//        FName = FoodName.getText().toString();
+//        FIngredient = Ingredient.getText().toString();
+//        FMaking = Making.getText().toString();
+//        FSummary = Summary.getText().toString();
+
+
+        // FoodReview.setRating(0.0f);
         FoodReview.setStepSize(1.0f);
         FoodReview.setOnRatingBarChangeListener((ratingBar, v, b) -> FRating = String.valueOf(v));
         System.out.println("sao"+FRating);

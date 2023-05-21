@@ -21,10 +21,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.healthcareapp.Adapter.PostAdapter;
 import com.example.healthcareapp.Adapter.UserAdapter;
-import com.example.healthcareapp.Adapter.CustomAdapter3;
 import com.example.healthcareapp.LoginActivity;
-import com.example.healthcareapp.MainActivity;
+import com.example.healthcareapp.Model.Noti;
 import com.example.healthcareapp.Model.User;
 import com.example.healthcareapp.Model.PostInformation;
 import com.example.healthcareapp.R;
@@ -35,6 +35,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,6 +47,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -65,7 +68,7 @@ public class ProfileFragment extends Fragment {
     CollectionReference collectionReference;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser curUser = auth.getCurrentUser();
-    private ArrayList<PostInformation> postlist;
+    public static ArrayList<PostInformation> postlist;
     private ArrayList<User> followerlist;
     private ArrayList<User> followinglist;
     private LinearLayout bt_posts, bt_followers, bt_following;
@@ -164,6 +167,28 @@ public class ProfileFragment extends Fragment {
                         if(isFollowed) {
                             btn1.setText("Unfollow");
                             followersCount.setText("" + (followerlist.size() + 1));
+                            Noti item = new Noti();
+                            item.PostownerId = userId;
+                            item.guestId = curUser.getUid();
+                            item.classify = "follow";
+                            item.postid = "";
+                            item.message = " đang follow bạn.";
+                            item.Read = "no";
+                            item.time = String.valueOf(System.currentTimeMillis());
+                            db.collection("Notification")
+                                    .add(item)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            System.out.println("send noti success");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            System.out.println(e);
+                                        }
+                                    });
                             sendNotification();
                         }
                         else {
@@ -184,7 +209,7 @@ public class ProfileFragment extends Fragment {
             bt_posts.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CustomAdapter3 adapter = new CustomAdapter3(postlist,getContext(), getActivity().getSupportFragmentManager());
+                    PostAdapter adapter = new PostAdapter(postlist,getContext(), getActivity().getSupportFragmentManager(),"profile");
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                     mRecyclerView.setLayoutManager(linearLayoutManager);
                     mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -267,7 +292,7 @@ public class ProfileFragment extends Fragment {
                         Info.id = document.getId();
                         postlist.add(Info);
                     }
-                    CustomAdapter3 adapter = new CustomAdapter3(postlist,getContext(), getActivity().getSupportFragmentManager());
+                    PostAdapter adapter = new PostAdapter(postlist,getContext(), getActivity().getSupportFragmentManager(),"profile");
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                     mRecyclerView.setLayoutManager(linearLayoutManager);
                     mRecyclerView.setItemAnimator(new DefaultItemAnimator());
