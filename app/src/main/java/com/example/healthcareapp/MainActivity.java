@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.healthcareapp.Fragments.AddFragment;
 import com.example.healthcareapp.Fragments.BlogFragment;
 import com.example.healthcareapp.Fragments.GraphFragment;
 import com.example.healthcareapp.Fragments.HomeFragment;
@@ -67,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.graph:
                     replaceFragment((new GraphFragment()));
+                    break;
+
+                case R.id.add:
+                    replaceFragment((new AddFragment()));
                     break;
 
                 case R.id.blogs:
