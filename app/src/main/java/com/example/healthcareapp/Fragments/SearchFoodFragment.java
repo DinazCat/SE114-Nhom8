@@ -21,7 +21,7 @@ import com.example.healthcareapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+
 
 public class SearchFoodFragment extends Fragment {
     private RecyclerView recyclerViewFood;
@@ -33,6 +33,7 @@ public class SearchFoodFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_food, container, false);
+
         spn = (Spinner)view.findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(), R.array.meals, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -48,6 +49,7 @@ public class SearchFoodFragment extends Fragment {
 
             }
         });
+
         searchView = view.findViewById(R.id.searchView);
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -62,11 +64,11 @@ public class SearchFoodFragment extends Fragment {
                 return false;
             }
         });
-        recyclerViewFood = view.findViewById(R.id.recyclerviewSearchFood);
 
+        //RecyclerView
+        recyclerViewFood = view.findViewById(R.id.recyclerviewSearchFood);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewFood.getContext());
         recyclerViewFood.setLayoutManager(linearLayoutManager);
-
         foodAdapter = new FoodAdapter(getListFoods());
         recyclerViewFood.setAdapter(foodAdapter);
         foodList = getListFoods();

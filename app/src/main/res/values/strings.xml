@@ -5,7 +5,7 @@
     <string name="facebook_client_token">93696f2f3e0e88a386d56b07513c32b0</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string-array name="meals" >
+    <string-array name="meals">
         <item> None </item>
         <item> Breakfast </item>
         <item> Lunch </item>
@@ -14,14 +14,14 @@
         <item> Exercise </item>
     </string-array>
 
-    <string-array name="selectMeasurement" >
+    <string-array name="selectMeasurement">
         <item> Weight </item>
         <item> Neck </item>
         <item> Waist </item>
         <item> Hips </item>
     </string-array>
 
-    <string-array name="selectDateRange" >
+    <string-array name="selectDateRange">
         <item> 1 weeks </item>
         <item> 1 month </item>
         <item> 2 months </item>

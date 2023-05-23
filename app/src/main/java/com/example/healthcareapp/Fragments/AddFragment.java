@@ -29,7 +29,8 @@ public class AddFragment extends Fragment {
     ExpandableListView expandableListView;
     List<String> meals;
     HashMap<String, List<food>> foodList;
-    Button bt ;
+    Button btAddFood, btAddWater, btAddExercise ;
+
     private FragmentAListener listenter;
     public interface FragmentAListener{
         void onInputASent(CharSequence input);
@@ -39,20 +40,41 @@ public class AddFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add, container, false);
+
+
         expandableListView = view.findViewById(R.id.expandableLV);
-
         showList();
-
         listViewAdapter = new ExpandableListViewAdapter(expandableListView.getContext(), meals,foodList);
         expandableListView.setAdapter(listViewAdapter);
 
-        bt = view.findViewById(R.id.addFood);
-        bt.setOnClickListener(new View.OnClickListener() {
+        //Add Food Button
+        btAddFood = view.findViewById(R.id.addFood);
+        btAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 replaceFragment((new SearchFoodFragment()));
             }
         });
+
+
+        //Add Water Button
+        btAddWater = view.findViewById(R.id.addWater);
+        btAddWater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment((new AddWaterFragment()));
+            }
+        });
+
+        //Add Exercise Button
+        btAddExercise = view.findViewById(R.id.addExercise);
+        btAddExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment((new SearchExerciseFragment()));
+            }
+        });
+
         return view;
     }
     private void replaceFragment(Fragment fragment) {
