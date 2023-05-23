@@ -142,19 +142,44 @@
             android:layout_height="10dp"
             />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Add Food"
+            android:textSize="16dp"
+            android:id="@+id/addFood"
+            android:layout_marginRight="5dp"
+        />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Add Water"
+            android:textSize="16dp"
+            android:id="@+id/addWater"
+            android:layout_marginRight="5dp"
+        />
 
+</LinearLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="Add Food"
+        android:text="Add Exercis"
         android:textSize="16dp"
-        android:id="@+id/addFood"
-        android:layout_marginTop="130dp"
+        android:id="@+id/addExercise"
+        android:layout_marginTop="170dp"
         />
     <ExpandableListView
         android:id="@+id/expandableLV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginBottom="50dp"
         />
 </FrameLayout>

@@ -70,6 +70,7 @@ public class AddFragment extends Fragment {
         meals.add("Dinner");
         meals.add("Snack");
         meals.add("Water");
+        meals.add("Exercise");
 
         List<food> topic1 = new ArrayList<>();
         food f1 = new food("","Bread","90 cl","");

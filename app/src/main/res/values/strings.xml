@@ -11,5 +11,21 @@
         <item> Lunch </item>
         <item> Dinner </item>
         <item> Snack </item>
+        <item> Exercise </item>
+    </string-array>
+
+    <string-array name="selectMeasurement" >
+        <item> Weight </item>
+        <item> Neck </item>
+        <item> Waist </item>
+        <item> Hips </item>
+    </string-array>
+
+    <string-array name="selectDateRange" >
+        <item> 1 weeks </item>
+        <item> 1 month </item>
+        <item> 2 months </item>
+        <item> 3 months </item>
+        <item> 4 months </item>
     </string-array>
 </resources>

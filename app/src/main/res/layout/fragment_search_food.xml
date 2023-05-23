@@ -7,7 +7,7 @@
     tools:context=".Fragments.SearchFoodFragment">
 
     <Spinner
-        android:id="@+id/spiner"
+        android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="50dp"
 
@@ -23,7 +23,7 @@
         android:queryHint="Search Here ..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spiner"/>
+        app:layout_constraintTop_toBottomOf="@+id/spinner"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
