@@ -3,6 +3,7 @@ package com.example.healthcareapp.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthcareapp.CommentActivity;
 import com.example.healthcareapp.Fragments.ProfileFragment;
+import com.example.healthcareapp.MainActivity;
 import com.example.healthcareapp.Model.Comment;
 import com.example.healthcareapp.Model.User;
 import com.example.healthcareapp.R;

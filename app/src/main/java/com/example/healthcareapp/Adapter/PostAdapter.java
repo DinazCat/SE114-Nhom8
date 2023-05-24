@@ -366,6 +366,7 @@ public class PostAdapter extends RecyclerView.Adapter {
                 Intent intent = new Intent(mContext, CommentActivity.class);
                 intent.putExtra("postId", object.id);
                 intent.putExtra("authorId", object.userid);
+                intent.putStringArrayListExtra("commentIds", new ArrayList<>(object.comments));
                 intent.putExtra("foodname", object.postFoodName);
                 mContext.startActivity(intent);
             }

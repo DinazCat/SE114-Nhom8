@@ -13,10 +13,12 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healthcareapp.Adapter.CommentAdapter;
+import com.example.healthcareapp.Fragments.BlogFragment;
 import com.example.healthcareapp.Model.Comment;
 import com.example.healthcareapp.Model.Noti;
 import com.example.healthcareapp.service.FcmNotificationsSender;
@@ -48,6 +50,7 @@ public class CommentActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CommentAdapter commentAdapter;
     private List<Comment> commentList;
+    ArrayList<String> commentIds;
 
     private EditText addComment;
     private CircleImageView imageProfile;
@@ -68,6 +71,7 @@ public class CommentActivity extends AppCompatActivity {
         postId = intent.getStringExtra("postId");
         authorId = intent.getStringExtra("authorId");
         foodname = intent.getStringExtra("foodname");
+        commentIds = intent.getStringArrayListExtra("commentIds");
         curUser = FirebaseAuth.getInstance().getCurrentUser();
 
         addComment = findViewById(R.id.add_comment);
@@ -77,13 +81,10 @@ public class CommentActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Comments");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        ImageButton btBack = findViewById(R.id.back);
+        btBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 finish();
             }
         });
@@ -123,9 +124,11 @@ public class CommentActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             commentList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Comment comment = document.toObject(Comment.class);
-                                comment.setId(document.getId());
-                                commentList.add(comment);
+                                if(commentIds.contains(document.getId())) {
+                                    Comment comment = document.toObject(Comment.class);
+                                    comment.setId(document.getId());
+                                    commentList.add(comment);
+                                }
                             }
                             commentAdapter.notifyDataSetChanged();
                         } else {
