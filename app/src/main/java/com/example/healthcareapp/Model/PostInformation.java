@@ -1,5 +1,6 @@
 package com.example.healthcareapp.Model;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class PostInformation {
@@ -16,6 +17,12 @@ public class PostInformation {
    public String posttime;
    public List<String> likes;
    public List<String> comments;
+    public static Comparator<PostInformation> sortByLikesDescending = new Comparator<PostInformation>() {
+        @Override
+        public int compare(PostInformation post1, PostInformation post2) {
+            return Integer.compare(post2.likes.size(), post1.likes.size());
+        }
+    };
 
 //    public String getUsername() {
 //        return username;
