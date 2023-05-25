@@ -132,13 +132,13 @@ public class NotiAdapter extends BaseAdapter {
                         });
                 if(items.get(i).Read.equals("no")) {
                     NotificationFragment.noread.remove(i);
-                    NotiAdapter adapter = new NotiAdapter(activity, NotificationFragment.noread,f);
-                    NotificationFragment.noreadLv.setAdapter(adapter);
+//                    NotiAdapter adapter = new NotiAdapter(activity, NotificationFragment.noread,f);
+//                    NotificationFragment.noreadLv.setAdapter(adapter);
                 }
                 else{
                     NotificationFragment.read.remove(i);
-                    NotiAdapter adapter = new NotiAdapter(activity, NotificationFragment.read,f);
-                    NotificationFragment.readLv.setAdapter(adapter);
+//                    NotiAdapter adapter = new NotiAdapter(activity, NotificationFragment.read,f);
+//                    NotificationFragment.readLv.setAdapter(adapter);
                 }
             }
         });

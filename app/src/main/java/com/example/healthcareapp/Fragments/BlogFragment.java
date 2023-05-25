@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -40,7 +41,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -66,10 +69,13 @@ public class BlogFragment extends Fragment {
     RecyclerView mRecyclerView;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser curUser = auth.getCurrentUser();
+    LinearLayoutManager layoutManager ;
+    private int positionLV, topView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blog, container, false);
+        layoutManager = new LinearLayoutManager(getContext());
         friendlist = new ArrayList<>();
         getFrienduknow("followers");
         getFrienduknow("following");
@@ -87,6 +93,26 @@ public class BlogFragment extends Fragment {
         });
         postlist = new ArrayList<>();
         mRecyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                positionLV = layoutManager.findFirstVisibleItemPosition();
+                View startView = mRecyclerView.getChildAt(0);
+                topView = (startView == null) ? 0 : (startView.getTop() - mRecyclerView.getPaddingTop());
+
+               // System.out.println("ps "+positionLV);
+            }
+        });
+//        mRecyclerView.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                positionLV = mRecyclerView.computeVerticalScrollOffset();
+//
+//                // Use the scroll position as needed
+//            }
+//        });
         getPost();
         checkNoti();
         Searchbtn = view.findViewById(R.id.search);
@@ -162,43 +188,80 @@ public class BlogFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
         db.collection("Notification")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            System.out.println( "Listen failed."+error);
+                            return;
+                        }
+
+                        if (value != null) {
                             int i = 0;
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Noti Info ;
+                           for (DocumentSnapshot document : value.getDocuments()){
+                               Noti Info ;
                                 Info = document.toObject(Noti.class);
                                 Info.id = document.getId();
-                                if(!Info.PostownerId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                if(Info.PostownerId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                     if ( Info.Read.equals("no") ){
                                         i = 1;
                                     }
                                 }
-                            }
+                           }
                             if(i==1){
                                 signal.setVisibility(View.VISIBLE);
                             }
                             else  signal.setVisibility(View.INVISIBLE);
                         } else {
-                            System.out.println(task.getException());
+                           // Log.d(TAG, "Current data: null");
                         }
                     }
                 });
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            int i = 0;
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Noti Info ;
+//                                Info = document.toObject(Noti.class);
+//                                Info.id = document.getId();
+//                                if(Info.PostownerId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+//                                    if ( Info.Read.equals("no") ){
+//                                        i = 1;
+//                                    }
+//                                }
+//                            }
+//                            if(i==1){
+//                                signal.setVisibility(View.VISIBLE);
+//                            }
+//                            else  signal.setVisibility(View.INVISIBLE);
+//                        } else {
+//                            System.out.println(task.getException());
+//                        }
+//                    }
+//                });
 
     }
     private void getPost(){
         db = FirebaseFirestore.getInstance();
         db.collection("posts")
                 .orderBy("posttime", Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            System.out.println( "Listen failed."+error);
+                            return;
+                        }
+                        postlist = new ArrayList<>();
+
+
+                        //LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+                        //int scrollPosition = layoutManager.findFirstVisibleItemPosition();
+                       // int currentVisiblePosition = ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                        for (DocumentSnapshot document : value.getDocuments()) {
                                 PostInformation Info ;
                                 System.out.println(document.toObject(PostInformation.class));
                                 Info = document.toObject(PostInformation.class);
@@ -206,17 +269,38 @@ public class BlogFragment extends Fragment {
                                 postlist.add(Info);
                             }
                             PostAdapter adapter = new PostAdapter(postlist,getContext(), getActivity().getSupportFragmentManager(),"blog");
-                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-                            mRecyclerView.setLayoutManager(linearLayoutManager);
-                            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                           // LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                          //  mRecyclerView.setLayoutManager(layoutManager);
+                          //  mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                             mRecyclerView.setAdapter(adapter);
+                            layoutManager.scrollToPositionWithOffset(positionLV, topView);
                             refresh.setRefreshing(false);
-
-                        } else {
-                            System.out.println(task.getException());
-                        }
                     }
                 });
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                PostInformation Info ;
+//                                System.out.println(document.toObject(PostInformation.class));
+//                                Info = document.toObject(PostInformation.class);
+//                                Info.id = document.getId();
+//                                postlist.add(Info);
+//                            }
+//                            PostAdapter adapter = new PostAdapter(postlist,getContext(), getActivity().getSupportFragmentManager(),"blog");
+//                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+//                            mRecyclerView.setLayoutManager(linearLayoutManager);
+//                            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//                            mRecyclerView.setAdapter(adapter);
+//                            refresh.setRefreshing(false);
+//
+//                        } else {
+//                            System.out.println(task.getException());
+//                        }
+//                    }
+//                });
 
     }
     public void getFrienduknow(String path)

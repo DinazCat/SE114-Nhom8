@@ -1,6 +1,7 @@
 package com.example.healthcareapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -34,8 +35,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -117,13 +121,12 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private void getComment(){
-        FirebaseFirestore.getInstance().collection("comments").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        FirebaseFirestore.getInstance().collection("comments")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            commentList.clear();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        commentList.clear();
+                            for (DocumentSnapshot document : value.getDocuments()) {
                                 if(commentIds.contains(document.getId())) {
                                     Comment comment = document.toObject(Comment.class);
                                     comment.setId(document.getId());
@@ -131,11 +134,27 @@ public class CommentActivity extends AppCompatActivity {
                                 }
                             }
                             commentAdapter.notifyDataSetChanged();
-                        } else {
-                            System.out.println(task.getException());
-                        }
                     }
                 });
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            commentList.clear();
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                if(commentIds.contains(document.getId())) {
+//                                    Comment comment = document.toObject(Comment.class);
+//                                    comment.setId(document.getId());
+//                                    commentList.add(comment);
+//                                }
+//                            }
+//                            commentAdapter.notifyDataSetChanged();
+//                        } else {
+//                            System.out.println(task.getException());
+//                        }
+//                    }
+//                });
     }
 
     private void pushComment(){

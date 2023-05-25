@@ -68,7 +68,6 @@ public class PostAdapter extends RecyclerView.Adapter {
     FirebaseUser curUser;
     String Page;
     String userToken;
-
     public static class NoImageType extends RecyclerView.ViewHolder{
         TextView FName, FIngredient, FMaking, FSummary ;
         RatingBar FRating;
@@ -460,6 +459,7 @@ public class PostAdapter extends RecyclerView.Adapter {
                 }
                 ((TwoImageType) viewHolder).userimg.setOnClickListener(userimgListener);
                 ((TwoImageType) viewHolder).username.setOnClickListener(userimgListener);
+                isLiked(object.id, ((TwoImageType) viewHolder).btLike, ((TwoImageType) viewHolder).noOfLikes);
                 ((TwoImageType) viewHolder).btLike.setOnClickListener(likeListener);
                 ((TwoImageType) viewHolder).btComment.setOnClickListener(commentClickListener);
                 ((TwoImageType) viewHolder).btShare.setOnClickListener(shareClickListener);
@@ -511,6 +511,7 @@ public class PostAdapter extends RecyclerView.Adapter {
                 ((FourImageType) viewHolder).userimg.setOnClickListener(userimgListener);
                 ((FourImageType) viewHolder).username.setOnClickListener(userimgListener);
                 ((FourImageType) viewHolder).btLike.setOnClickListener(likeListener);
+                isLiked(object.id, ((FourImageType) viewHolder).btLike, ((FourImageType) viewHolder).noOfLikes);
                 ((FourImageType) viewHolder).btComment.setOnClickListener(commentClickListener);
                 ((FourImageType) viewHolder).btShare.setOnClickListener(shareClickListener);
                 if(object.postimgs.size() == 3)
