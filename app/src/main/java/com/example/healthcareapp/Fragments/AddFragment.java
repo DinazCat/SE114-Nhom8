@@ -1,9 +1,14 @@
 package com.example.healthcareapp.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -14,7 +19,9 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 
 import com.example.healthcareapp.Adapter.ExpandableListViewAdapter;
+import com.example.healthcareapp.AddWaterActivity;
 import com.example.healthcareapp.Model.food;
+import com.example.healthcareapp.PostActivity;
 import com.example.healthcareapp.R;
 
 import java.util.ArrayList;
@@ -62,7 +69,7 @@ public class AddFragment extends Fragment {
         btAddWater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment((new AddWaterFragment()));
+                launcherAddWater.launch(new Intent(getContext(), AddWaterActivity.class));
             }
         });
 
@@ -132,4 +139,16 @@ public class AddFragment extends Fragment {
         foodList.put(meals.get(4),topic5);
 
     }
+    ActivityResultLauncher<Intent> launcherAddWater = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+
+                    }
+                }
+            });
+
 }

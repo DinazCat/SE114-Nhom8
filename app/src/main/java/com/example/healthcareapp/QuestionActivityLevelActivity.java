@@ -11,8 +11,11 @@ import com.example.healthcareapp.Model.bmiInfo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 public class QuestionActivityLevelActivity extends AppCompatActivity {
@@ -58,6 +61,10 @@ public class QuestionActivityLevelActivity extends AppCompatActivity {
                 FirebaseFirestore firebaseFireStore = FirebaseFirestore.getInstance();
                 firebaseFireStore.collection("bmi").document(uid).set(bmi_info);
 
+                bmi_info.time = System.currentTimeMillis();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("bmiDiary");
+                String key = databaseReference.push().getKey();
+                databaseReference.child(uid).child(key).setValue(bmi_info);
                 startActivity(intent);
 
             }
@@ -78,8 +85,15 @@ public class QuestionActivityLevelActivity extends AppCompatActivity {
                 bmi_info.goal = _goal;
                 bmi_info.weeklyGoal = _weeklyGoal;
                 bmi_info.activityLevel = "Moderate";
+
                 FirebaseFirestore firebaseFireStore = FirebaseFirestore.getInstance();
                 firebaseFireStore.collection("bmi").document(uid).set(bmi_info);
+
+                //bmiDiary
+                bmi_info.time = System.currentTimeMillis();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("bmiDiary");
+                String key = databaseReference.push().getKey();
+                databaseReference.child(uid).child(key).setValue(bmi_info);
 
                 startActivity(intent);
 
@@ -105,6 +119,11 @@ public class QuestionActivityLevelActivity extends AppCompatActivity {
                 FirebaseFirestore firebaseFireStore = FirebaseFirestore.getInstance();
                 firebaseFireStore.collection("bmi").document(uid).set(bmi_info);
 
+                bmi_info.time = System.currentTimeMillis();
+                //Timestamp timestamp = new Timestamp(System.currentTimeMillis());//can you Timestamp
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("bmiDiary");
+                String key = databaseReference.push().getKey();
+                databaseReference.child(uid).child(key).setValue(bmi_info);
                 startActivity(intent);
             }
         });
@@ -129,6 +148,11 @@ public class QuestionActivityLevelActivity extends AppCompatActivity {
                 FirebaseFirestore firebaseFireStore = FirebaseFirestore.getInstance();
                 firebaseFireStore.collection("bmi").document(uid).set(bmi_info);
 
+                bmi_info.time = System.currentTimeMillis();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("bmiDiary");
+                String key = databaseReference.push().getKey();
+                databaseReference.child(uid).child(key).setValue(bmi_info);
+
                 startActivity(intent);
             }
         });
@@ -151,8 +175,15 @@ public class QuestionActivityLevelActivity extends AppCompatActivity {
                 bmi_info.activityLevel = "Very active";
                 FirebaseFirestore firebaseFireStore = FirebaseFirestore.getInstance();
                 firebaseFireStore.collection("bmi").document(uid).set(bmi_info);
+
+                bmi_info.time = System.currentTimeMillis();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("bmiDiary");
+                String key = databaseReference.push().getKey();
+                databaseReference.child(uid).child(key).setValue(bmi_info);
+
                 startActivity(intent);
             }
         });
     }
 }
+

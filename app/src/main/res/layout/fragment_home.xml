@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#E9F4E6"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.HomeFragment">
+    tools:context=".HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -108,7 +108,7 @@
                         android:id="@+id/water"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="74"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="21dp"
                         android:textStyle="bold"
@@ -138,17 +138,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Calorie Budget"
+                        android:text="Base goal"
                         android:textColor="@color/white"
                         android:layout_gravity="center"
                         android:textSize="20dp"
                         />
 
                     <TextView
-                        android:id="@+id/calorieBudget"
+                        android:id="@+id/baseGoal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1717"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="21dp"
                         android:textStyle="bold"

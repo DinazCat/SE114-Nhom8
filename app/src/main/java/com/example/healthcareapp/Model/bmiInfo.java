@@ -10,6 +10,7 @@ public class bmiInfo {
     public String goal;
     public String weeklyGoal;
     public String activityLevel;
+    public long time;
 
     public bmiInfo(){};
     public double CalculatorBMR(){
@@ -71,4 +72,5 @@ public class bmiInfo {
         return calories;
     }
 }
+
 
