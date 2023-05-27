@@ -1,10 +1,10 @@
 package com.example.healthcareapp.Fragments;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -23,17 +23,11 @@ import android.widget.TextView;
 
 import com.example.healthcareapp.Adapter.PostAdapter;
 import com.example.healthcareapp.Adapter.UserAdapter;
-import com.example.healthcareapp.LoginActivity;
 import com.example.healthcareapp.Model.Noti;
 import com.example.healthcareapp.Model.User;
 import com.example.healthcareapp.Model.PostInformation;
 import com.example.healthcareapp.R;
 import com.example.healthcareapp.service.FcmNotificationsSender;
-import com.facebook.AccessToken;
-import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,7 +42,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -60,7 +57,7 @@ public class ProfileFragment extends Fragment {
     private String userId;
     private ImageView userimg;
     private TextView username, about;
-    private Button btn1, btn2;
+    private Button userbtn;
     private RecyclerView mRecyclerView;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference;
@@ -89,8 +86,7 @@ public class ProfileFragment extends Fragment {
         userimg = view.findViewById(R.id.img_user);
         username = view.findViewById(R.id.tv_name);
         about = view.findViewById(R.id.tv_about);
-        btn1 = view.findViewById(R.id.bt_1);
-        btn2 = view.findViewById(R.id.bt_2);
+        userbtn = view.findViewById(R.id.userbtn);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
         bt_posts = view.findViewById(R.id.posts);
         bt_followers = view.findViewById(R.id.followers);
@@ -107,9 +103,9 @@ public class ProfileFragment extends Fragment {
             readFollowers();
             readFollowing();
             if(userId.equals(curUser.getUid())){
-                btn1.setText("Edit");
-                btn2.setText("Logout");
-                btn1.setOnClickListener(new View.OnClickListener() {
+                userbtn.setText("Edit Profile");
+
+                userbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         String userId = curUser.getUid();
@@ -120,36 +116,15 @@ public class ProfileFragment extends Fragment {
                         transaction.commit();
                     }
                 });
-                btn2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        GoogleSignInOptions gOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-                        GoogleSignInClient gClient = GoogleSignIn.getClient(getContext(), gOptions);
-                        if (AccessToken.getCurrentAccessToken() != null && auth.getCurrentUser() != null) {
-                            auth.signOut();
-                            LoginManager.getInstance().logOut();
-                        }
-                        else if (gClient != null && auth.getCurrentUser() != null) {
-                            auth.signOut();
-                            gClient.signOut();
-                        }
-                        else if (auth.getCurrentUser() != null) {
-                            auth.signOut();
-                        }
-                        Intent intent = new Intent(getContext(), LoginActivity.class);
-                        startActivity(intent);
-                    }
-                });
             }
             else{
                 if(isFollowed)
-                    btn1.setText("Unfollow");
-                else btn1.setText("Follow");
-                btn2.setText("Chat");
-                btn1.setOnClickListener(new View.OnClickListener() {
+                    userbtn.setText("Unfollow");
+                else userbtn.setText("Follow");
+                userbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (btn1.getText().toString().equalsIgnoreCase(("follow"))){
+                        if (userbtn.getText().toString().equalsIgnoreCase(("follow"))){
                             FirebaseDatabase.getInstance().getReference().child("Follow").
                                     child((curUser.getUid())).child("following").child(userId).setValue(true);
 
@@ -165,7 +140,7 @@ public class ProfileFragment extends Fragment {
                         }
                         isFollowed = !isFollowed;
                         if(isFollowed) {
-                            btn1.setText("Unfollow");
+                            userbtn.setText("Unfollow");
                             followersCount.setText("" + (followerlist.size() + 1));
                             Noti item = new Noti();
                             item.PostownerId = userId;
@@ -192,15 +167,9 @@ public class ProfileFragment extends Fragment {
                             sendNotification();
                         }
                         else {
-                            btn1.setText("Follow");
+                            userbtn.setText("Follow");
                             followersCount.setText("" + (followerlist.size() - 1));
                         }
-                    }
-                });
-                btn2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
                     }
                 });
             }
@@ -280,28 +249,27 @@ public class ProfileFragment extends Fragment {
     private void readUserPost(){
         collectionReference = db.collection("posts");
         com.google.firebase.firestore.Query query = collectionReference.whereEqualTo("userid", userId);
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    postlist = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        PostInformation Info ;
-                        System.out.println(document.toObject(PostInformation.class));
-                        Info = document.toObject(PostInformation.class);
-                        Info.id = document.getId();
-                        postlist.add(Info);
-                    }
-                    PostAdapter adapter = new PostAdapter(postlist,getContext(), getActivity().getSupportFragmentManager(),"profile");
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-                    mRecyclerView.setLayoutManager(linearLayoutManager);
-                    mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                    mRecyclerView.setAdapter(adapter);
-                    postsCount.setText("" + postlist.size());
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    System.out.println( "Listen failed."+error);
+                    return;
                 }
-                else {
-                    System.out.println(task.getException());
+                postlist = new ArrayList<>();
+                for (DocumentSnapshot document : value.getDocuments()) {
+                    PostInformation Info ;
+                    System.out.println(document.toObject(PostInformation.class));
+                    Info = document.toObject(PostInformation.class);
+                    Info.id = document.getId();
+                    postlist.add(Info);
                 }
+                PostAdapter adapter = new PostAdapter(postlist,getContext(), getActivity().getSupportFragmentManager(),"profile");
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                mRecyclerView.setLayoutManager(linearLayoutManager);
+                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                mRecyclerView.setAdapter(adapter);
+                postsCount.setText("" + postlist.size());
             }
         });
     }
@@ -326,9 +294,11 @@ public class ProfileFragment extends Fragment {
                             if (followerlist.size() == count) {
                                 // all listeners have completed, update UI
                                 followersCount.setText("" + followerlist.size());
-                                if(isFollowed)
-                                    btn1.setText("Unfollow");
-                                else btn1.setText("Follow");
+                                if(!userId.equals(curUser.getUid())) {
+                                    if (isFollowed)
+                                        userbtn.setText("Unfollow");
+                                    else userbtn.setText("Follow");
+                                }
                             }
                         }
 

@@ -36,8 +36,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -45,6 +51,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class EditProfileFragment extends Fragment {
@@ -244,11 +251,24 @@ public class EditProfileFragment extends Fragment {
         hashMap.put("country", country);
         hashMap.put("about", about);
 
-        databaseReference.child(uid).setValue(hashMap);
+        try {
+            databaseReference.child(uid).setValue(hashMap);
 
-        if(imgFile!= null) {
+            if (imgFile != null) {
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                        .setPhotoUri(Uri.parse(imgFile))
+                        .build();
+                user.updateProfile(profileUpdates)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                }
+                            }
+                        });
+            }
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                    .setPhotoUri(Uri.parse(imgFile))
+                    .setDisplayName(name)
                     .build();
             user.updateProfile(profileUpdates)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -259,18 +279,31 @@ public class EditProfileFragment extends Fragment {
                             }
                         }
                     });
-        }
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(name)
-                .build();
-        user.updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "Auth User updated.");
+
+            //udapte userimg & username in posts
+            CollectionReference postsRef = FirebaseFirestore.getInstance().collection("posts");
+            postsRef.whereEqualTo("userid", user.getUid())
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String postId = document.getId();
+                                    DocumentReference postRef = postsRef.document(postId);
+                                    Map<String, Object> updateData = new HashMap<>();
+                                    updateData.put("username", name);
+                                    updateData.put("userimg", img);
+
+                                    postsRef.document(postId).set(updateData, SetOptions.merge());
+                                }
+                            } else {
+                                System.out.println(task.getException());
+                            }
                         }
-                    }
-                });
+                    });
+            Toast.makeText(getContext(), "User profile updated successfully!", Toast.LENGTH_SHORT).show();
+        } catch (Exception e){
+            System.out.println(e);
+        }
     }
 }

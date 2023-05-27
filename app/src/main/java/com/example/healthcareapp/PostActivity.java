@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,12 +20,16 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.healthcareapp.Fragments.AddImgFragment;
 import com.example.healthcareapp.Fragments.BaivietFragment;
 import com.example.healthcareapp.Model.PostInformation;
+import com.example.healthcareapp.service.FcmNotificationsSender;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -273,7 +278,6 @@ public class PostActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        //Log.d("TB", "DocumentSnapshot added with ID: " + documentReference.getId());
                         Toast.makeText(PostActivity.this, "Post Uploaded!!", Toast.LENGTH_SHORT).show();
                         System.out.println("post success.");
                     }
@@ -281,11 +285,10 @@ public class PostActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        // Log.w("TB", "Error adding document", e);
                         System.out.println("No post success");
                     }
                 });
-
+        sendNotification();
     }
     public void editpost(){
         Map<String, Object> update = new HashMap<>();
@@ -300,6 +303,44 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(PostActivity.this, "Post saved!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void sendNotification(){
+        DatabaseReference followersRef = FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getUid()).child("followers");
+        followersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                    String followerUserId = userSnapshot.getKey();
+                    sendNotificationToUser(followerUserId);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println(error);
+            }
+        });
+
+    }
+    private void sendNotificationToUser(String userId) {
+        DatabaseReference tokensRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("token");
+        tokensRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String userToken = snapshot.getValue(String.class);
+                if (userToken != null) {
+                    FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                            userToken, "Social Food Blog", "The user you are following, " + user.getDisplayName() + ", just uploaded a new post.", getApplicationContext()
+                    );
+                    notificationsSender.sendNotification();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println(error);
             }
         });
     }

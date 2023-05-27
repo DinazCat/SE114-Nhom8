@@ -399,7 +399,11 @@ public class PostAdapter extends RecyclerView.Adapter {
             if(object.postimgs.size() == 0)
             {
                 ((NoImageType) viewHolder).FName.setText(object.postFoodName);
-                ((NoImageType) viewHolder).FRating.setRating(Float.parseFloat(object.postFoodRating));
+                try {
+                    ((NoImageType) viewHolder).FRating.setRating(Float.parseFloat(object.postFoodRating));
+                } catch (Exception e){
+                    System.out.println(e);
+                }
                 ((NoImageType) viewHolder).FRating.setEnabled(false);
                 ((NoImageType) viewHolder).FIngredient.setText(object.postFoodIngredient);
                 ((NoImageType) viewHolder).FMaking.setText(object.postFoodMaking);
