@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -50,16 +51,16 @@ public class PostDetailActivity extends AppCompatActivity {
     private boolean isliked = false;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser curUser = auth.getCurrentUser();
-    TextView name, countlike, countcmt ;
+    TextView name;
     TextView time ;
     ListView lv ;
     TextView FName;
-    RatingBar FRate;
+    //RatingBar FRate;
+    TextView FRate;
     TextView FIngredient ;
     TextView FMaking ;
     TextView FSummary ;
-    ImageButton BtnLike;
-    ImageButton BtnCmt;
+    TextView FTag ;
     String userToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,15 +70,13 @@ public class PostDetailActivity extends AppCompatActivity {
          name = findViewById(R.id.username);
          time = findViewById(R.id.time);
          lv = findViewById(R.id.listview);
-         FName = findViewById(R.id.write);
-         FRate = findViewById(R.id.ratingbar);
-         FIngredient = findViewById(R.id.write1);
-         FMaking = findViewById(R.id.write2);
-         FSummary = findViewById(R.id.write3);
-         BtnLike = findViewById(R.id.btn_like);
-         BtnCmt = findViewById(R.id.btn_comment);
-         countcmt = findViewById(R.id.tv_cmts_count);
-         countlike = findViewById(R.id.tv_likes_count);
+         FName = findViewById(R.id.tv_foodname);
+         //FRate = findViewById(R.id.ratingbar);
+         FRate = findViewById(R.id.tv_difficulty);
+         FIngredient = findViewById(R.id.tv_ingredients);
+         FMaking = findViewById(R.id.tv_steps);
+         FSummary = findViewById(R.id.tv_summary);
+         FTag = findViewById(R.id.tv_tag);
 
         Uri data = getIntent().getData();
         if (data != null && data.getScheme().equals("https")) {
@@ -103,7 +102,8 @@ public class PostDetailActivity extends AppCompatActivity {
                             FIngredient.setText(info.postFoodIngredient);
                             FMaking.setText(info.postFoodMaking);
                             FSummary.setText(info.postFoodSummary);
-                            FRate.setRating(Float.parseFloat(info.postFoodRating));
+                            //FRate.setRating(Float.parseFloat(info.postFoodRating));
+                            FRate.setText(info.postFoodRating);
                             FRate.setEnabled(false);
                             Calendar calendar = Calendar.getInstance(Locale.getDefault());
                             calendar.setTimeInMillis(Long.parseLong(info.posttime));
@@ -111,8 +111,6 @@ public class PostDetailActivity extends AppCompatActivity {
                             time.setText(pTime);
                             DetailimgAdapter adapter = new DetailimgAdapter(PostDetailActivity.this, info.postimgs);
                             lv.setAdapter(adapter);
-                            countlike.setText("" + info.likes.size());
-                            countcmt.setText("" + info.comments.size());
                         } else {
                             System.out.println("Post does not exists");
                         }
@@ -133,7 +131,8 @@ public class PostDetailActivity extends AppCompatActivity {
             FIngredient.setText(info.postFoodIngredient);
             FMaking.setText(info.postFoodMaking);
             FSummary.setText(info.postFoodSummary);
-            FRate.setRating(Float.parseFloat(info.postFoodRating));
+            //FRate.setRating(Float.parseFloat(info.postFoodRating));
+            FRate.setText(info.postFoodRating);
             FRate.setEnabled(false);
             Calendar calendar = Calendar.getInstance(Locale.getDefault());
             calendar.setTimeInMillis(Long.parseLong(info.posttime));
@@ -141,8 +140,9 @@ public class PostDetailActivity extends AppCompatActivity {
             time.setText(pTime);
             DetailimgAdapter adapter = new DetailimgAdapter(this, info.postimgs);
             lv.setAdapter(adapter);
-            countlike.setText("" + info.likes.size());
-            countcmt.setText("" + info.comments.size());
+            ViewGroup.LayoutParams layoutParams = lv.getLayoutParams();
+            layoutParams.height = 705 * adapter.getCount();
+            lv.setLayoutParams(layoutParams);
 
             userimg.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -159,127 +159,8 @@ public class PostDetailActivity extends AppCompatActivity {
                     transaction.commit();
                 }
             });
-            DocumentReference postRef = FirebaseFirestore.getInstance().collection("posts").document(info.id);
-            postRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if (documentSnapshot.exists()) {
-                        List<String> likes = (List<String>) documentSnapshot.get("likes");
-                        if (likes != null && likes.contains(curUser.getUid())) {
-                            BtnLike.setImageResource(R.drawable.red_heart);
-                            countlike.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.red));
-                            isliked = true;
-                        } else {
-                            BtnLike.setImageResource(R.drawable.heart);
-                            countlike.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.black));
-                        }
 
-                    }
-                }
-            });
-            BtnLike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    DocumentReference postRef = FirebaseFirestore.getInstance().collection("posts").document(info.id);
-                    if ( !isliked ) {
-                        postRef.update("likes", FieldValue.arrayUnion(curUser.getUid())).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                info.likes.add(curUser.getUid());
-                                BtnLike.setImageResource(R.drawable.red_heart);
-                                countlike.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.red));
-                                countlike.setText("" + info.likes.size());
-
-                                sendNotification(info.userid);
-                                Noti item = new Noti();
-                                item.PostownerId = info.userid;
-                                item.guestId = curUser.getUid();
-                                item.classify = "like";
-                                item.postid = info.id;
-                                item.message = " đã thích bài viết của bạn về món ăn: " + info.postFoodName;
-                                item.Read = "no";
-                                item.time = String.valueOf(System.currentTimeMillis());
-                                if ( !curUser.getUid().equals(info.userid) )
-                                    FirebaseFirestore.getInstance().collection("Notification")
-                                            .add(item)
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                    System.out.println("send noti success");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    System.out.println(e);
-                                                }
-                                            });
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                System.out.println("Update failed");
-                            }
-                        });
-                    } else {
-                        postRef.update("likes", FieldValue.arrayRemove(curUser.getUid())).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                info.likes.remove(curUser.getUid());
-                                BtnLike.setImageResource(R.drawable.heart);
-                                countlike.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.black));
-                                countlike.setText("" + info.likes.size());
-
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                System.out.println("Update failed");
-                            }
-                        });
-                    }
-                }
-            });
-
-            BtnCmt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(PostDetailActivity.this, CommentActivity.class);
-                    intent.putExtra("postId", info.id);
-                    intent.putExtra("authorId", info.userid);
-                    intent.putExtra("foodname", info.postFoodName);
-                    startActivity(intent);
-
-                }
-            });
         }
     }
-
-        private void sendNotification(String userId){
-
-            FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    userToken = snapshot.getValue(String.class);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                            userToken, "Social Food Blog", FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " liked your post!", getBaseContext()
-                    );
-                    notificationsSender.sendNotification();
-                }
-            }, 3000);
-        }
-
 
 }

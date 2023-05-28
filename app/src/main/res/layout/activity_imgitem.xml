@@ -3,19 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ImgItemActivity"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingVertical="2dp"
+    android:background="@drawable/bg_comment">
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="700px"
         android:id="@+id/img"
-        android:background="@color/lightyellow"
-        android:scaleType="fitXY" />
-    <ImageButton
-        android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_delete"/>
+        android:scaleType="centerCrop"
+        />
+<!--    <ImageButton-->
+<!--        android:id="@+id/delete"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/ic_delete"/>-->
 
 </RelativeLayout>

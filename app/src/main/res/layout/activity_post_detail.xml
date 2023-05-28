@@ -4,46 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1C1C1C"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/userimg"
-            android:layout_marginLeft="5dp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:clickable="true"
-            android:src="@drawable/user"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/username"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userimg"
+                android:layout_marginLeft="5dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:clickable="true"
+                android:src="@drawable/user"/>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="UserName"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:layout_marginLeft="5dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/time"
-                android:textColor="@color/white"
-                android:text="time"
-                android:textSize="14dp"
-                android:layout_marginLeft="5dp"/>
-
+                android:layout_height="match_parent"
+                android:layout_marginTop="7dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666"
+                    android:text="UserName"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/time"
+                    android:text="time"
+                    android:textSize="14dp"
+                    android:layout_marginLeft="5dp"/>
+            </LinearLayout>
         </LinearLayout>
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_foodname"
+            android:text="Greek Yogurt"
+            android:textSize="27dp"
+            android:textColor="#444"
+            android:layout_marginTop="7dp"
+            android:textAlignment="center"
+            android:fontFamily="@font/luckiestguy"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#DDDDDD"
+            android:layout_marginVertical="5dp"/>
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
@@ -52,141 +69,220 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tên món ăn:"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"/>
-            <TextView
-                android:id="@+id/write"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height ="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:text="bữa ăn ngon" />
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+                <LinearLayout
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:clickable="true"
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/tv_servings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:textStyle="bold"
+                        android:textColor="#E8B51A"
+                        android:text="1" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textColor="#000000"
+                        android:text="Servings"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:clickable="true"
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/tv_prep"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:textStyle="bold"
+                        android:textColor="#E8B51A"
+                        android:text="1h" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textColor="#000000"
+                        android:text="Prep"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:clickable="true"
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/tv_cooking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:textStyle="bold"
+                        android:textColor="#E8B51A"
+                        android:text="20m" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textColor="#000000"
+                        android:text="Cooking"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+                <LinearLayout
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:clickable="true"
+                    android:gravity="center_horizontal"
+                    android:layout_marginRight="30dp">
+                    <TextView
+                        android:id="@+id/tv_cal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:textStyle="bold"
+                        android:textColor="#E8B51A"
+                        android:text="216" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textColor="#000000"
+                        android:text="Cal/serving"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:clickable="true"
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/tv_difficulty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:textStyle="bold"
+                        android:textColor="#E8B51A"
+                        android:text="1.0"
+                        android:drawableEnd="@drawable/baseline_star_rate_24"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textColor="#000000"
+                        android:text="Difficulty"/>
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#DDDDDD"
+                android:layout_marginVertical="5dp"/>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Độ khó:"-->
+<!--                android:textSize="20dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="20dp"/>-->
+<!--            <RatingBar-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/ratingbar"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:layout_marginLeft="15dp"/>-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Độ khó:"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"/>
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ratingbar"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nguyên liệu:"
-                android:textSize="20dp"
-                android:textColor="@color/white"
+                android:text="Ingredients"
+                android:textStyle="bold"
+                android:textColor="#5AC30D"
+                android:textSize="22dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"/>
             <TextView
-                android:id="@+id/write1"
+                android:id="@+id/tv_ingredients"
                 android:layout_width="match_parent"
                 android:layout_height ="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:text="bữa ăn ngon" />
+                android:textSize="20dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cách làm:"
-                android:textSize="20dp"
-                android:textColor="@color/white"
+                android:text="Steps"
+                android:textStyle="bold"
+                android:textSize="22dp"
+                android:textColor="#CE3E3E"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"/>
             <TextView
-                android:id="@+id/write2"
+                android:id="@+id/tv_steps"
                 android:layout_width="match_parent"
                 android:layout_height ="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:text="bữa ăn ngon" />
+                android:textSize="20dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tổng kết:"
-                android:textSize="20dp"
-                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textColor="#546ED5"
+                android:text="Summary"
+                android:textSize="22dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"/>
             <TextView
-                android:id="@+id/write3"
+                android:id="@+id/tv_summary"
                 android:layout_width="match_parent"
                 android:layout_height ="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="20dp"
-                android:textColor="@color/white"
-                android:text="bữa ăn ngon" />
-
-
+                android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#23D8A3"
+                android:text="Tag"
+                android:textSize="22dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                android:id="@+id/tv_tag"
+                android:layout_width="match_parent"
+                android:layout_height ="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp" />
 
             <ListView
                 android:id="@+id/listview"
                 android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
-                android:layout_height="390dp">
+                android:layout_height="match_parent">
             </ListView>
         </LinearLayout>
     </ScrollView>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center_vertical"
-        android:background="#D3D3D3"
-        android:orientation="horizontal">
-        <ImageButton
-            android:id="@+id/btn_like"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="50dp"
-            android:background="@drawable/heart"
-            android:text="Like" />
-        <TextView
-            android:id="@+id/tv_likes_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="23dp"
-            android:textColor="@color/black"
-            android:layout_marginStart="5dp"/>
-
-        <ImageButton
-            android:id="@+id/btn_comment"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="180dp"
-            android:background="@drawable/comment"
-            android:text="Comment"/>
-        <TextView
-            android:id="@+id/tv_cmts_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="23dp"
-            android:textColor="@color/black"
-            android:layout_marginStart="5dp"/>
-
-
-
-    </LinearLayout>
-
 
 
 </LinearLayout>
