@@ -160,10 +160,10 @@ public class HomeFragment extends Fragment {
             date = (DateFormat.format("yyyy/MM/dd", Calendar.getInstance()).toString());
         }
         else {
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
             Date selectedDate = null;
             try {
-                selectedDate = df.parse(tv_date.getText().toString());
+                selectedDate = new SimpleDateFormat("dd/MM/yyyy").parse(tv_date.getText().toString());
                 date = df.format(selectedDate).toString();
             } catch (ParseException e) {
                 throw new RuntimeException(e);

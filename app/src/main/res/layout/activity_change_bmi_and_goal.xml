@@ -15,4 +15,147 @@
         android:id="@+id/back"
         android:layout_gravity="center_vertical"
         android:background="@drawable/ic_backview"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/macondo"
+        android:text="Change BMI and goal"
+        android:textColor="#3D7238"
+        android:textSize="32dp"
+        android:layout_gravity="center"/>
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textColor="#3D7238"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Age"
+        android:textColor="#3D7238"
+        android:textSize="24dp"
+        android:layout_marginLeft="30dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+
+        android:id="@+id/age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/white_btn"
+        android:hint="your name"
+        android:padding="20dp"
+        />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Height"
+        android:textColor="#3D7238"
+        android:textSize="24dp"
+        android:layout_marginLeft="30dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+
+        android:id="@+id/height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/white_btn"
+        android:hint="your height"
+        android:padding="20dp" />
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Height"
+        android:textColor="#3D7238"
+        android:textSize="24dp"
+        android:layout_marginLeft="30dp"/>
+    <com.google.android.material.textfield.TextInputEditText
+
+        android:id="@+id/weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/white_btn"
+        android:hint="your weight"
+        android:padding="20dp" />
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Sex"
+        android:textColor="#3D7238"
+        android:textSize="24dp"
+        android:layout_marginLeft="30dp"/>
+    <Spinner
+
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="25dp"
+        android:id="@+id/sex"/>
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Goal"
+        android:textColor="#3D7238"
+        android:textSize="24dp"
+        android:layout_marginLeft="30dp"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="25dp"
+        android:id="@+id/goal"/>
+    <TextView
+        android:id="@+id/tv_weeklyGoal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weekly goal"
+        android:textColor="#3D7238"
+        android:textSize="24dp"
+        android:layout_marginLeft="30dp"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="25dp"
+        android:id="@+id/spn_weeklyGoal"/>
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activity level"
+        android:textColor="#3D7238"
+        android:textSize="24dp"
+        android:layout_marginLeft="30dp"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="25dp"
+        android:id="@+id/activityLevel"/>
+
 </LinearLayout>
