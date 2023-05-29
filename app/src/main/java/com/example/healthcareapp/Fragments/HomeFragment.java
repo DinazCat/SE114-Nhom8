@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.healthcareapp.Model.bmiInfo;
 import com.example.healthcareapp.R;
@@ -104,6 +105,7 @@ public class HomeFragment extends Fragment {
                         Date date = null;
                         try {
                             date = df.parse(DateFormat.format("dd/MM/yyyy", calendar).toString());
+
                         } catch (ParseException e) {
                             throw new RuntimeException(e);
                         }

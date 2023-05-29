@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -72,7 +73,37 @@ public class ChangeBmiAndGoal extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapterSex = ArrayAdapter.createFromResource(this, R.array.sex, android.R.layout.simple_spinner_item);
         adapterSex.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnSex.setAdapter(adapterSex);
+        spnGoal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayAdapter<CharSequence> adapterWeeklyGoal;
+                switch(spnGoal.getSelectedItemPosition()){
+                    case 0:
+                        tvWeeklyGoal.setVisibility(View.GONE);
+                        spnWeeklyGoal.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        tvWeeklyGoal.setVisibility(View.VISIBLE);
+                        spnWeeklyGoal.setVisibility(View.VISIBLE);
+                        adapterWeeklyGoal = ArrayAdapter.createFromResource(context, R.array.gain_weeklyGoals, android.R.layout.simple_spinner_item);
+                        adapterWeeklyGoal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spnWeeklyGoal.setAdapter(adapterWeeklyGoal);
+                        break;
+                    case 2:
+                        tvWeeklyGoal.setVisibility(View.VISIBLE);
+                        spnWeeklyGoal.setVisibility(View.VISIBLE);
+                        adapterWeeklyGoal = ArrayAdapter.createFromResource(context, R.array.lose_weeklyGoals, android.R.layout.simple_spinner_item);
+                        adapterWeeklyGoal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spnWeeklyGoal.setAdapter(adapterWeeklyGoal);
+                        break;
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override

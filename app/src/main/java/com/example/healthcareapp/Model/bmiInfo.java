@@ -1,5 +1,6 @@
 package com.example.healthcareapp.Model;
 
+
 public class bmiInfo {
     public String userID;
     public String userName;

@@ -2,11 +2,16 @@ package com.example.healthcareapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.example.healthcareapp.Fragments.AddFragment;
@@ -21,8 +26,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,21 +52,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        // Data Information of User
-        Intent intent = getIntent();
-        String _name = intent.getStringExtra("name");
-        String _age = intent.getStringExtra("age");
-        String _height = intent.getStringExtra("height");
-        String _weight = intent.getStringExtra("weight");
-        String _sex = intent.getStringExtra("sex");
-        String _goal = intent.getStringExtra("goal");
-        String _level = intent.getStringExtra("level");
+        //create notification to remind drink water
 
-        //
 
         //Binding for Bottom App Bar
         replaceFragment((new HomeFragment()));
         binding.bottomNavigationView.setBackground(null);
+
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch ( (item.getItemId())) {
@@ -92,4 +92,5 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout,fragment);
         fragmentTransaction.commit();
     }
+
 }
