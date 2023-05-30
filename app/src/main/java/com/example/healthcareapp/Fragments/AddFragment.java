@@ -23,6 +23,7 @@ import com.example.healthcareapp.AddWaterActivity;
 import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.PostActivity;
 import com.example.healthcareapp.R;
+import com.example.healthcareapp.SearchTopTabActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class AddFragment extends Fragment {
     ExpandableListView expandableListView;
     List<String> meals;
     HashMap<String, List<food>> foodList;
-    Button btAddFood, btAddWater, btAddExercise ;
+    Button btAddFoodExercise, btAddWater;
 
     private FragmentAListener listenter;
     public interface FragmentAListener{
@@ -54,12 +55,12 @@ public class AddFragment extends Fragment {
         listViewAdapter = new ExpandableListViewAdapter(expandableListView.getContext(), meals,foodList);
         expandableListView.setAdapter(listViewAdapter);
 
-        //Add Food Button
-        btAddFood = view.findViewById(R.id.addFood);
-        btAddFood.setOnClickListener(new View.OnClickListener() {
+        //Add Food/Exercise Button
+        btAddFoodExercise = view.findViewById(R.id.addFoodExercise);
+        btAddFoodExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment((new SearchFoodFragment()));
+                launcherAddFoodAndExercise.launch(new Intent(getContext(), SearchTopTabActivity.class));
             }
         });
 
@@ -70,15 +71,6 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 launcherAddWater.launch(new Intent(getContext(), AddWaterActivity.class));
-            }
-        });
-
-        //Add Exercise Button
-        btAddExercise = view.findViewById(R.id.addExercise);
-        btAddExercise.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceFragment((new SearchExerciseFragment()));
             }
         });
 
@@ -150,5 +142,15 @@ public class AddFragment extends Fragment {
                     }
                 }
             });
+    ActivityResultLauncher<Intent> launcherAddFoodAndExercise = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
 
+                    }
+                }
+            });
 }

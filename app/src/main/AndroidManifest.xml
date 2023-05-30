@@ -17,6 +17,9 @@
         android:theme="@style/Theme.HealthcareApp"
         tools:targetApi="31">
         <activity
+            android:name=".SearchTopTabActivity"
+            android:exported="false" />
+        <activity
             android:name=".QuestionActivityLevelActivity"
             android:exported="false" />
         <activity
@@ -108,6 +111,5 @@
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token" />
     </application>
-
 
 </manifest>

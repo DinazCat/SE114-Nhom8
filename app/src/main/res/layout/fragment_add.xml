@@ -152,9 +152,9 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Add Food"
+            android:text="Add Food/Exercise"
             android:textSize="16dp"
-            android:id="@+id/addFood"
+            android:id="@+id/addFoodExercise"
             android:layout_marginRight="5dp"
         />
         <Button
@@ -167,14 +167,7 @@
         />
 
 </LinearLayout>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Add Exercise"
-        android:textSize="16dp"
-        android:id="@+id/addExercise"
-        android:layout_marginTop="170dp"
-        />
+
     <ExpandableListView
         android:id="@+id/expandableLV"
         android:layout_width="match_parent"

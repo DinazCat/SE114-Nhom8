@@ -583,7 +583,6 @@ public class GraphFragment extends Fragment {
             calendar.setTimeInMillis(calendar.getTimeInMillis());
             String d = DateFormat.format("MM/yyyy", calendar).toString();
             monthsOneYear.add(d);
-
         }
     }
 }
