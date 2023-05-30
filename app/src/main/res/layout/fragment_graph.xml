@@ -36,9 +36,10 @@
         android:id="@+id/spinnerDateRange">
     </Spinner>
 
-    <com.jjoe64.graphview.GraphView
+    <com.github.mikephil.charting.charts.LineChart
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:id="@+id/graphView"/>
+        android:layout_height="300dp"
+        android:id="@+id/lineChart"
+        />
 </LinearLayout>
 </FrameLayout>

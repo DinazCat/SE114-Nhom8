@@ -20,7 +20,7 @@
     <string-array name="selectDateRange">
         <item> 1 weeks </item>
         <item> 1 month </item>
-        <item> 1 months </item>
+        <item> 1 year </item>
     </string-array>
     <string-array name="goals">
         <item> Maintain weight </item>
