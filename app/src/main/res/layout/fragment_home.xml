@@ -26,13 +26,13 @@
                 android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
-                app:srcCompat="@drawable/calendar"/>
+                app:srcCompat="@drawable/schedule_100px"/>
             <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Today"
-                android:textColor="@color/forestgreen"
+                android:textColor="#fff"
                 android:textSize="21dp"
                 android:textStyle="bold"
                 android:layout_margin="10dp"
@@ -62,6 +62,7 @@
                 android:text="Remaining = Goal - Food + Exercire"
                 android:textColor="#444444"
                 android:textSize="20dp"
+                android:textStyle="bold"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"/>
 
@@ -174,7 +175,6 @@
 
                         <com.google.android.material.progressindicator.CircularProgressIndicator
                             android:id="@+id/circularProgressIndicator"
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:layout_constraintDimensionRatio="1:1"

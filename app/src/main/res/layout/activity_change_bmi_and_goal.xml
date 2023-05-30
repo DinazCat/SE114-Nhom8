@@ -23,10 +23,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/macondo"
+        android:textStyle="bold"
         android:text="Change BMI and goal"
+        android:layout_marginLeft="10dp"
         android:textColor="#3D7238"
-        android:textSize="32dp"
+        android:textSize="28dp"
         android:layout_gravity="center"/>
         <Button
             android:id="@+id/save"
@@ -66,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Height"
+        android:text="Height (cm)"
         android:textColor="#3D7238"
         android:textSize="24dp"
         android:layout_marginLeft="30dp"/>
@@ -87,7 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Height"
+        android:text="Weight (kg)"
         android:textColor="#3D7238"
         android:textSize="24dp"
         android:layout_marginLeft="30dp"/>
