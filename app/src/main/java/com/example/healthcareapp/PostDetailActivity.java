@@ -60,65 +60,92 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView FIngredient ;
     TextView FMaking ;
     TextView FSummary ;
-    TextView FTag ;
+    TextView FTag, Cal, Prep, Cooking, Total;
     String userToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
         CircleImageView userimg = findViewById(R.id.userimg);
-         name = findViewById(R.id.username);
-         time = findViewById(R.id.time);
-         lv = findViewById(R.id.listview);
-         FName = findViewById(R.id.tv_foodname);
-         //FRate = findViewById(R.id.ratingbar);
-         FRate = findViewById(R.id.tv_difficulty);
-         FIngredient = findViewById(R.id.tv_ingredients);
-         FMaking = findViewById(R.id.tv_steps);
-         FSummary = findViewById(R.id.tv_summary);
-         FTag = findViewById(R.id.tv_tag);
+        name = findViewById(R.id.username);
+        time = findViewById(R.id.time);
+        lv = findViewById(R.id.listview);
+        FName = findViewById(R.id.tv_foodname);
+        //FRate = findViewById(R.id.ratingbar);
+        FRate = findViewById(R.id.tv_difficulty);
+        FIngredient = findViewById(R.id.tv_ingredients);
+        FMaking = findViewById(R.id.tv_steps);
+        FSummary = findViewById(R.id.tv_summary);
+        FTag = findViewById(R.id.tv_tag);
+        Cal = findViewById(R.id.tv_cal);
+        Prep = findViewById(R.id.tv_prep);
+        Cooking = findViewById(R.id.tv_cooking);
+        Total = findViewById(R.id.tv_servings);
 
         Uri data = getIntent().getData();
         if (data != null && data.getScheme().equals("https")) {
             String postId = data.getQueryParameter("id");
             FirebaseFirestore.getInstance().collection("posts").document(postId).get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            info = new PostInformation();
-                            info = document.toObject(PostInformation.class);
-                            info.id = document.getId();
-                            try {
-                                Picasso.get().load(info.userimg).into(userimg);
-                            } catch (Exception e) {
-                                String uri = "https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png";
-                                Picasso.get().load(uri).into(userimg);
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    info = new PostInformation();
+                                    info = document.toObject(PostInformation.class);
+                                    info.id = document.getId();
+                                    try {
+                                        Picasso.get().load(info.userimg).into(userimg);
+                                    } catch (Exception e) {
+                                        String uri = "https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png";
+                                        Picasso.get().load(uri).into(userimg);
+                                    }
+                                    name.setText(info.username);
+                                    FName.setText(info.postFoodName);
+                                    if(info.Ingredient.size()>0) {
+                                        String Ingredient = "- " + info.Ingredient.get(0).name + " (" + info.Ingredient.get(0).wty + " " + info.Ingredient.get(0).unit + ")";
+                                        int i = 1;
+                                        while (i < info.Ingredient.size()) {
+                                            Ingredient = Ingredient + "\n" + "- " + info.Ingredient.get(i).name + " (" + info.Ingredient.get(i).wty + " " + info.Ingredient.get(i).unit + ")";
+                                            i=i+1;
+                                        }
+                                        FIngredient.setText(Ingredient);
+                                    }
+                                    else FIngredient.setText("");
+                                    if(info.Hashtag.size()>0) {
+                                        String Tags = "# " + info.Hashtag.get(0) ;
+                                        int i = 1;
+                                        while (i < info.Hashtag.size()) {
+                                            Tags = Tags + "\n" + "# " + info.Hashtag.get(i) ;
+                                            i=i+1;
+                                        }
+                                        FTag.setText(Tags);
+                                    }
+                                    else FTag.setText("");
+                                    FMaking.setText(info.postFoodMaking);
+                                    FSummary.setText(info.postFoodSummary);
+                                    //FRate.setRating(Float.parseFloat(info.postFoodRating));
+                                    Total.setText(info.Total);
+                                    Prep.setText(info.Prep);
+                                    Cooking.setText(info.Cooking);
+                                    Cal.setText(info.Calories);
+                                    FRate.setText(info.postFoodRating);
+                                    FRate.setEnabled(false);
+                                    Calendar calendar = Calendar.getInstance(Locale.getDefault());
+                                    calendar.setTimeInMillis(Long.parseLong(info.posttime));
+                                    String pTime = android.text.format.DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
+                                    time.setText(pTime);
+                                    DetailimgAdapter adapter = new DetailimgAdapter(PostDetailActivity.this, info.postimgs);
+                                    lv.setAdapter(adapter);
+                                } else {
+                                    System.out.println("Post does not exists");
+                                }
+                            } else {
+                                System.out.println(task.getException());
                             }
-                            name.setText(info.username);
-                            FName.setText(info.postFoodName);
-                            FIngredient.setText(info.postFoodIngredient);
-                            FMaking.setText(info.postFoodMaking);
-                            FSummary.setText(info.postFoodSummary);
-                            //FRate.setRating(Float.parseFloat(info.postFoodRating));
-                            FRate.setText(info.postFoodRating);
-                            FRate.setEnabled(false);
-                            Calendar calendar = Calendar.getInstance(Locale.getDefault());
-                            calendar.setTimeInMillis(Long.parseLong(info.posttime));
-                            String pTime = android.text.format.DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
-                            time.setText(pTime);
-                            DetailimgAdapter adapter = new DetailimgAdapter(PostDetailActivity.this, info.postimgs);
-                            lv.setAdapter(adapter);
-                        } else {
-                            System.out.println("Post does not exists");
                         }
-                    } else {
-                        System.out.println(task.getException());
-                    }
-                }
-            });
+                    });
         } else {
             try {
                 Picasso.get().load(info.userimg).into(userimg);
@@ -128,10 +155,33 @@ public class PostDetailActivity extends AppCompatActivity {
             }
             name.setText(info.username);
             FName.setText(info.postFoodName);
-            FIngredient.setText(info.postFoodIngredient);
+            if(info.Ingredient.size()>0) {
+                String Ingredient = "- " + info.Ingredient.get(0).name + " (" + info.Ingredient.get(0).wty + " " + info.Ingredient.get(0).unit + ")";
+                int i = 1;
+                while (i < info.Ingredient.size()) {
+                    Ingredient = Ingredient + "\n" + "- " + info.Ingredient.get(i).name + " (" + info.Ingredient.get(i).wty + " " + info.Ingredient.get(i).unit + ")";
+                    i=i+1;
+                }
+                FIngredient.setText(Ingredient);
+            }
+            else FIngredient.setText("");
+            if(info.Hashtag.size()>0) {
+                String Tags = "# " + info.Hashtag.get(0) ;
+                int i = 1;
+                while (i < info.Hashtag.size()) {
+                    Tags = Tags + "\n" + "# " + info.Hashtag.get(i) ;
+                    i=i+1;
+                }
+                FTag.setText(Tags);
+            }
+            else FTag.setText("");
             FMaking.setText(info.postFoodMaking);
             FSummary.setText(info.postFoodSummary);
             //FRate.setRating(Float.parseFloat(info.postFoodRating));
+            Total.setText(info.Total);
+            Prep.setText(info.Prep);
+            Cooking.setText(info.Cooking);
+            Cal.setText(info.Calories);
             FRate.setText(info.postFoodRating);
             FRate.setEnabled(false);
             Calendar calendar = Calendar.getInstance(Locale.getDefault());

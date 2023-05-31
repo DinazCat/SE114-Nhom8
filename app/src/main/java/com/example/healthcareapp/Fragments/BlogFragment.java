@@ -172,6 +172,8 @@ public class BlogFragment extends Fragment {
             public void onClick(View view) {
                 PostActivity.thaotac="push";
                 AddImgFragment.images = new ArrayList<>();
+                Fragment_baiviet1.listIdata = new ArrayList<>();
+                Fragment_baiviet2.hashtags = new ArrayList<>();
                 startActivity(new Intent(getContext(), PostActivity.class));
             }
         });

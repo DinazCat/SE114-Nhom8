@@ -44,8 +44,8 @@ public class DetailimgAdapter extends BaseAdapter {
         ImageView img = view.findViewById(R.id.img);
         Picasso.get().load(items.get(i)).into(img);
 
-//        ImageButton deletebtn = view.findViewById(R.id.delete);
-//        deletebtn.setVisibility(View.INVISIBLE);
+        ImageButton deletebtn = view.findViewById(R.id.delete);
+        deletebtn.setVisibility(View.INVISIBLE);
 
         return view;
     }

@@ -87,57 +87,88 @@
             android:id="@+id/ratingbar"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="15dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calories:"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp" />
+            <TextView
+                android:id="@+id/write1"
+                android:layout_width="wrap_content"
+                android:layout_height ="wrap_content"
+                android:text="200"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(Cals/serving)"
+                android:textSize="20dp"
+                android:textColor="@color/gray"
+                android:layout_marginLeft="5dp" />
+
+        </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nguyên liệu:"
-            android:textSize="20dp"
-            android:textColor="@color/black"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"/>
-        <TextView
-            android:id="@+id/write1"
-            android:layout_width="match_parent"
-            android:layout_height ="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:text="bữa ăn ngon" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cách làm:"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"/>
-        <TextView
-            android:id="@+id/write2"
-            android:layout_width="match_parent"
-            android:layout_height ="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:text="bữa ăn ngon" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tổng kết:"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"/>
-        <TextView
-            android:id="@+id/write3"
-            android:layout_width="match_parent"
-            android:layout_height ="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:text="bữa ăn ngon" />
+            android:layout_marginTop="20dp"
+            android:text="See Detail"
+            android:textColor="#0000FF"
+            android:id="@+id/seeD"
+            android:clickable="true"
+            android:textSize="14dp" />
+        <!--        <TextView-->
+        <!--            android:id="@+id/write1"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height ="wrap_content"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:layout_marginLeft="10dp"-->
+        <!--            android:textSize="20dp"-->
+        <!--            android:textColor="@color/black"-->
+        <!--            android:text="bữa ăn ngon" />-->
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="Cách làm:"-->
+        <!--            android:textSize="20dp"-->
+        <!--            android:textColor="@color/black"-->
+        <!--            android:layout_marginLeft="10dp"-->
+        <!--            android:layout_marginTop="20dp"/>-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/write2"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height ="wrap_content"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:layout_marginLeft="10dp"-->
+        <!--            android:textSize="20dp"-->
+        <!--            android:textColor="@color/black"-->
+        <!--            android:text="bữa ăn ngon" />-->
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="Tổng kết:"-->
+        <!--            android:textSize="20dp"-->
+        <!--            android:textColor="@color/black"-->
+        <!--            android:layout_marginLeft="10dp"-->
+        <!--            android:layout_marginTop="20dp"/>-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/write3"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height ="wrap_content"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:layout_marginLeft="10dp"-->
+        <!--            android:textSize="20dp"-->
+        <!--            android:textColor="@color/black"-->
+        <!--            android:text="bữa ăn ngon" />-->
 
 
         <LinearLayout

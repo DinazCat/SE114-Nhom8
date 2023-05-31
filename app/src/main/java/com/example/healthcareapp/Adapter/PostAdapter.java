@@ -3,6 +3,7 @@ package com.example.healthcareapp.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +29,10 @@ import com.example.healthcareapp.CommentActivity;
 import com.example.healthcareapp.Fragments.AddImgFragment;
 import com.example.healthcareapp.Fragments.BaivietFragment;
 import com.example.healthcareapp.Fragments.BlogFragment;
+import com.example.healthcareapp.Fragments.Fragment_baiviet1;
+import com.example.healthcareapp.Fragments.Fragment_baiviet2;
 import com.example.healthcareapp.Fragments.ProfileFragment;
+import com.example.healthcareapp.Model.IngredientData;
 import com.example.healthcareapp.Model.Noti;
 import com.example.healthcareapp.Model.PostInformation;
 import com.example.healthcareapp.PostActivity;
@@ -69,7 +73,7 @@ public class PostAdapter extends RecyclerView.Adapter {
     String Page;
     String userToken;
     public static class NoImageType extends RecyclerView.ViewHolder{
-        TextView FName, FIngredient, FMaking, FSummary ;
+        TextView FName, FCal, seeDetail ;
         RatingBar FRating;
         TextView time, username ;
         CircleImageView userimg;
@@ -81,9 +85,7 @@ public class PostAdapter extends RecyclerView.Adapter {
             this.userimg = itemView.findViewById(R.id.userimg);
             this.FName = itemView.findViewById(R.id.write);
             this.FRating = itemView.findViewById(R.id.ratingbar);
-            this.FIngredient = itemView.findViewById(R.id.write1);
-            this.FMaking = itemView.findViewById(R.id.write2);
-            this.FSummary = itemView.findViewById(R.id.write3);
+            this.FCal = itemView.findViewById(R.id.write1);
             this.time = itemView.findViewById(R.id.time);
             this.btLike = itemView.findViewById(R.id.btn_like);
             this.btComment = itemView.findViewById(R.id.btn_comment);
@@ -91,10 +93,11 @@ public class PostAdapter extends RecyclerView.Adapter {
             this.noOfComments = itemView.findViewById(R.id.tv_cmts_count);
             this.menu = itemView.findViewById(R.id.btn_menu);
             this.btShare = itemView.findViewById(R.id.btn_share);
+            this.seeDetail = itemView.findViewById(R.id.seeD);
         }
     }
     public static class TwoImageType extends RecyclerView.ViewHolder{
-        TextView FName, FIngredient, FMaking, FSummary ;
+        TextView FName, FCal, seeDetail;
         RatingBar FRating;
         TextView time, username ;
         ImageView img1, img2, img3;
@@ -108,9 +111,7 @@ public class PostAdapter extends RecyclerView.Adapter {
             this.userimg = itemView.findViewById(R.id.userimg);
             this.FName = itemView.findViewById(R.id.write);
             this.FRating = itemView.findViewById(R.id.ratingbar);
-            this.FIngredient = itemView.findViewById(R.id.write1);
-            this.FMaking = itemView.findViewById(R.id.write2);
-            this.FSummary = itemView.findViewById(R.id.write3);
+            this.FCal = itemView.findViewById(R.id.write1);
             this.time = itemView.findViewById(R.id.time);
             this.img1 = itemView.findViewById(R.id.img1);
             this.img2 = itemView.findViewById(R.id.img2);
@@ -122,10 +123,11 @@ public class PostAdapter extends RecyclerView.Adapter {
             this.noOfComments = itemView.findViewById(R.id.tv_cmts_count);
             this.menu = itemView.findViewById(R.id.btn_menu);
             this.btShare = itemView.findViewById(R.id.btn_share);
+            this.seeDetail = itemView.findViewById(R.id.seeD);
         }
     }
     public static class FourImageType extends RecyclerView.ViewHolder{
-        TextView FName, FIngredient, FMaking, FSummary ;
+        TextView FName, FCal, seeDetail;
         RatingBar FRating;
         ImageView img1, img2, img3, img4, img5, img6;
         BlurImageView img7;
@@ -140,9 +142,7 @@ public class PostAdapter extends RecyclerView.Adapter {
             this.userimg = itemView.findViewById(R.id.userimg);
             this.FName = itemView.findViewById(R.id.write);
             this.FRating = itemView.findViewById(R.id.ratingbar);
-            this.FIngredient = itemView.findViewById(R.id.write1);
-            this.FMaking = itemView.findViewById(R.id.write2);
-            this.FSummary = itemView.findViewById(R.id.write3);
+            this.FCal = itemView.findViewById(R.id.write1);
             this.time = itemView.findViewById(R.id.time);
             this.countimg = itemView.findViewById(R.id.countimg);
             this.img1 = itemView.findViewById(R.id.img4);
@@ -160,6 +160,7 @@ public class PostAdapter extends RecyclerView.Adapter {
             this.noOfComments = itemView.findViewById(R.id.tv_cmts_count);
             this.menu = itemView.findViewById(R.id.btn_menu);
             this.btShare = itemView.findViewById(R.id.btn_share);
+            this.seeDetail = itemView.findViewById(R.id.seeD);
         }
     }
     public PostAdapter(ArrayList<PostInformation> data, Context context, FragmentManager fragmentManager, String page) {
@@ -229,10 +230,15 @@ public class PostAdapter extends RecyclerView.Adapter {
                                 PostActivity.thaotac="edit";
 //                                FName, FIngredient, FMaking, FSummary, FRating
                                 BaivietFragment.FName = dataSet.get(i).postFoodName;
-                                BaivietFragment.FIngredient = dataSet.get(i).postFoodIngredient;
-                                BaivietFragment.FMaking = dataSet.get(i).postFoodMaking;
-                                BaivietFragment.FSummary = dataSet.get(i).postFoodSummary;
+                                BaivietFragment.FTotal = dataSet.get(i).Total;
+                                BaivietFragment.FCal = dataSet.get(i).Calories;
+                                BaivietFragment.FPrep = dataSet.get(i).Prep;
+                                BaivietFragment.FCooking = dataSet.get(i).Cooking;
                                 BaivietFragment.FRating= dataSet.get(i).postFoodRating;
+                                Fragment_baiviet1.listIdata = new ArrayList<>( dataSet.get(i).Ingredient);
+                                Fragment_baiviet1.FSummary = dataSet.get(i).postFoodSummary;
+                                Fragment_baiviet1.FMaking = dataSet.get(i).postFoodMaking;
+                                Fragment_baiviet2.hashtags = new ArrayList<>(dataSet.get(i).Hashtag);
                                 PostActivity.postIdtoUpdate = dataSet.get(i).id;
                                 AddImgFragment.images = new ArrayList<>();
                                 for(int j = 0; j < dataSet.get(i).postimgs.size();j++)
@@ -251,9 +257,10 @@ public class PostAdapter extends RecyclerView.Adapter {
                         return false;
                     }
 
-            });
-        }
+                });
+            }
         };
+
         View.OnClickListener mListener = new View.OnClickListener(){
             public void onClick(View view){
                 PostDetailActivity.info = dataSet.get(i);
@@ -306,20 +313,20 @@ public class PostAdapter extends RecyclerView.Adapter {
                             item.Read = "no";
                             item.time = String.valueOf(System.currentTimeMillis());
                             if(!curUser.getUid().equals(object.userid))
-                            FirebaseFirestore.getInstance().collection("Notification")
-                                    .add(item)
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                        @Override
-                                        public void onSuccess(DocumentReference documentReference) {
-                                            System.out.println("send noti success");
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            System.out.println(e);
-                                        }
-                                    });
+                                FirebaseFirestore.getInstance().collection("Notification")
+                                        .add(item)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                System.out.println("send noti success");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                System.out.println(e);
+                                            }
+                                        });
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -381,7 +388,7 @@ public class PostAdapter extends RecyclerView.Adapter {
                         .appendQueryParameter("title", object.postFoodName);
                 String postUri = builder.build().toString();
                 String shareBody = "Tên món ăn: " + object.postFoodName + "\n" +
-                        "Nguyên liệu: " + object.postFoodIngredient + "\n" +
+                        "Nguyên liệu: " + object.Ingredient + "\n" +
                         "Độ khó: " + object.postFoodRating+ "\n" +
                         "Cách làm: \n" + object.postFoodMaking+ "\n" +
                         "Tổng kết: " + object.postFoodSummary + "\n\n" +
@@ -405,9 +412,9 @@ public class PostAdapter extends RecyclerView.Adapter {
                     System.out.println(e);
                 }
                 ((NoImageType) viewHolder).FRating.setEnabled(false);
-                ((NoImageType) viewHolder).FIngredient.setText(object.postFoodIngredient);
-                ((NoImageType) viewHolder).FMaking.setText(object.postFoodMaking);
-                ((NoImageType) viewHolder).FSummary.setText(object.postFoodSummary);
+                ((NoImageType) viewHolder).FCal.setText(object.Calories);
+//                ((NoImageType) viewHolder).FMaking.setText(object.postFoodMaking);
+//                ((NoImageType) viewHolder).FSummary.setText(object.postFoodSummary);
                 ((NoImageType) viewHolder).time.setText(pTime);
                 ((NoImageType) viewHolder).username.setText(object.username);
                 if(Page.equals("profile") && curUser.getUid().equals(dataSet.get(i).userid))
@@ -427,6 +434,8 @@ public class PostAdapter extends RecyclerView.Adapter {
                 }
                 ((NoImageType) viewHolder).userimg.setOnClickListener(userimgListener);
                 ((NoImageType) viewHolder).username.setOnClickListener(userimgListener);
+                ((NoImageType) viewHolder).seeDetail.setOnClickListener(mListener);
+                ((NoImageType) viewHolder).seeDetail.setPaintFlags(((NoImageType) viewHolder).seeDetail.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 ((NoImageType) viewHolder).noOfLikes.setText("" + object.likes.size());
                 isLiked(object.id, ((NoImageType) viewHolder).btLike, ((NoImageType) viewHolder).noOfLikes);
                 ((NoImageType) viewHolder).btLike.setOnClickListener(likeListener);
@@ -439,9 +448,9 @@ public class PostAdapter extends RecyclerView.Adapter {
                 ((TwoImageType) viewHolder).FName.setText(object.postFoodName);
                 ((TwoImageType) viewHolder).FRating.setRating(Float.parseFloat(object.postFoodRating));
                 ((TwoImageType) viewHolder).FRating.setEnabled(false);
-                ((TwoImageType) viewHolder).FIngredient.setText(object.postFoodIngredient);
-                ((TwoImageType) viewHolder).FMaking.setText(object.postFoodMaking);
-                ((TwoImageType) viewHolder).FSummary.setText(object.postFoodSummary);
+                ((TwoImageType) viewHolder).FCal.setText(object.Calories);
+//                ((TwoImageType) viewHolder).FMaking.setText(object.postFoodMaking);
+//                ((TwoImageType) viewHolder).FSummary.setText(object.postFoodSummary);
                 ((TwoImageType) viewHolder).time.setText(pTime);
                 ((TwoImageType) viewHolder).username.setText(object.username);
                 ((TwoImageType) viewHolder).noOfLikes.setText("" + object.likes.size());
@@ -462,6 +471,8 @@ public class PostAdapter extends RecyclerView.Adapter {
                     Picasso.get().load(uri).into(((TwoImageType) viewHolder).userimg);
                 }
                 ((TwoImageType) viewHolder).userimg.setOnClickListener(userimgListener);
+                ((TwoImageType) viewHolder).seeDetail.setOnClickListener(mListener);
+                ((TwoImageType) viewHolder).seeDetail.setPaintFlags(((TwoImageType) viewHolder).seeDetail.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 ((TwoImageType) viewHolder).username.setOnClickListener(userimgListener);
                 isLiked(object.id, ((TwoImageType) viewHolder).btLike, ((TwoImageType) viewHolder).noOfLikes);
                 ((TwoImageType) viewHolder).btLike.setOnClickListener(likeListener);
@@ -490,9 +501,9 @@ public class PostAdapter extends RecyclerView.Adapter {
                 ((FourImageType) viewHolder).FName.setText(object.postFoodName);
                 ((FourImageType) viewHolder).FRating.setRating(Float.parseFloat(object.postFoodRating));
                 ((FourImageType) viewHolder).FRating.setEnabled(false);
-                ((FourImageType) viewHolder).FIngredient.setText(object.postFoodIngredient);
-                ((FourImageType) viewHolder).FMaking.setText(object.postFoodMaking);
-                ((FourImageType) viewHolder).FSummary.setText(object.postFoodSummary);
+                ((FourImageType) viewHolder).FCal.setText(object.Calories);
+//                ((FourImageType) viewHolder).FMaking.setText(object.postFoodMaking);
+//                ((FourImageType) viewHolder).FSummary.setText(object.postFoodSummary);
                 ((FourImageType) viewHolder).time.setText(pTime);
                 ((FourImageType) viewHolder).username.setText(object.username);
                 ((FourImageType) viewHolder).noOfLikes.setText("" + object.likes.size());
@@ -512,6 +523,8 @@ public class PostAdapter extends RecyclerView.Adapter {
                     String uri = "https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png";
                     Picasso.get().load(uri).into(((FourImageType) viewHolder).userimg);
                 }
+                ((FourImageType) viewHolder).seeDetail.setOnClickListener(mListener);
+                ((FourImageType) viewHolder).seeDetail.setPaintFlags(((FourImageType) viewHolder).seeDetail.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 ((FourImageType) viewHolder).userimg.setOnClickListener(userimgListener);
                 ((FourImageType) viewHolder).username.setOnClickListener(userimgListener);
                 ((FourImageType) viewHolder).btLike.setOnClickListener(likeListener);
@@ -593,50 +606,50 @@ public class PostAdapter extends RecyclerView.Adapter {
     private void beginDelete(String postId, List<String> Images, int position)
     {
         if(Images.size() > 0)
-        for(int i = 0; i<Images.size(); i++)
-        {
-            int s = i;
-            StorageReference picRef = FirebaseStorage.getInstance().getReferenceFromUrl(Images.get(i));
-            picRef.delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            if(s == Images.size()-1){
-                                FirebaseFirestore.getInstance().collection("posts").document(postId)
-                                        .delete()
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                BlogFragment.postlist.remove(position);
-                                               ProfileFragment.postlist.remove(position);
-                                                ProfileFragment fragment = new ProfileFragment();
-                                                Bundle args = new Bundle();
-                                                args.putString("userId", curUser.getUid());
-                                                fragment.setArguments(args);
-                                                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                                                transaction.replace(R.id.frame_layout, fragment);
-                                                transaction.addToBackStack(null);
-                                                transaction.commit();
+            for(int i = 0; i<Images.size(); i++)
+            {
+                int s = i;
+                StorageReference picRef = FirebaseStorage.getInstance().getReferenceFromUrl(Images.get(i));
+                picRef.delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                if(s == Images.size()-1){
+                                    FirebaseFirestore.getInstance().collection("posts").document(postId)
+                                            .delete()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    BlogFragment.postlist.remove(position);
+                                                    ProfileFragment.postlist.remove(position);
+                                                    ProfileFragment fragment = new ProfileFragment();
+                                                    Bundle args = new Bundle();
+                                                    args.putString("userId", curUser.getUid());
+                                                    fragment.setArguments(args);
+                                                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                                                    transaction.replace(R.id.frame_layout, fragment);
+                                                    transaction.addToBackStack(null);
+                                                    transaction.commit();
 
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                               System.out.println(e);
-                                            }
-                                        });
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    System.out.println(e);
+                                                }
+                                            });
 
+                                }
                             }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(mContext, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(mContext, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
         else {
             System.out.println("i "+postId);
             FirebaseFirestore.getInstance().collection("posts").document(postId)

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.Fragment_baiviet1">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Step2. How to make food? "
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="20dp"/>
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="540dp"
+        android:layout_gravity="center"
+        android:background="@drawable/border">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="540dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="What ingredients are there?"
+                    android:textSize="20dp"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="15dp" />
+                <ImageButton
+                    android:id="@+id/addIngredient"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/cart_plus"/>
+
+            </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="340dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/listI"/>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Give me the recipe of your food"
+                    android:textSize="20dp"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"/>
+                <EditText
+                    android:id="@+id/recipe"
+                    android:layout_width="match_parent"
+                    android:layout_height ="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:layout_marginLeft="15dp"
+                    android:scrollHorizontally="false"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Do you want to say something?"
+                    android:textSize="20dp"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"/>
+                <EditText
+                    android:id="@+id/saySt"
+                    android:layout_width="match_parent"
+                    android:layout_height ="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:layout_marginLeft="15dp"
+                    android:scrollHorizontally="false"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"/>
+            </LinearLayout>
+
+
+        </ScrollView>
+
+    </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

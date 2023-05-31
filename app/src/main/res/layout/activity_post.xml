@@ -34,48 +34,29 @@
             android:text="Đăng"/>
 
     </LinearLayout>
-    <LinearLayout
+
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_user"
-            android:layout_marginLeft="5dp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/user" />
-        <TextView
-            android:id="@+id/tv_username"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="UserName"
-            android:gravity="center_vertical"
-            android:textSize="20dp"
-            android:layout_marginLeft="10dp"/>
-        </LinearLayout>
-
-      <FrameLayout
-          android:layout_width="match_parent"
-          android:layout_height="563dp"
-          android:id="@+id/addPframe"/>
+        android:layout_height="623dp"
+        android:id="@+id/addPframe"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:background="@color/boldyellow">
         <Button
-            android:id="@+id/bvBtn"
+            android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
-            android:text="Bài viết" />
+            android:text="Back" />
 
         <Button
-            android:id="@+id/haBtn"
+            android:id="@+id/nextBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:text="Hình ảnh" />
+            android:text="Next" />
     </LinearLayout>
 </LinearLayout>

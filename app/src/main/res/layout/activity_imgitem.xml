@@ -14,10 +14,10 @@
         android:id="@+id/img"
         android:scaleType="centerCrop"
         />
-<!--    <ImageButton-->
-<!--        android:id="@+id/delete"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@drawable/ic_delete"/>-->
+    <ImageButton
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_delete"/>
 
 </RelativeLayout>

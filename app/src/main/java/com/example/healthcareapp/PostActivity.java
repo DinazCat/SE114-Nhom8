@@ -19,6 +19,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.healthcareapp.Fragments.AddImgFragment;
 import com.example.healthcareapp.Fragments.BaivietFragment;
+import com.example.healthcareapp.Fragments.Fragment_baiviet1;
+import com.example.healthcareapp.Fragments.Fragment_baiviet2;
+import com.example.healthcareapp.Model.Noti;
 import com.example.healthcareapp.Model.PostInformation;
 import com.example.healthcareapp.service.FcmNotificationsSender;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,6 +33,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -58,7 +62,7 @@ public class PostActivity extends AppCompatActivity {
     ImageButton back;
     //Map<String, Object> user;
     List<String> fileimgs = new ArrayList<>();
-    Button baivietBtn, hinhanhBtn;
+    Button backBtn, nextBtn;
     CircleImageView userimg;
     TextView username, header;
     PostInformation postInfo;
@@ -66,40 +70,60 @@ public class PostActivity extends AppCompatActivity {
     public static String thaotac;
     BaivietFragment baivietFragment = new BaivietFragment();
     AddImgFragment addImgFragment = new AddImgFragment();
+    Fragment_baiviet1 baivietFragment1 = new Fragment_baiviet1();
+    Fragment_baiviet2 baivietFragment2 = new Fragment_baiviet2();
+    int page = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-        baivietBtn = findViewById(R.id.bvBtn);
-        hinhanhBtn = findViewById(R.id.haBtn);
-        userimg = findViewById(R.id.iv_user);
-        username = findViewById(R.id.tv_username);
+        backBtn = findViewById(R.id.backBtn);
+        nextBtn = findViewById(R.id.nextBtn);
+//        userimg = findViewById(R.id.iv_user);
+//        username = findViewById(R.id.tv_username);
         header = findViewById(R.id.header);
-        if(thaotac.equals( "edit")) header.setText("Sửa bài viết");
-        if(user.getPhotoUrl()!=null){
-            Picasso.get().load(user.getPhotoUrl()).into(userimg);
+        if(thaotac.equals( "edit")) {
+            header.setText("Sửa bài viết");
         }
-        else{
-            String uri = "https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png";
-            Picasso.get().load(uri).into(userimg);
-        }
-        if(user.getDisplayName()!=null)
-            username.setText(user.getDisplayName());
+//        if(user.getPhotoUrl()!=null){
+//            Picasso.get().load(user.getPhotoUrl()).into(userimg);
+//        }
+//        else{
+//            String uri = "https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png";
+//            Picasso.get().load(uri).into(userimg);
+//        }
+//        if(user.getDisplayName()!=null)
+//            username.setText(user.getDisplayName());
         replaceFragment(baivietFragment);
-        baivietBtn.setOnClickListener(new View.OnClickListener(){
+        backBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
+                if(page > 0) page = page - 1;
+                if(page == 0);
                 replaceFragment(baivietFragment);
-               // System.out.println("ten1"+ BaivietFragment.FoodName.getText());
+                if(page == 1)
+                    replaceFragment(baivietFragment1);
+                if(page == 2)
+                    replaceFragment(baivietFragment2);
+                if(page == 3)
+                    replaceFragment(new AddImgFragment());
 
             }
         });
-        hinhanhBtn.setOnClickListener(new View.OnClickListener(){
+        nextBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
-                replaceFragment(new AddImgFragment());
+                if(page < 3) page = page + 1;
+                if(page == 0);
+                replaceFragment(baivietFragment);
+                if(page == 1)
+                    replaceFragment(baivietFragment1);
+                if(page == 2)
+                    replaceFragment(baivietFragment2);
+                if(page == 3)
+                    replaceFragment(new AddImgFragment());
 
             }
         });
@@ -161,7 +185,7 @@ public class PostActivity extends AppCompatActivity {
 
     }
 
-     private void uploadImage(Uri filePath, int i) {
+    private void uploadImage(Uri filePath, int i) {
         if (filePath != null) {
             if(filePath.toString().substring(0,5).equals("https"))return;
             String ImageName = filePath.toString();
@@ -257,15 +281,21 @@ public class PostActivity extends AppCompatActivity {
         });
 
     }
+    String postIdtoNoti = "";
     public void uploadpost(){
         postInfo = new PostInformation();
         postInfo.userid = user.getUid();
         postInfo.username = user.getDisplayName();
         postInfo.postFoodName = BaivietFragment.FoodName.getText().toString();
         postInfo.postFoodRating = BaivietFragment.FRating;
-        postInfo.postFoodIngredient = BaivietFragment.Ingredient.getText().toString();
-        postInfo.postFoodMaking = BaivietFragment.Making.getText().toString();
-        postInfo.postFoodSummary = BaivietFragment.Summary.getText().toString();
+        postInfo.Total = BaivietFragment.Total.getText().toString();
+        postInfo.Calories = BaivietFragment.Cal.getText().toString();
+        postInfo.Prep = BaivietFragment.Prep.getText().toString();
+        postInfo.Cooking = BaivietFragment.Cooking.getText().toString();
+        postInfo.postFoodMaking = Fragment_baiviet1.making.getText().toString();
+        postInfo.postFoodSummary = Fragment_baiviet1.summary.getText().toString();
+        postInfo.Ingredient = Fragment_baiviet1.listIdata;
+        postInfo.Hashtag = Fragment_baiviet2.hashtags;
         postInfo.postimgs = new ArrayList<>();
         postInfo.postimgs.addAll(fileimgs);
         postInfo.likes = new ArrayList<>();
@@ -273,13 +303,22 @@ public class PostActivity extends AppCompatActivity {
         postInfo.userimg = user.getPhotoUrl()!=null ? user.getPhotoUrl().toString() : "";
         postInfo.posttime = String.valueOf(System.currentTimeMillis());
 
-        db.collection("posts")
-                .add(postInfo)
+        CollectionReference collectionRef=db.collection("posts");
+        collectionRef.add(postInfo)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(PostActivity.this, "Post Uploaded!!", Toast.LENGTH_SHORT).show();
                         System.out.println("post success.");
+                        postIdtoNoti = documentReference.getId();
+                        Map<String, Object> update = new HashMap<>();
+                        update.put("id", documentReference.getId());
+                        db.collection("posts").document(documentReference.getId()).set(update, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(PostActivity.this, "update post id success", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -292,11 +331,16 @@ public class PostActivity extends AppCompatActivity {
     }
     public void editpost(){
         Map<String, Object> update = new HashMap<>();
-        update.put("postFoodIngredient", BaivietFragment.Ingredient.getText().toString());
-        update.put("postFoodMaking", BaivietFragment.Making.getText().toString());
+        update.put("Ingredient", Fragment_baiviet1.listIdata);
+        update.put("postFoodMaking", Fragment_baiviet1.making.getText().toString());
         update.put("postFoodName", BaivietFragment.FoodName.getText().toString());
         update.put("postFoodRating", BaivietFragment.FRating);
-        update.put("postFoodSummary", BaivietFragment.Summary.getText().toString());
+        update.put("Total", BaivietFragment.Total.getText().toString());
+        update.put("Prep", BaivietFragment.Prep.getText().toString());
+        update.put("Cooking", BaivietFragment.Cooking.getText().toString());
+        update.put("Calories", BaivietFragment.Cal.getText().toString());
+        update.put("postFoodSummary", Fragment_baiviet1.summary.getText().toString());
+        update.put("Hashtag", Fragment_baiviet2.hashtags);
         update.put("postimgs", fileimgs);
 
         db.collection("posts").document(postIdtoUpdate).set(update, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -314,6 +358,29 @@ public class PostActivity extends AppCompatActivity {
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     String followerUserId = userSnapshot.getKey();
                     sendNotificationToUser(followerUserId);
+                    //noti screen
+                    Noti item = new Noti();
+                    item.PostownerId = followerUserId;
+                    item.guestId = user.getUid();
+                    item.classify = "post";
+                    item.postid = postIdtoNoti;
+                    item.message = " đã đăng 1 bài viết về món ăn: "+BaivietFragment.FoodName;
+                    item.Read = "no";
+                    item.time = String.valueOf(System.currentTimeMillis());
+                    FirebaseFirestore.getInstance().collection("Notification")
+                            .add(item)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    System.out.println("send noti success");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    System.out.println(e);
+                                }
+                            });
                 }
             }
 

@@ -14,30 +14,32 @@ import com.example.healthcareapp.PostActivity;
 import com.example.healthcareapp.R;
 
 public class BaivietFragment extends Fragment {
-public  static EditText FoodName, Ingredient, Making, Summary;
-RatingBar FoodReview;
-public static String FName, FIngredient, FMaking, FSummary, FRating;
+    public  static EditText FoodName, Total, Cal, Prep, Cooking;
+    RatingBar FoodReview;
+    public static String FName, FCal, FTotal,FPrep,FCooking, FRating;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_baiviet, container, false);
         FoodName = view.findViewById(R.id.write);
-        Ingredient = view.findViewById(R.id.write1);
-        Making= view.findViewById(R.id.write2);
-        Summary = view.findViewById(R.id.write3);
+        Total = view.findViewById(R.id.write1);
+        Cal= view.findViewById(R.id.write2);
+        Prep = view.findViewById(R.id.write3);
+        Cooking = view.findViewById(R.id.write4);
         FoodReview = view.findViewById(R.id.ratingbar);
         if( PostActivity.thaotac.equals("push"))
         {
-            FName=""; FIngredient=""; FMaking = ""; FSummary = ""; FRating = "";
+            FName=""; FCal=""; FTotal = ""; FPrep = "";FCooking=" " ;FRating = "";
             FoodReview.setRating(1.0f);
         }
         else{
             FoodReview.setRating(Float.parseFloat(FRating));
             FoodName.setText(FName);
-            Ingredient.setText(FIngredient);
-            Making.setText(FMaking);
-            Summary.setText(FSummary);
+            Cal.setText(FCal);
+            Prep.setText(FPrep);
+            Total.setText(FTotal);
+            Cooking.setText(FCooking);
         }
 
 //        FName = FoodName.getText().toString();
