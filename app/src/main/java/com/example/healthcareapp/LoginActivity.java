@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         gOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString((R.string.default_web_client_id)))
+                .requestIdToken("707556182455-fkdc22e8qk83r8q1u6pas9tsntj63e6a.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
         gClient = GoogleSignIn.getClient(this, gOptions);
@@ -216,7 +216,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
+                            System.out.println("signInWithCredential:success");
                             FirebaseUser user = auth.getCurrentUser();
                             String email = user.getEmail();
                             String uid = user.getUid();

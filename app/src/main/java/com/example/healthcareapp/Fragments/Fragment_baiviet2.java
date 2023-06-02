@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthcareapp.Adapter.HashtagAdapter;
@@ -88,8 +89,6 @@ public class Fragment_baiviet2 extends Fragment {
         G5.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
 //        StaggeredGridLayoutManager layoutManager3 = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
 //        G5.setLayoutManager(layoutManager3);
-
-
         return view;
     }
 }

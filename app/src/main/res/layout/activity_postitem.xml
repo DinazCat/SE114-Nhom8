@@ -135,7 +135,7 @@
             android:id="@+id/seeD"
             android:textColor="#0000FF"
             android:clickable="true"
-            android:textSize="14dp" />
+            android:textSize="18dp" />
 
         <!--        <TextView-->
         <!--            android:id="@+id/write1"-->

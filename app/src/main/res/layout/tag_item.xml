@@ -11,6 +11,7 @@
         android:textColor="@color/black"
         android:background="@drawable/border_hashtag"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="10dp"/>
 
 </LinearLayout>

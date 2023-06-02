@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -24,15 +25,18 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.healthcareapp.Adapter.HashtagAdapter;
 import com.example.healthcareapp.Adapter.PostAdapter;
 import com.example.healthcareapp.Model.Comment;
 import com.example.healthcareapp.Model.Noti;
 import com.example.healthcareapp.Model.PostInformation;
 import com.example.healthcareapp.Model.User;
+import com.example.healthcareapp.Model.hashtag;
 import com.example.healthcareapp.PostActivity;
 import com.example.healthcareapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -51,6 +55,7 @@ import com.squareup.picasso.Picasso;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -365,17 +370,73 @@ public class BlogFragment extends Fragment {
                     }
                 });
     }
+    public static ArrayList<String> hashtags = new ArrayList<>();
+    public ArrayList<hashtag> mealtype = new ArrayList<>(Arrays.asList(new hashtag("Breakfast", false), new hashtag("Lunch", false), new hashtag("Dinner", false),new hashtag("Snack", false)));
+    public ArrayList<hashtag> cookingstyle = new ArrayList<>(Arrays.asList(new hashtag("Fast Prep", false),new hashtag("No cooking", false), new hashtag("Fast & Easy", false),new hashtag("Slow Cooker", false),new hashtag("Grilling", false)));
+    public ArrayList<hashtag> course = new ArrayList<>(Arrays.asList(new hashtag("Salads & Dressings", false), new hashtag("Desserts", false),new hashtag("Sides", false), new hashtag("Beverages & Smoothies", false), new hashtag("Soups & Stews", false)));
+    public ArrayList<hashtag> mainingredient = new ArrayList<>(Arrays.asList(new hashtag(" Beans & Peas", false),new hashtag("Beef", false),new hashtag("Chicken", false),new hashtag("Egg", false),new hashtag( "Seafood", false),new hashtag("Pork", false),new hashtag("Pasta", false)));
+    public ArrayList<hashtag> diettype = new ArrayList<>(Arrays.asList(new hashtag("Low-Fat", false), new hashtag("High-Protein", false),new hashtag("Vegetarian", false),new hashtag("Keto", false),new hashtag("Mediterranean", false),new hashtag("High-Fiber", false)));
     private void showCategorySheet (){
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
         View bottomSheetView = getLayoutInflater().inflate(R.layout.category_layout, null);
-
 
         TextView tvNewest = bottomSheetView.findViewById(R.id.tv_newest);
         TextView tvHottest = bottomSheetView.findViewById(R.id.tv_hottest);
         TextView tvLiked = bottomSheetView.findViewById(R.id.tv_liked);
         TextView tvCommented = bottomSheetView.findViewById(R.id.tv_commented);
         TextView tvFollowing = bottomSheetView.findViewById(R.id.tv_following);
+        RecyclerView G1 = bottomSheetView.findViewById(R.id.mealtype);
+        RecyclerView G2 = bottomSheetView.findViewById(R.id.cookingstyle);
+        RecyclerView G3 = bottomSheetView.findViewById(R.id.course);
+        RecyclerView G4 = bottomSheetView.findViewById(R.id.mainingredient);
+        RecyclerView G5 = bottomSheetView.findViewById(R.id.diettype);
+        TextView ok = bottomSheetView.findViewById(R.id.tv_ok);
+        TextView cancel = bottomSheetView.findViewById(R.id.tv_cancel);
 
+        for(int i = 0; i < mealtype.size(); i++){
+            if(hashtags.contains(mealtype.get(i).getName())){
+                mealtype.get(i).setTick(true);
+            }
+        }
+        for(int i = 0; i < cookingstyle.size(); i++){
+            if(hashtags.contains(cookingstyle.get(i).getName())){
+                cookingstyle.get(i).setTick(true);
+            }
+        }
+        for(int i = 0; i < course.size(); i++){
+            if(hashtags.contains(course.get(i).getName())){
+                course.get(i).setTick(true);
+            }
+        }
+        for(int i = 0; i < mainingredient.size(); i++){
+            if(hashtags.contains(mainingredient.get(i).getName())){
+                mainingredient.get(i).setTick(true);
+            }
+        }
+        for(int i = 0; i < diettype.size(); i++){
+            if(hashtags.contains(diettype.get(i).getName())){
+                diettype.get(i).setTick(true);
+            }
+        }
+        HashtagAdapter adapter1 = new HashtagAdapter(this.getActivity(), mealtype, true);
+        G1.setAdapter(adapter1);
+        G1.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
+
+        HashtagAdapter adapter2 = new HashtagAdapter(this.getActivity(), cookingstyle, true);
+        G2.setAdapter(adapter2);
+        G2.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
+
+        HashtagAdapter adapter3 = new HashtagAdapter(this.getActivity(), course, true);
+        G3.setAdapter(adapter3);
+        G3.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
+
+        HashtagAdapter adapter4 = new HashtagAdapter(this.getActivity(), mainingredient, true);
+        G4.setAdapter(adapter4);
+        G4.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
+
+        HashtagAdapter adapter5 = new HashtagAdapter(this.getActivity(), diettype, true);
+        G5.setAdapter(adapter5);
+        G5.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
         tvNewest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -528,7 +589,47 @@ public class BlogFragment extends Fragment {
                         });
             }
         });
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+                refresh.setRefreshing(true);
+                postlist = new ArrayList<>();
+
+                getUnsortedPosts(new PostDataCallback() {
+                    @Override
+                    public void onPostDataReceived(ArrayList<PostInformation> posts) {
+                        for (PostInformation post : posts) {
+                            boolean containsAllHashtags = true;
+                            for (String hashtag : hashtags) {
+                                if (!post.Hashtag.contains(hashtag)) {
+                                    containsAllHashtags = false;
+                                    break;
+                                }
+                            }
+                            if (containsAllHashtags) {
+                                postlist.add(post);
+                            }
+                        }
+                        PostAdapter adapter = new PostAdapter(postlist,getContext(), getActivity().getSupportFragmentManager(),"blog");
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                        mRecyclerView.setLayoutManager(linearLayoutManager);
+                        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                        mRecyclerView.setAdapter(adapter);
+                        refresh.setRefreshing(false);
+                    }
+                });
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+            }
+        });
         bottomSheetDialog.setContentView(bottomSheetView);
+        BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
+        behavior.setPeekHeight(2200);
         bottomSheetDialog.show();
     }
 }
