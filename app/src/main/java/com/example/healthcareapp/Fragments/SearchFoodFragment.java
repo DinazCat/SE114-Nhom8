@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.healthcareapp.Adapter.FoodAdapter;
+import com.example.healthcareapp.ListInterface.ClickFoodItem;
 import com.example.healthcareapp.Model.exercise;
 import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -36,7 +40,8 @@ public class SearchFoodFragment extends Fragment {
     private List<food> foodList;
     private SearchView searchView;
     private Spinner spn;
-    DatabaseReference database;
+    DatabaseReference database, database1;
+    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,12 +83,20 @@ public class SearchFoodFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewFood.getContext());
         recyclerViewFood.setLayoutManager(linearLayoutManager);
         foodList = new ArrayList<>();
-        foodAdapter = new FoodAdapter(foodList);
+        foodAdapter = new FoodAdapter(foodList, new ClickFoodItem() {
+            @Override
+            public void onClickItemFood(food _food) {
+                Calendar calendar = Calendar.getInstance();
+                String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
+                database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                database.child(uid).child(today).child(spn.getSelectedItem().toString()).child(String.valueOf(_food.getIdFood())).setValue(_food);
+            }
+        });
         recyclerViewFood.setAdapter(foodAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(recyclerViewFood.getContext(), DividerItemDecoration.VERTICAL);
         recyclerViewFood.addItemDecoration(itemDecoration);
-        database = FirebaseDatabase.getInstance().getReference("foods");
-        database.addValueEventListener(new ValueEventListener() {
+        database1 = FirebaseDatabase.getInstance().getReference("foods");
+        database1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {

@@ -9,23 +9,34 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.example.healthcareapp.Adapter.ExpandableListViewAdapter;
+import com.example.healthcareapp.Adapter.FoodAdapter;
 import com.example.healthcareapp.AddWaterActivity;
 import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.PostActivity;
 import com.example.healthcareapp.R;
 import com.example.healthcareapp.SearchTopTabActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,14 +46,16 @@ import androidx.fragment.app.FragmentTransaction;
 public class AddFragment extends Fragment {
     ExpandableListViewAdapter listViewAdapter;
     ExpandableListView expandableListView;
+    FoodAdapter foodAdapter;
     List<String> meals;
     HashMap<String, List<food>> foodList;
     Button btAddFoodExercise, btAddWater;
-
+    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private FragmentAListener listenter;
     public interface FragmentAListener{
         void onInputASent(CharSequence input);
     }
+    DatabaseReference database;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +99,11 @@ public class AddFragment extends Fragment {
         meals = new ArrayList<String>();
         foodList = new HashMap<String, List<food>>();
 
+        List<food> breakfast = new ArrayList<>();
+        List<food> lunch = new ArrayList<>();
+        List<food> dinner = new ArrayList<>();
+        List<food> snack = new ArrayList<>();
+
         meals.add("Breakfast");
         meals.add("Lunch");
         meals.add("Dinner");
@@ -93,42 +111,93 @@ public class AddFragment extends Fragment {
         meals.add("Water");
         meals.add("Exercise");
 
-        List<food> topic1 = new ArrayList<>();
-        food f1 = new food("","Bread","90 cl","");
-        topic1.add(f1);
-        food f2 = new food("","Coffee","50 cl","");
-        topic1.add(f2);
-        food f3 = new food("","Banana","190 cl","");
-        topic1.add(f3);
+        Calendar calendar = Calendar.getInstance();
+        String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
 
-        List<food> topic2 = new ArrayList<>();
-        food f4 = new food("","Meat","1190 cl","");
-        topic2.add(f4);
-        food f5 = new food("","Salad","40 cl","");
-        topic2.add(f5);
+        //BREAKFAST
+        database = FirebaseDatabase.getInstance().getReference("foodDiary");
+        database.child(uid).child(today).child("Breakfast").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        List<food> topic3 = new ArrayList<>();
-        food f6 = new food("","Rice and Beans","110 cl","");
-        topic3.add(f6);
-        food f7 = new food("","Soup","90 cl","");
-        topic3.add(f7);
-        food f8 = new food("","Fish","990 cl","");
-        topic3.add(f8);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    food in = dataSnapshot.getValue(food.class);
+                    breakfast.add(in);
+                    Toast.makeText(getView().getContext(), in.getNameFood(), Toast.LENGTH_SHORT).show();
+                }
+                foodList.put("Breakfast",breakfast);
 
-        List<food> topic4 = new ArrayList<>();
-        food f9 = new food("","Bread","90 cl","");
-        topic4.add(f9);
+            }
 
-        List<food> topic5 = new ArrayList<>();
-        food f10 = new food("","Bread","90 cl","");
-        topic5.add(f10);
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        //LUNCH
+        database = FirebaseDatabase.getInstance().getReference("foodDiary");
+        database.child(uid).child(today).child("Lunch").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        foodList.put(meals.get(0),topic1);
-        foodList.put(meals.get(1),topic2);
-        foodList.put(meals.get(2),topic3);
-        foodList.put(meals.get(3),topic4);
-        foodList.put(meals.get(4),topic5);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    food in = dataSnapshot.getValue(food.class);
+                    lunch.add(in);
+                    Toast.makeText(getView().getContext(), in.getNameFood(), Toast.LENGTH_SHORT).show();
+                }
+                foodList.put("Lunch",lunch);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //DINNER
+        database = FirebaseDatabase.getInstance().getReference("foodDiary");
+        database.child(uid).child(today).child("Dinner").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    food in = dataSnapshot.getValue(food.class);
+                    dinner.add(in);
+                    Toast.makeText(getView().getContext(), in.getNameFood(), Toast.LENGTH_SHORT).show();
+                }
+                foodList.put("Dinner",dinner);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //SNACK
+        database = FirebaseDatabase.getInstance().getReference("foodDiary");
+        database.child(uid).child(today).child("Snack").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    food in = dataSnapshot.getValue(food.class);
+                    snack.add(in);
+                    Toast.makeText(getView().getContext(), in.getNameFood(), Toast.LENGTH_SHORT).show();
+                }
+                foodList.put("Snack",snack);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
     ActivityResultLauncher<Intent> launcherAddWater = registerForActivityResult(
