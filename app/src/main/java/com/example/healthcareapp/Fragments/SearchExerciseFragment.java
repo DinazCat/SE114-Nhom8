@@ -2,6 +2,7 @@ package com.example.healthcareapp.Fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +16,11 @@ import android.view.ViewGroup;
 import com.example.healthcareapp.Adapter.ExerciseAdapter;
 import com.example.healthcareapp.Model.exercise;
 import com.example.healthcareapp.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +31,7 @@ public class SearchExerciseFragment extends Fragment {
     private ExerciseAdapter exerciseAdapter;
     private List<exercise> exerciseList;
     private SearchView searchViewExercise;
+    DatabaseReference database;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,12 +59,27 @@ public class SearchExerciseFragment extends Fragment {
         recyclerViewExercise = view.findViewById(R.id.recyclerviewSearchExercise);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewExercise.getContext());
         recyclerViewExercise.setLayoutManager(linearLayoutManager);
-        exerciseAdapter = new ExerciseAdapter(getList());
+        exerciseList =new ArrayList<>();
+        exerciseAdapter = new ExerciseAdapter(exerciseList);
         recyclerViewExercise.setAdapter(exerciseAdapter);
-        exerciseList = getList();
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(recyclerViewExercise.getContext(), DividerItemDecoration.VERTICAL);
         recyclerViewExercise.addItemDecoration(itemDecoration);
+        database = FirebaseDatabase.getInstance().getReference("exercises");
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    exercise in = dataSnapshot.getValue(exercise.class);
+                    exerciseList.add(in);
+                }
+                exerciseAdapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return view;
     }
     private void filterList(String text) {
@@ -74,20 +96,5 @@ public class SearchExerciseFragment extends Fragment {
         else {
             exerciseAdapter.setFilteredList(filteredList);
         }
-    }
-    private List<exercise> getList() {
-        List<exercise> list = new ArrayList<>();
-        list.add(new exercise("Raise Leg","10 minutes","405 cl"));
-        list.add(new exercise("Badminton","120 minutes","303 cl"));
-        list.add(new exercise("Back Butterfly","20 minutes","330 cl"));
-        list.add(new exercise("Chin-Ups","10 minutes","420 cl"));
-        list.add(new exercise("Dips","10 minutes","88 cl"));
-        list.add(new exercise("Heel Raise","110 minutes","238 cl"));
-        list.add(new exercise("Leg Press","20 minutes","175 cl"));
-        list.add(new exercise("Chin-Ups","10 minutes","420 cl"));
-        list.add(new exercise("Dips","10 minutes","88 cl"));
-        list.add(new exercise("Heel Raise","110 minutes","238 cl"));
-        list.add(new exercise("Leg Press","20 minutes","175 cl"));
-        return list;
     }
 }

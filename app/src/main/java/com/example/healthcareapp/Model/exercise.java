@@ -1,18 +1,26 @@
 package com.example.healthcareapp.Model;
 
 public class exercise {
-
-    String nameExercise, caloriesBurnedAMin;
+    String idExercise;
+    String nameExercise, caloriesBurned;
     String minutePerformed;
+    public exercise(){
 
+    }
+    public exercise(String idExercise, String nameExercise, String minute, String caloriesBurnedAMin) {
+        this.idExercise = idExercise;
+        this.nameExercise = nameExercise;
+        this.minutePerformed = minute;
+        this.caloriesBurned = caloriesBurnedAMin;
+    }
     public exercise(String nameExercise, String minute, String caloriesBurnedAMin) {
         this.nameExercise = nameExercise;
         this.minutePerformed = minute;
-        this.caloriesBurnedAMin = caloriesBurnedAMin;
+        this.caloriesBurned = caloriesBurnedAMin;
     }
 
     public void setCaloriesBurnedAMin(String caloriesBurnedAMin) {
-        this.caloriesBurnedAMin = caloriesBurnedAMin;
+        this.caloriesBurned = caloriesBurnedAMin;
     }
 
     public void setNameExercise(String nameExercise) {
@@ -28,7 +36,7 @@ public class exercise {
     }
 
     public String getCaloriesBurnedAMin() {
-        return caloriesBurnedAMin;
+        return caloriesBurned;
     }
 
     public String getNameExercise() {
