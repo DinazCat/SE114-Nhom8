@@ -46,7 +46,6 @@ import androidx.fragment.app.FragmentTransaction;
 public class AddFragment extends Fragment {
     ExpandableListViewAdapter listViewAdapter;
     ExpandableListView expandableListView;
-    FoodAdapter foodAdapter;
     List<String> meals;
     HashMap<String, List<food>> foodList;
     Button btAddFoodExercise, btAddWater;
@@ -123,7 +122,6 @@ public class AddFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     food in = dataSnapshot.getValue(food.class);
                     breakfast.add(in);
-                    Toast.makeText(getView().getContext(), in.getNameFood(), Toast.LENGTH_SHORT).show();
                 }
                 foodList.put("Breakfast",breakfast);
 

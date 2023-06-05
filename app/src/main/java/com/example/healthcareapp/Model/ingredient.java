@@ -3,6 +3,8 @@ package com.example.healthcareapp.Model;
 public class ingredient {
     String idIngredient, nameIngredient;
     String calorieIngredient;
+    String quantity;
+
     public ingredient () {
 
     }
@@ -10,6 +12,13 @@ public class ingredient {
         this.calorieIngredient = calorieIngredient;
         this.idIngredient = idIngredient;
         this.nameIngredient = nameIngredient;
+    }
+
+    public ingredient(String idIngredient, String nameIngredient, String calorieIngredient,String quantity) {
+        this.calorieIngredient = calorieIngredient;
+        this.idIngredient = idIngredient;
+        this.nameIngredient = nameIngredient;
+        this.quantity = quantity;
     }
     public String getCalorieIngredient() {
         return calorieIngredient;
@@ -33,5 +42,13 @@ public class ingredient {
 
     public void setIdIngredient(String idIngredient) {
         this.idIngredient = idIngredient;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getQuantity() {
+        return quantity;
     }
 }

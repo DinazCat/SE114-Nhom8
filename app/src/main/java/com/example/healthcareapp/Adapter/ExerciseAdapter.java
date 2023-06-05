@@ -3,7 +3,11 @@ package com.example.healthcareapp.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.healthcareapp.ListInterface.ClickExerciseItem;
+import com.example.healthcareapp.ListInterface.ClickFoodItem;
 import com.example.healthcareapp.Model.exercise;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,9 +21,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder> {
 
     private List<exercise> exerciseList;
+    private ClickExerciseItem clickExerciseItem;
 
-    public ExerciseAdapter(List<exercise> exerciseList) {
+    public ExerciseAdapter(List<exercise> exerciseList, ClickExerciseItem clickExerciseItem) {
         this.exerciseList = exerciseList;
+        this.clickExerciseItem = clickExerciseItem;
     }
     public void setFilteredList(List<exercise> filteredList) {
         this.exerciseList = filteredList;
@@ -41,6 +47,12 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         holder.tvNameExercise.setText(e.getNameExercise());
         holder.tvCaloriesExercise.setText(e.getCaloriesBurnedAMin());
         holder.tvMinutePerformedExercise.setText(e.getMinutePerformed());
+        holder.btn_Add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickExerciseItem.onClickItemExercise(e);
+            }
+        });
     }
 
     @Override
@@ -56,6 +68,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         private TextView tvNameExercise;
         private TextView tvCaloriesExercise;
         private TextView tvMinutePerformedExercise;
+        private Button btn_Add;
 
         public ExerciseViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +76,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             tvNameExercise = itemView.findViewById(R.id.nameExercise);
             tvCaloriesExercise = itemView.findViewById(R.id.caloriesBurnedAMin);
             tvMinutePerformedExercise = itemView.findViewById(R.id.minutePerformed);
+            btn_Add = itemView.findViewById(R.id.Add_btn);
         }
 
 

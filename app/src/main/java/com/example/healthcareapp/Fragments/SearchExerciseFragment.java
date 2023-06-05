@@ -9,13 +9,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.healthcareapp.Adapter.ExerciseAdapter;
+import com.example.healthcareapp.ListInterface.ClickExerciseItem;
+import com.example.healthcareapp.ListInterface.ClickFoodItem;
 import com.example.healthcareapp.Model.exercise;
+import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class SearchExerciseFragment extends Fragment {
@@ -31,15 +37,15 @@ public class SearchExerciseFragment extends Fragment {
     private ExerciseAdapter exerciseAdapter;
     private List<exercise> exerciseList;
     private SearchView searchViewExercise;
-    DatabaseReference database;
-
+    DatabaseReference database, database1;
+    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search_exercise, container, false);
 
-
+        //SEARCH VIEW
         searchViewExercise = view.findViewById(R.id.searchViewExercise);
         searchViewExercise.clearFocus();
         searchViewExercise.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -55,17 +61,27 @@ public class SearchExerciseFragment extends Fragment {
             }
         });
 
-
+        //RECYCLERVIEW
         recyclerViewExercise = view.findViewById(R.id.recyclerviewSearchExercise);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewExercise.getContext());
         recyclerViewExercise.setLayoutManager(linearLayoutManager);
         exerciseList =new ArrayList<>();
-        exerciseAdapter = new ExerciseAdapter(exerciseList);
-        recyclerViewExercise.setAdapter(exerciseAdapter);
+
+        exerciseAdapter = new ExerciseAdapter(exerciseList, new ClickExerciseItem() {
+            @Override
+            public void onClickItemExercise(exercise e) {
+                Calendar calendar = Calendar.getInstance();
+                String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
+                database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
+                database.child(uid).child(today).child(String.valueOf(e.getIdExercise())).setValue(e);
+
+            }
+        });
+                recyclerViewExercise.setAdapter(exerciseAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(recyclerViewExercise.getContext(), DividerItemDecoration.VERTICAL);
         recyclerViewExercise.addItemDecoration(itemDecoration);
-        database = FirebaseDatabase.getInstance().getReference("exercises");
-        database.addValueEventListener(new ValueEventListener() {
+        database1 = FirebaseDatabase.getInstance().getReference("exercises");
+        database1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {

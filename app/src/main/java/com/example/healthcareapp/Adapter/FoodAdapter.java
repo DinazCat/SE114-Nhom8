@@ -29,7 +29,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
     private List<food> foodList;
-    DatabaseReference database;
     private ClickFoodItem clickFoodItem;
 
 
@@ -65,9 +64,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         });
     }
 
-    private void onClickGoToDetail (food _food) {
-
-    }
     @Override
     public int getItemCount() {
         if (foodList != null)

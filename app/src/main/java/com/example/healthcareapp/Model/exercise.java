@@ -13,11 +13,6 @@ public class exercise {
         this.minutePerformed = minute;
         this.caloriesBurned = caloriesBurnedAMin;
     }
-    public exercise(String nameExercise, String minute, String caloriesBurnedAMin) {
-        this.nameExercise = nameExercise;
-        this.minutePerformed = minute;
-        this.caloriesBurned = caloriesBurnedAMin;
-    }
 
     public void setCaloriesBurnedAMin(String caloriesBurnedAMin) {
         this.caloriesBurned = caloriesBurnedAMin;
@@ -41,5 +36,13 @@ public class exercise {
 
     public String getNameExercise() {
         return nameExercise;
+    }
+
+    public String getIdExercise() {
+        return idExercise;
+    }
+
+    public void setIdExercise(String idExercise) {
+        this.idExercise = idExercise;
     }
 }
