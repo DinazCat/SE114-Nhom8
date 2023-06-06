@@ -9,14 +9,18 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.healthcareapp.ChangeBmiAndGoal;
 import com.example.healthcareapp.LoginActivity;
+import com.example.healthcareapp.NotificationSettingActivity;
 import com.example.healthcareapp.R;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
@@ -28,7 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SettingsFragment extends Fragment {
 
     private FirebaseAuth auth;
-    private Button logoutButton, btn_ChangeBmi;
+    private Button btn_ChangeBmi;
     GoogleSignInOptions gOptions;
     GoogleSignInClient gClient;
     @Override
@@ -38,10 +42,12 @@ public class SettingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         auth = FirebaseAuth.getInstance();
 
-        logoutButton = view.findViewById(R.id.logoutbtn);
+        TextView logout = view.findViewById(R.id.logout);
+        TextView editprofile = view.findViewById(R.id.editprofile);
+        TextView notifications = view.findViewById(R.id.noti);
 
         btn_ChangeBmi = view.findViewById(R.id.changeBmi);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 gOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
@@ -64,6 +70,24 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        editprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.frame_layout, new EditProfileFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        notifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), NotificationSettingActivity.class));
+            }
+        });
+
         //change bmi Info
         btn_ChangeBmi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,12 +95,6 @@ public class SettingsFragment extends Fragment {
                 launcherChangeBmiAndGoal.launch(new Intent(getContext(), ChangeBmiAndGoal.class));
             }
         });
-
-
-//        GoogleSignInAccount gAccount = GoogleSignIn.getLastSignedInAccount(this);
-//        if (gAccount != null){
-//            String name = gAccount.getDisplayName();
-//        }
         return view;
     }
     ActivityResultLauncher<Intent> launcherChangeBmiAndGoal = registerForActivityResult(

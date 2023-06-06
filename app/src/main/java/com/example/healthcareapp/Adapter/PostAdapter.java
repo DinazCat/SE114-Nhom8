@@ -3,6 +3,7 @@ package com.example.healthcareapp.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -303,7 +304,24 @@ public class PostAdapter extends RecyclerView.Adapter {
                                 ((FourImageType) viewHolder).noOfLikes.setTextColor(ContextCompat.getColor(mContext, R.color.red));
                                 ((FourImageType) viewHolder).noOfLikes.setText("" + object.likes.size());
                             }
-                            sendNotification(object.userid);
+
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("notificationSetting")
+                                    .child(object.userid)
+                                    .child("like")
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.exists()) {
+                                                sendNotification(object.userid, object.postFoodName);
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
                             Noti item = new Noti();
                             item.PostownerId = object.userid;
                             item.guestId = curUser.getUid();
@@ -680,7 +698,7 @@ public class PostAdapter extends RecyclerView.Adapter {
 
 
     }
-    private void sendNotification(String userId){
+    private void sendNotification(String userId, String foodname){
 
         FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -699,7 +717,7 @@ public class PostAdapter extends RecyclerView.Adapter {
             @Override
             public void run() {
                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                        userToken, "Social Food Blog", FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " liked your post!", mContext
+                        userToken, "Social Food Blog", FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " liked your post about " + foodname + "!", mContext
                 );
                 notificationsSender.sendNotification();
             }

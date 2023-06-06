@@ -124,9 +124,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                                             Toast.makeText(mContext, "Comment deleted successfully!", Toast.LENGTH_SHORT).show();
                                             dialog.dismiss();
                                             //Thông báo cho CommentActivity biết comment đã bị xóa
-                                            int position = holder.getAdapterPosition();
-                                            mComments.remove(position);
-                                            notifyItemRemoved(position);
+//                                            int position = holder.getAdapterPosition();
+//                                            mComments.remove(position);
+//                                            notifyItemRemoved(position);
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {

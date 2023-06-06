@@ -1,7 +1,9 @@
 package com.example.healthcareapp.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthcareapp.Fragments.ProfileFragment;
 import com.example.healthcareapp.MainActivity;
+import com.example.healthcareapp.Model.Noti;
 import com.example.healthcareapp.Model.User;
 import com.example.healthcareapp.R;
+import com.example.healthcareapp.service.FcmNotificationsSender;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +28,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -75,6 +83,44 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
                     FirebaseDatabase.getInstance().getReference().child("Follow").
                             child(user.getId()).child("followers").child(curUser.getUid()).setValue(true);
+                    Noti item = new Noti();
+                    item.PostownerId = user.getId();
+                    item.guestId = curUser.getUid();
+                    item.classify = "follow";
+                    item.postid = "";
+                    item.message = " đang follow bạn.";
+                    item.Read = "no";
+                    item.time = String.valueOf(System.currentTimeMillis());
+                    FirebaseFirestore.getInstance().collection("Notification")
+                            .add(item)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    System.out.println("send noti success");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    System.out.println(e);
+                                }
+                            });
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("notificationSetting")
+                            .child(user.getId())
+                            .child("follow")
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                sendNotification(user.getId());
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
 
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Follow").
@@ -142,5 +188,31 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             }
         });
 
+    }
+    String userToken;
+    private void sendNotification(String userId){
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                userToken = snapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                        userToken, "Social Food Blog", FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " started following you!", mContext
+                );
+                notificationsSender.sendNotification();
+            }
+        }, 3000);
     }
 }

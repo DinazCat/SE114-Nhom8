@@ -1,7 +1,9 @@
 package com.example.healthcareapp;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -147,7 +149,9 @@ public class PostActivity extends AppCompatActivity {
                 {
                     addDatatoFirestore();
                 }
-
+                else {
+                    Toast.makeText(getApplicationContext(), "Please enter post's information!", Toast.LENGTH_LONG);
+                }
             }
         });
 
@@ -327,6 +331,7 @@ public class PostActivity extends AppCompatActivity {
                         System.out.println("No post success");
                     }
                 });
+
         sendNotification();
     }
     public void editpost(){
@@ -357,7 +362,24 @@ public class PostActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     String followerUserId = userSnapshot.getKey();
-                    sendNotificationToUser(followerUserId);
+
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("notificationSetting")
+                            .child(followerUserId)
+                            .child("newpost")
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        sendNotificationToUser(followerUserId);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
                     //noti screen
                     Noti item = new Noti();
                     item.PostownerId = followerUserId;

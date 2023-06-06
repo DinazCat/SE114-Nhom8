@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -195,7 +197,23 @@ public class CommentActivity extends AppCompatActivity {
                                         System.out.println(e);
                                     }
                                 });
-                    sendNotification(authorId, comment.getComment());
+
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("notificationSetting")
+                            .child(authorId)
+                            .child("comment")
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        sendNotification(authorId, comment.getComment(), foodname);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                 } else {
                     Toast.makeText(CommentActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -204,7 +222,7 @@ public class CommentActivity extends AppCompatActivity {
         addComment.setText("");
 
     }
-    private void sendNotification(String userId, String comment){
+    private void sendNotification(String userId, String comment, String foodname){
         FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -222,7 +240,7 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             public void run() {
                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                        userToken, "Social Food Blog", FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " commented on your post: " + comment, getApplicationContext()
+                        userToken, "Social Food Blog", FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " commented on your post about " + foodname + ": " + comment, getApplicationContext()
                 );
                 notificationsSender.sendNotification();
             }

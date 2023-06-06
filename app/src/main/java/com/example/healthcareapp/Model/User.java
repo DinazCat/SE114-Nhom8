@@ -1,13 +1,22 @@
 package com.example.healthcareapp.Model;
 
 public class User {
-    private String id, name, email, img, about, phone, city, country;
+    private String id;
+    private String name;
+    private String email;
+    private String img;
+    private String about;
+    private String phone;
+    private String city;
+    private String country;
+
+    private String token;
 
     public User(){
 
     }
 
-    public User(String id, String name, String email, String img, String about, String phone, String city, String country) {
+    public User(String id, String name, String email, String img, String about, String phone, String city, String country, String token) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -16,6 +25,7 @@ public class User {
         this.phone = phone;
         this.city = city;
         this.country = country;
+        this.token = token;
     }
 
     public String getId() {
@@ -80,6 +90,13 @@ public class User {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
 }

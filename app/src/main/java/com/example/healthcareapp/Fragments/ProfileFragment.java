@@ -1,5 +1,7 @@
 package com.example.healthcareapp.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -164,7 +166,25 @@ public class ProfileFragment extends Fragment {
                                             System.out.println(e);
                                         }
                                     });
-                            sendNotification();
+
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("notificationSetting")
+                                    .child(userId)
+                                    .child("follow")
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        sendNotification();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
                         }
                         else {
                             userbtn.setText("Follow");

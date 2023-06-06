@@ -17,6 +17,9 @@
         android:theme="@style/Theme.HealthcareApp"
         tools:targetApi="31">
         <activity
+            android:name=".NotificationSettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddIngredientsActivity"
             android:exported="false" />
         <activity
