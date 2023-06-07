@@ -19,11 +19,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healthcareapp.Adapter.ExpandableListViewAdapter;
 import com.example.healthcareapp.Adapter.FoodAdapter;
 import com.example.healthcareapp.AddWaterActivity;
+import com.example.healthcareapp.Model.exercise;
 import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.PostActivity;
 import com.example.healthcareapp.R;
@@ -51,6 +53,8 @@ public class AddFragment extends Fragment {
     Button btAddFoodExercise, btAddWater;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private FragmentAListener listenter;
+    TextView tvFoodCalories, tvExerciseCalories, tvGoalCalories, tvRemainingCalories;
+
     public interface FragmentAListener{
         void onInputASent(CharSequence input);
     }
@@ -60,7 +64,10 @@ public class AddFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add, container, false);
-
+        tvExerciseCalories = view.findViewById(R.id.exerciseCalories);
+        tvFoodCalories = view.findViewById(R.id.foodCalories);
+        tvGoalCalories = view.findViewById(R.id.goalCalories);
+        tvRemainingCalories = view.findViewById(R.id.remainingCalories);
 
         expandableListView = view.findViewById(R.id.expandableLV);
         showList();
@@ -85,6 +92,65 @@ public class AddFragment extends Fragment {
                 launcherAddWater.launch(new Intent(getContext(), AddWaterActivity.class));
             }
         });
+
+        //REMAINING CALORIES
+        Calendar calendar = Calendar.getInstance();
+        String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
+
+            //Tinh food calo da su dung
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("foodDiary");
+        database.child(uid).child(today).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                int calo = 0;
+                for (DataSnapshot dataSnapshot : snapshot.child("Breakfast").getChildren()) {
+                    food in = dataSnapshot.getValue(food.class);
+                    calo += Integer.parseInt(in.getCaloriesFood());
+                }
+                for (DataSnapshot dataSnapshot : snapshot.child("Dinner").getChildren()) {
+                    food in = dataSnapshot.getValue(food.class);
+                    calo += Integer.parseInt(in.getCaloriesFood());
+                }
+                for (DataSnapshot dataSnapshot : snapshot.child("Lunch").getChildren()) {
+                    food in = dataSnapshot.getValue(food.class);
+                    calo += Integer.parseInt(in.getCaloriesFood());
+                }
+                for (DataSnapshot dataSnapshot : snapshot.child("Snack").getChildren()) {
+                    food in = dataSnapshot.getValue(food.class);
+                    calo += Integer.parseInt(in.getCaloriesFood());
+                }
+                tvFoodCalories.setText(String.valueOf(calo));
+                tvRemainingCalories.setText(String.valueOf(1600-calo));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        //Tinh exercise calo da thuc hien + tinh remaining calo
+        DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("exerciseDiary");
+        database1.child(uid).child(today).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int calo=0;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    exercise in = dataSnapshot.getValue(exercise.class);
+                    calo += Integer.parseInt(in.getCaloriesBurnedAMin());
+                }
+                tvExerciseCalories.setText(String.valueOf(calo));
+                tvRemainingCalories.setText(String.valueOf(Integer.parseInt(tvRemainingCalories.getText().toString()) + calo ));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        //Chua lay dc du lieu goal calorie ***************************
+        tvGoalCalories.setText("1600");
 
         return view;
     }
@@ -142,7 +208,6 @@ public class AddFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     food in = dataSnapshot.getValue(food.class);
                     lunch.add(in);
-                    Toast.makeText(getView().getContext(), in.getNameFood(), Toast.LENGTH_SHORT).show();
                 }
                 foodList.put("Lunch",lunch);
 
@@ -163,7 +228,6 @@ public class AddFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     food in = dataSnapshot.getValue(food.class);
                     dinner.add(in);
-                    Toast.makeText(getView().getContext(), in.getNameFood(), Toast.LENGTH_SHORT).show();
                 }
                 foodList.put("Dinner",dinner);
 
@@ -184,7 +248,6 @@ public class AddFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     food in = dataSnapshot.getValue(food.class);
                     snack.add(in);
-                    Toast.makeText(getView().getContext(), in.getNameFood(), Toast.LENGTH_SHORT).show();
                 }
                 foodList.put("Snack",snack);
 

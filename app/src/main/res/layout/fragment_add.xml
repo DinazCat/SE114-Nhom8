@@ -37,6 +37,7 @@
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="1200"
+                    android:id="@+id/goalCalories"
                     android:textSize="20dp"
                     android:textAlignment="center"
                     />
@@ -51,7 +52,7 @@
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
-                android:text="+"
+                android:text="-"
                 android:layout_marginTop="10dp"
                 android:textAlignment="center"
                 />
@@ -65,6 +66,7 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="0"
+                    android:id="@+id/foodCalories"
                     android:textSize="20dp"
                     android:textAlignment="center"
                     />
@@ -79,7 +81,7 @@
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
-                android:text="-"
+                android:text="+"
                 android:layout_marginTop="10dp"
                 android:textAlignment="center"
                 />
@@ -93,6 +95,7 @@
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:textSize="20dp"
+                    android:id="@+id/exerciseCalories"
                     android:textAlignment="center"
                     />
                 <TextView
@@ -122,6 +125,7 @@
                     android:layout_height="wrap_content"
                     android:text="1200"
                     android:textSize="20dp"
+                    android:id="@+id/remainingCalories"
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:textColor="#49be25"
@@ -156,7 +160,7 @@
             android:textSize="16dp"
             android:id="@+id/addFoodExercise"
             android:layout_marginRight="5dp"
-        />
+            />
         <Button
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -164,9 +168,9 @@
             android:textSize="16dp"
             android:id="@+id/addWater"
             android:layout_marginRight="5dp"
-        />
+            />
 
-</LinearLayout>
+    </LinearLayout>
 
     <ExpandableListView
         android:id="@+id/expandableLV"

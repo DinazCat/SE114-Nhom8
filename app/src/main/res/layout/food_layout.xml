@@ -12,16 +12,31 @@
         android:id="@+id/textViewFoods"
         android:textSize="16dp"
         android:text="Bananas"
+        android:padding="20dp"
+        android:layout_gravity="center"
         android:textColor="#49be25"
 
         />
-    <TextView
-        android:layout_width="match_parent"
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewFoodCalories"
-        android:textSize="16dp"
-        android:text="100 cl"
-        android:padding="20dp"
-        android:textAlignment="textEnd"
-        />
+        android:layout_gravity="center|end"
+        android:orientation="horizontal"
+        android:layout_marginLeft="120dp"
+        >
+
+        <TextView
+            android:id="@+id/textViewFoodCalories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:textSize="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" calories"
+            android:textSize="16dp" />
+    </LinearLayout>
 </LinearLayout>

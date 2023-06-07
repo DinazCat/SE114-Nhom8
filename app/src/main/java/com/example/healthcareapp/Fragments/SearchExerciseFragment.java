@@ -77,7 +77,7 @@ public class SearchExerciseFragment extends Fragment {
 
             }
         });
-                recyclerViewExercise.setAdapter(exerciseAdapter);
+        recyclerViewExercise.setAdapter(exerciseAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(recyclerViewExercise.getContext(), DividerItemDecoration.VERTICAL);
         recyclerViewExercise.addItemDecoration(itemDecoration);
         database1 = FirebaseDatabase.getInstance().getReference("exercises");
