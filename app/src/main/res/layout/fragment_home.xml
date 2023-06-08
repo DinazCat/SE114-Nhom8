@@ -25,6 +25,7 @@
                 android:layout_width="30dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
+                android:id="@+id/imgCalendar"
                 android:layout_marginLeft="20dp"
                 app:srcCompat="@drawable/schedule_100px"/>
             <TextView
@@ -90,7 +91,7 @@
                         android:id="@+id/exercise"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="74"
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textSize="21dp"
                         android:textStyle="bold"
@@ -182,7 +183,7 @@
                             app:trackColor="@color/white"
                             app:indicatorSize="150dp"
                             app:trackThickness="10dp"
-                            android:progress="105"
+                            android:progress="0"
                             app:trackCornerRadius="10dp">
                         </com.google.android.material.progressindicator.CircularProgressIndicator>
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -205,7 +206,7 @@
                         android:id="@+id/breakfast"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="74"
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textSize="21dp"
                         android:textStyle="bold"
@@ -224,7 +225,7 @@
                         android:id="@+id/lunch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="74"
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textSize="21dp"
                         android:textStyle="bold"
@@ -243,7 +244,7 @@
                         android:id="@+id/dinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="74"
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textSize="21dp"
                         android:textStyle="bold"
@@ -262,7 +263,7 @@
                         android:id="@+id/snacks"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="74"
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textSize="21dp"
                         android:textStyle="bold"

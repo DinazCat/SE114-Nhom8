@@ -14,14 +14,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healthcareapp.Model.bmiInfo;
+import com.example.healthcareapp.Model.exercise;
+import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -33,10 +37,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class HomeFragment extends Fragment {
-    private TextView tv_date, tv_baseGoal, tv_Water;
+    private TextView tv_date, tv_baseGoal, tv_Water, tv_snack, tv_exercise, tv_breakfast, tv_lunch, tv_dinner;
     private
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
+    ImageView imgCalendar;
+    int date,month,year;
+    DatabaseReference database, database1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,10 +52,16 @@ public class HomeFragment extends Fragment {
         tv_date = view.findViewById(R.id.date);
         tv_baseGoal = view.findViewById(R.id.baseGoal);
         tv_Water = view.findViewById(R.id.water);
-
+        tv_exercise = view.findViewById(R.id.exercise);
+        tv_breakfast = view.findViewById(R.id.breakfast);
+        tv_lunch = view.findViewById(R.id.lunch);
+        tv_dinner = view.findViewById(R.id.dinner);
+        tv_snack = view.findViewById(R.id.snacks);
         //bmi thay đổi theo ngày khi sửa
         setBaseGoal();
         setWater();
+        setFoodAndExercise("");
+
 
         tv_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,12 +78,15 @@ public class HomeFragment extends Fragment {
                             tv_date.setText("Today");
                             setBaseGoal();
                             setWater();
+                            setFoodAndExercise("");
                         }
                         else{
                             calendar.set(year, month, dayOfMonth);
                             tv_date.setText(DateFormat.format("dd/MM/yyyy", calendar).toString());
+                            String string = DateFormat.format("yyyy-MM-dd", calendar).toString();
                             setBaseGoal();
                             setWater();
+                            setFoodAndExercise(string);
                         }
                     }
                 }, year, month, day);
@@ -79,6 +94,121 @@ public class HomeFragment extends Fragment {
             }
         });
         return view;
+    }
+    private void setFoodAndExercise(String date) {
+        if(tv_date.getText().toString().equals("Today")) {
+            Calendar calendar = Calendar.getInstance();
+            String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
+            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+            database.child(uid).child(today).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    int calo=0;
+                    for (DataSnapshot dataSnapshot : snapshot.child("Breakfast").getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        calo += Integer.parseInt(in.getCaloriesFood());
+                    }
+                    tv_breakfast.setText(String.valueOf(calo));
+                    calo=0;
+                    for (DataSnapshot dataSnapshot : snapshot.child("Dinner").getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        calo += Integer.parseInt(in.getCaloriesFood());
+                    }
+                    tv_lunch.setText(String.valueOf(calo));
+                    calo=0;
+                    for (DataSnapshot dataSnapshot : snapshot.child("Lunch").getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        calo += Integer.parseInt(in.getCaloriesFood());
+                    }
+                    tv_dinner.setText(String.valueOf(calo));
+                    calo=0;
+                    for (DataSnapshot dataSnapshot : snapshot.child("Snack").getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        calo += Integer.parseInt(in.getCaloriesFood());
+                    }
+                    tv_snack.setText(String.valueOf(calo));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            database1 = FirebaseDatabase.getInstance().getReference("exerciseDiary");
+            database1.child(uid).child(today).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    int calo=0;
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        exercise in = dataSnapshot.getValue(exercise.class);
+                        calo += Integer.parseInt(in.getCaloriesBurnedAMin());
+                    }
+                    tv_exercise.setText(String.valueOf(calo));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+        else {
+            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+            database.child(uid).child(date).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    int calo=0;
+                    for (DataSnapshot dataSnapshot : snapshot.child("Breakfast").getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        calo += Integer.parseInt(in.getCaloriesFood());
+                    }
+                    tv_breakfast.setText(String.valueOf(calo));
+                    calo=0;
+                    for (DataSnapshot dataSnapshot : snapshot.child("Dinner").getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        calo += Integer.parseInt(in.getCaloriesFood());
+                    }
+                    tv_lunch.setText(String.valueOf(calo));
+                    calo=0;
+                    for (DataSnapshot dataSnapshot : snapshot.child("Lunch").getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        calo += Integer.parseInt(in.getCaloriesFood());
+                    }
+                    tv_dinner.setText(String.valueOf(calo));
+                    calo=0;
+                    for (DataSnapshot dataSnapshot : snapshot.child("Snack").getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        calo += Integer.parseInt(in.getCaloriesFood());
+                    }
+                    tv_snack.setText(String.valueOf(calo));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            database1 = FirebaseDatabase.getInstance().getReference("exerciseDiary");
+            database1.child(uid).child(date).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    int calo=0;
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        exercise in = dataSnapshot.getValue(exercise.class);
+                        calo += Integer.parseInt(in.getCaloriesBurnedAMin());
+                    }
+                    tv_exercise.setText(String.valueOf(calo));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+        }
     }
     private void setBaseGoal(){
         Query query = FirebaseDatabase.getInstance().getReference("bmiDiary").child(uid).orderByChild("time");
