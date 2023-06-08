@@ -1,5 +1,6 @@
 package com.example.healthcareapp.Fragments;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,8 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.example.healthcareapp.Adapter.ExerciseAdapter;
 import com.example.healthcareapp.ListInterface.ClickExerciseItem;
@@ -37,6 +40,7 @@ public class SearchExerciseFragment extends Fragment {
     private ExerciseAdapter exerciseAdapter;
     private List<exercise> exerciseList;
     private SearchView searchViewExercise;
+    TextView tvDate;
     DatabaseReference database, database1;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     @Override
@@ -44,6 +48,10 @@ public class SearchExerciseFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search_exercise, container, false);
+
+        tvDate = view.findViewById(R.id.date);
+        Calendar calendar = Calendar.getInstance();
+        String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
 
         //SEARCH VIEW
         searchViewExercise = view.findViewById(R.id.searchViewExercise);
@@ -63,6 +71,39 @@ public class SearchExerciseFragment extends Fragment {
 
         //RECYCLERVIEW
         recyclerViewExercise = view.findViewById(R.id.recyclerviewSearchExercise);
+        setRecyclerView(today);
+
+        //Set DATE
+        tvDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        Calendar calendar = Calendar.getInstance();
+                        if (calendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth && calendar.get(Calendar.MONTH) == month && calendar.get(Calendar.YEAR) == year){
+                            tvDate.setText("Today");
+                            String string = DateFormat.format("yyyy-MM-dd", calendar).toString();
+                            setRecyclerView(string);
+                        }
+                        else{
+                            calendar.set(year, month, dayOfMonth);
+                            tvDate.setText(DateFormat.format("dd/MM/yyyy", calendar).toString());
+                            String string = DateFormat.format("yyyy-MM-dd", calendar).toString();
+                            setRecyclerView(string);
+                        }
+                    }
+                }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
+        return view;
+    }
+    private void setRecyclerView(String date) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewExercise.getContext());
         recyclerViewExercise.setLayoutManager(linearLayoutManager);
         exerciseList =new ArrayList<>();
@@ -70,11 +111,8 @@ public class SearchExerciseFragment extends Fragment {
         exerciseAdapter = new ExerciseAdapter(exerciseList, new ClickExerciseItem() {
             @Override
             public void onClickItemExercise(exercise e) {
-                Calendar calendar = Calendar.getInstance();
-                String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
                 database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
-                database.child(uid).child(today).child(String.valueOf(e.getIdExercise())).setValue(e);
-
+                database.child(uid).child(date).child(String.valueOf(e.getIdExercise())).setValue(e);
             }
         });
         recyclerViewExercise.setAdapter(exerciseAdapter);
@@ -96,7 +134,6 @@ public class SearchExerciseFragment extends Fragment {
 
             }
         });
-        return view;
     }
     private void filterList(String text) {
         List<exercise> filteredList = new ArrayList<>();

@@ -40,8 +40,6 @@ public class HomeFragment extends Fragment {
     private TextView tv_date, tv_baseGoal, tv_Water, tv_snack, tv_exercise, tv_breakfast, tv_lunch, tv_dinner;
     private
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    ImageView imgCalendar;
-    int date,month,year;
     DatabaseReference database, database1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,8 +59,6 @@ public class HomeFragment extends Fragment {
         setBaseGoal();
         setWater();
         setFoodAndExercise("");
-
-
         tv_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
