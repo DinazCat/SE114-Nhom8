@@ -185,19 +185,12 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Add Food/Exercise"
+            android:text="Add Food/Exercise/Water"
             android:textSize="16dp"
             android:id="@+id/addFoodExercise"
             android:layout_marginRight="5dp"
             />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="Add Water"
-            android:textSize="16dp"
-            android:id="@+id/addWater"
-            android:layout_marginRight="5dp"
-            />
+
 
     </LinearLayout>
 

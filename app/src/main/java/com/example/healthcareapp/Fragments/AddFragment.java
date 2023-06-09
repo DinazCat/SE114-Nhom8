@@ -4,7 +4,6 @@ import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -28,12 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healthcareapp.Adapter.ExpandableListViewAdapter;
-import com.example.healthcareapp.Adapter.FoodAdapter;
-import com.example.healthcareapp.AddWaterActivity;
 import com.example.healthcareapp.Model.bmiInfo;
 import com.example.healthcareapp.Model.exercise;
 import com.example.healthcareapp.Model.food;
-import com.example.healthcareapp.PostActivity;
 import com.example.healthcareapp.R;
 import com.example.healthcareapp.SearchTopTabActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,9 +48,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+
 public class AddFragment extends Fragment {
     ExpandableListViewAdapter listViewAdapter;
     ExpandableListView expandableListView;
@@ -136,17 +131,6 @@ public class AddFragment extends Fragment {
                 launcherAddFoodAndExercise.launch(new Intent(getContext(), SearchTopTabActivity.class));
             }
         });
-
-
-        //Add Water Button
-        btAddWater = view.findViewById(R.id.addWater);
-        btAddWater.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launcherAddWater.launch(new Intent(getContext(), AddWaterActivity.class));
-            }
-        });
-
 
         return view;
     }
@@ -407,4 +391,5 @@ public class AddFragment extends Fragment {
                     }
                 }
             });
+
 }

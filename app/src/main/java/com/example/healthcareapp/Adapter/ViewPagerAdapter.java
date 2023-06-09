@@ -6,8 +6,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.healthcareapp.Fragments.AddNewExerciseFragment;
 import com.example.healthcareapp.Fragments.AddNewFoodFragment;
+import com.example.healthcareapp.Fragments.AddRecipeFragment;
+import com.example.healthcareapp.Fragments.AddWaterFragment;
 import com.example.healthcareapp.Fragments.HomeFragment;
 import com.example.healthcareapp.Fragments.SearchExerciseFragment;
 import com.example.healthcareapp.Fragments.SearchFoodFragment;
@@ -31,11 +32,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new SearchFoodFragment();
             case 1:
-                return new SearchExerciseFragment();
-            case 2:
                 return new AddNewFoodFragment();
+            case 2:
+                return new AddRecipeFragment();
             case 3:
-                return new AddNewExerciseFragment();
+                return new SearchExerciseFragment();
+            case 4:
+                return new AddWaterFragment();
             default:
                 return new HomeFragment();
         }
@@ -43,7 +46,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 5;
     }
 
     @Nullable
@@ -52,16 +55,19 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         String title = "";
         switch (position) {
             case 0:
-                title = "Search Food";
+                title = "Add Food";
                 break;
             case 1:
-                title = "Search Exercise";
+                title = "New Food";
                 break;
             case 2:
-                title = "Add Food";
+                title = "New Recipe";
                 break;
             case 3:
                 title = "Add Exercise";
+                break;
+            case 4:
+                title = "Add Water";
                 break;
         }
         return title;

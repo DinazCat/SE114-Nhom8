@@ -31,9 +31,6 @@
         <activity
             android:name=".ChangeBmiAndGoal"
             android:exported="false" />
-        <activity
-            android:name=".AddWaterActivity"
-            android:exported="false" />
 
         <service
             android:name=".service.MyFirebaseMessagingService"
