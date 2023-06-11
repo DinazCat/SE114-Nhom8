@@ -16,28 +16,28 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.healthcareapp.AddIngredientsActivity;
+import com.example.healthcareapp.AddNewFoodActivity;
 import com.example.healthcareapp.R;
 
 public class AddNewFoodFragment extends Fragment {
 
-    Button btAddIngredient;
+    Button btAddFood;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_new_food, container, false);
-        btAddIngredient = view.findViewById(R.id.addIngredients);
-        btAddIngredient.setOnClickListener(new View.OnClickListener() {
+        btAddFood = view.findViewById(R.id.addFood);
+        btAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launcherAddIngredient.launch(new Intent(getContext(), AddIngredientsActivity.class));
+                launcherAddIngredient.launch(new Intent(getContext(), AddNewFoodActivity.class));
             }
         });
         return view;
     }
 
     ActivityResultLauncher<Intent> launcherAddIngredient = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {

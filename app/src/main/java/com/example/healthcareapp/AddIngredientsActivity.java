@@ -8,11 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,12 +43,11 @@ public class AddIngredientsActivity extends AppCompatActivity {
 
     ArrayList<ingredient> ingredientArrayList;
     ArrayList<ingredient> listIngredientNewFood;
-
+    Button btnBack;
     DatabaseReference database, database1, databaseReadFood;
-    EditText editTextName ;
     EditText editTextQuantity;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    Button saveBtn;
+    Button nextBtn;
     float calories = 0f;
 
     @Override
@@ -54,10 +55,13 @@ public class AddIngredientsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_ingredients);
 
+        Intent i = getIntent();
+        String nameFood = i.getStringExtra("nameFood");
+        if (nameFood.isEmpty()) Toast.makeText(this, "faILLLL", Toast.LENGTH_SHORT).show();
         ingredientArrayList = new ArrayList<>();
-        editTextName = findViewById(R.id.addIngredientName);
+
         editTextQuantity = findViewById(R.id.addIngredientQuantity);
-        saveBtn = findViewById(R.id.saveFood);
+        nextBtn = findViewById(R.id.next);
         //RECYCLERVIEW
         recyclerView = findViewById(R.id.recyclerviewSearchIngredient);
         recyclerView.setHasFixedSize(true);
@@ -67,10 +71,15 @@ public class AddIngredientsActivity extends AppCompatActivity {
         ingredientAdapterAdd = new IngredientAdapterAdd(ingredientArrayList, new ClickIngredientItem() {
             @Override
             public void onClickItemIngredient(ingredient in) {
-                database = FirebaseDatabase.getInstance().getReference("newFoods");
-                in.setQuantity(editTextQuantity.getText().toString());
-                calories += parseFloat(in.getCalorieIngredient()) * parseFloat(editTextQuantity.getText().toString());
-                database.child(uid).child(String.valueOf(editTextName.getText())).child(in.getIdIngredient()).setValue(in);
+                if (editTextQuantity.getText().toString().isEmpty())
+                    Toast.makeText(AddIngredientsActivity.this, "Enter Quantity", Toast.LENGTH_SHORT).show();
+                else {
+                    database = FirebaseDatabase.getInstance().getReference("newFoods");
+                    in.setQuantity(editTextQuantity.getText().toString());
+                    calories += parseFloat(in.getCalorieIngredient()) * parseFloat(editTextQuantity.getText().toString());
+                    database.child(uid).child(String.valueOf(nameFood)).child(in.getIdIngredient()).setValue(in);
+                    Toast.makeText(AddIngredientsActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         //ADD LIST TO RECYCLERVIEW
@@ -92,21 +101,15 @@ public class AddIngredientsActivity extends AppCompatActivity {
                 Toast.makeText(AddIngredientsActivity.this, "fail",Toast.LENGTH_SHORT).show();
             }
         });
-
-        saveBtn.setOnClickListener(new View.OnClickListener() {
+        nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Random random = new Random();
-                int randomID = random.nextInt(100000);
-
-                food _food = new food();
-                _food.setIdFood(String.valueOf(randomID));
-                _food.setNameFood(editTextName.getText().toString());
-                _food.setCaloriesFood(String.valueOf(calories));
-                _food.setServingFood("1 phần");
-                database = FirebaseDatabase.getInstance().getReference("foods");
-                database.child(String.valueOf(randomID)).setValue(_food);
+                Intent i = new Intent(AddIngredientsActivity.this, AddNewFoodStep2Activity.class);
+                i.putExtra("nameFood", nameFood);
+                i.putExtra("calories", calories);
+                startActivity(i);
             }
         });
+
     }
 }

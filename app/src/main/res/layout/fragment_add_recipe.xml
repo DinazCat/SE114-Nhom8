@@ -21,42 +21,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayoutRecipeName"
+    <TextView
+        android:id="@+id/textView5"
         android:layout_width="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:gravity="center"
+        android:text="List Recipe You Add"
+
+        android:textColor="@color/forestgreen"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Name of new food: "
-            android:textColor="@color/forestgreen"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/addIngredientName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/addIngredientName"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_gravity="top"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/search_view_bg"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
-
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />\/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerviewIng"
         android:layout_width="match_parent"
@@ -64,29 +40,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutRecipeName" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
 
     <Button
-        android:id="@+id/addIngredient"
+        android:id="@+id/addFood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Add Ingredient"
-        android:textSize="24dp"
+        android:text="Add Food"
         android:layout_marginTop="20dp"
+        android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerviewIng" />
-
-    <Button
-        android:id="@+id/saveFood"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Save Food"
-        android:layout_marginTop="20dp"
-        android:textSize="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addIngredient" />
 </androidx.constraintlayout.widget.ConstraintLayout>

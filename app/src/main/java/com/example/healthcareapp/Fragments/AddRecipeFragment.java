@@ -15,27 +15,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.healthcareapp.AddIngredientsActivity;
+import com.example.healthcareapp.AddNewFoodActivity;
 import com.example.healthcareapp.R;
 
 public class AddRecipeFragment extends Fragment {
 
-    RecyclerView recyclerView;
-    Button saveFood, addIngredient;
+    Button btAddFood;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_recipe, container, false);
-        recyclerView = view.findViewById(R.id.recyclerviewIng);
-        saveFood = view.findViewById(R.id.saveFood);
-        addIngredient = view.findViewById(R.id.addIngredient);
-
-        addIngredient.setOnClickListener(new View.OnClickListener() {
+        btAddFood = view.findViewById(R.id.addFood);
+        btAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launcherAddIngredient.launch(new Intent(getContext(), AddIngredientsActivity.class));
+                Intent i = new Intent(getContext(), AddNewFoodActivity.class);
+                launcherAddIngredient.launch(new Intent(i));
             }
         });
         return view;
