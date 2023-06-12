@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:id="@+id/linearLayoutFood"
+    >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/food"
+        android:id="@+id/imageFood"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+
+        />
+    <LinearLayout
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nameRecipe"
+            android:text="Noodles"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/caloriesRecipe"
+                android:text="400"
+                android:textSize="20dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" calories"
+                android:textSize="20dp"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+        <Button
+            android:id="@+id/Share_btn"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/forestgreen_btn"
+            android:layoutDirection="rtl"
+            android:text="Share">
+
+        </Button>
+        <Button
+            android:id="@+id/Delete_btn"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/forestgreen_btn"
+            android:layoutDirection="rtl"
+            android:text="Delete">
+        </Button>
+    </LinearLayout>
+</LinearLayout>

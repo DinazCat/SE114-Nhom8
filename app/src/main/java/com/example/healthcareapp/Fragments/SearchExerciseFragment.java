@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.healthcareapp.Adapter.ExerciseAdapter;
 import com.example.healthcareapp.ListInterface.ClickExerciseItem;
@@ -113,6 +114,7 @@ public class SearchExerciseFragment extends Fragment {
             public void onClickItemExercise(exercise e) {
                 database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
                 database.child(uid).child(date).child(String.valueOf(e.getIdExercise())).setValue(e);
+                Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
             }
         });
         recyclerViewExercise.setAdapter(exerciseAdapter);

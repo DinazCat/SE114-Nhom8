@@ -49,6 +49,8 @@ public class AddIngredientsActivity extends AppCompatActivity {
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     Button nextBtn;
     float calories = 0f;
+    Random random = new Random();
+    int randomID = random.nextInt(100000);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         String nameFood = i.getStringExtra("nameFood");
-        if (nameFood.isEmpty()) Toast.makeText(this, "faILLLL", Toast.LENGTH_SHORT).show();
+        if (nameFood.isEmpty()) Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
         ingredientArrayList = new ArrayList<>();
 
         editTextQuantity = findViewById(R.id.addIngredientQuantity);
@@ -77,7 +79,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
                     database = FirebaseDatabase.getInstance().getReference("newFoods");
                     in.setQuantity(editTextQuantity.getText().toString());
                     calories += parseFloat(in.getCalorieIngredient()) * parseFloat(editTextQuantity.getText().toString());
-                    database.child(uid).child(String.valueOf(nameFood)).child(in.getIdIngredient()).setValue(in);
+                    database.child(uid).child(String.valueOf(randomID)).child(String.valueOf(nameFood)).child(in.getIdIngredient()).setValue(in);
                     Toast.makeText(AddIngredientsActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -105,8 +107,8 @@ public class AddIngredientsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(AddIngredientsActivity.this, AddNewFoodStep2Activity.class);
+                i.putExtra("idFood", String.valueOf(randomID));
                 i.putExtra("nameFood", nameFood);
-                i.putExtra("calories", calories);
                 startActivity(i);
             }
         });

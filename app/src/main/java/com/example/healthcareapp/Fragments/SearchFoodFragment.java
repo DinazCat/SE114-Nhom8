@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.healthcareapp.Adapter.ExpandableListViewAdapter;
 import com.example.healthcareapp.Adapter.FoodAdapter;
@@ -130,9 +131,9 @@ public class SearchFoodFragment extends Fragment {
         foodAdapter = new FoodAdapter(foodList, new ClickFoodItem() {
             @Override
             public void onClickItemFood(food _food) {
-
                 database = FirebaseDatabase.getInstance().getReference("foodDiary");
                 database.child(uid).child(date).child(spn.getSelectedItem().toString()).child(String.valueOf(_food.getIdFood())).setValue(_food);
+                Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
             }
         });
         recyclerViewFood.setAdapter(foodAdapter);
