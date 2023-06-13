@@ -30,6 +30,8 @@ import com.example.healthcareapp.Adapter.ExpandableListViewAdapter;
 import com.example.healthcareapp.Model.bmiInfo;
 import com.example.healthcareapp.Model.exercise;
 import com.example.healthcareapp.Model.food;
+import com.example.healthcareapp.Model.threeType;
+import com.example.healthcareapp.Model.water;
 import com.example.healthcareapp.R;
 import com.example.healthcareapp.SearchTopTabActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,7 +56,7 @@ public class AddFragment extends Fragment {
     ExpandableListViewAdapter listViewAdapter;
     ExpandableListView expandableListView;
     List<String> meals;
-    HashMap<String, List<food>> foodList;
+    HashMap<String, List<threeType>> threeList;
     Button btAddFoodExercise, btAddWater;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private FragmentAListener listenter;
@@ -80,8 +82,9 @@ public class AddFragment extends Fragment {
         tvGoal = view.findViewById(R.id.goalCalories);
         setBaseGoal();
         expandableListView = view.findViewById(R.id.expandableLV);
+
         showList(string);
-        listViewAdapter = new ExpandableListViewAdapter(expandableListView.getContext(), meals,foodList);
+        listViewAdapter = new ExpandableListViewAdapter(expandableListView.getContext(), meals, threeList, string);
         expandableListView.setAdapter(listViewAdapter);
 
         //REMAINING CALORIES
@@ -105,7 +108,7 @@ public class AddFragment extends Fragment {
                             setBaseGoal();
                             setList(string);
                             showList(string);
-                            listViewAdapter = new ExpandableListViewAdapter(expandableListView.getContext(), meals,foodList);
+                            listViewAdapter = new ExpandableListViewAdapter(expandableListView.getContext(), meals,threeList,string);
                             expandableListView.setAdapter(listViewAdapter);
                         }
                         else{
@@ -115,7 +118,7 @@ public class AddFragment extends Fragment {
                             setBaseGoal();
                             setList(string);
                             showList(string);
-                            listViewAdapter = new ExpandableListViewAdapter(expandableListView.getContext(), meals,foodList);
+                            listViewAdapter = new ExpandableListViewAdapter(expandableListView.getContext(), meals,threeList,string);
                             expandableListView.setAdapter(listViewAdapter);
                         }
                     }
@@ -273,12 +276,14 @@ public class AddFragment extends Fragment {
     }
     private void showList(String date) {
         meals = new ArrayList<String>();
-        foodList = new HashMap<String, List<food>>();
+        threeList = new HashMap<String, List<threeType>>();
 
-        List<food> breakfast = new ArrayList<>();
-        List<food> lunch = new ArrayList<>();
-        List<food> dinner = new ArrayList<>();
-        List<food> snack = new ArrayList<>();
+        List<threeType> breakfast = new ArrayList<>();
+        List<threeType> lunch = new ArrayList<>();
+        List<threeType> dinner = new ArrayList<>();
+        List<threeType> snack = new ArrayList<>();
+        List<threeType> exercise = new ArrayList<>();
+        List<threeType> water = new ArrayList<>();
 
         meals.add("Breakfast");
         meals.add("Lunch");
@@ -286,7 +291,7 @@ public class AddFragment extends Fragment {
         meals.add("Snack");
         meals.add("Water");
         meals.add("Exercise");
-
+        //threeType type = new threeType(in.getIdFood(),in.getNameFood(),in.getCaloriesFood(),"calories");
         //BREAKFAST
         database = FirebaseDatabase.getInstance().getReference("foodDiary");
         database.child(uid).child(date).child("Breakfast").addValueEventListener(new ValueEventListener() {
@@ -295,9 +300,10 @@ public class AddFragment extends Fragment {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     food in = dataSnapshot.getValue(food.class);
-                    breakfast.add(in);
+                    threeType type = new threeType(in.getIdFood(),in.getNameFood(),in.getCaloriesFood()," calories");
+                    breakfast.add(type);
                 }
-                foodList.put("Breakfast",breakfast);
+                threeList.put("Breakfast",breakfast);
 
             }
 
@@ -315,9 +321,10 @@ public class AddFragment extends Fragment {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     food in = dataSnapshot.getValue(food.class);
-                    lunch.add(in);
+                    threeType type = new threeType(in.getIdFood(),in.getNameFood(),in.getCaloriesFood()," calories");
+                    lunch.add(type);
                 }
-                foodList.put("Lunch",lunch);
+                threeList.put("Lunch",lunch);
 
             }
 
@@ -335,9 +342,10 @@ public class AddFragment extends Fragment {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     food in = dataSnapshot.getValue(food.class);
-                    dinner.add(in);
+                    threeType type = new threeType(in.getIdFood(),in.getNameFood(),in.getCaloriesFood()," calories");
+                    dinner.add(type);
                 }
-                foodList.put("Dinner",dinner);
+                threeList.put("Dinner",dinner);
 
             }
 
@@ -355,9 +363,10 @@ public class AddFragment extends Fragment {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     food in = dataSnapshot.getValue(food.class);
-                    snack.add(in);
+                    threeType type = new threeType(in.getIdFood(),in.getNameFood(),in.getCaloriesFood()," calories");
+                    snack.add(type);
                 }
-                foodList.put("Snack",snack);
+                threeList.put("Snack",snack);
 
             }
 
@@ -367,6 +376,47 @@ public class AddFragment extends Fragment {
             }
         });
 
+        //EXERCISE
+        database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
+        database.child(uid).child(date).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    exercise in = dataSnapshot.getValue(exercise.class);
+                    threeType type = new threeType(in.getIdExercise(),in.getNameExercise(),in.getCaloriesBurnedAMin()," calories");
+                    exercise.add(type);
+                }
+                threeList.put("Exercise",exercise);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //WATER
+        database = FirebaseDatabase.getInstance().getReference("water");
+        database.child(uid).child(date).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    water in = dataSnapshot.getValue(water.class);
+                    threeType type = new threeType(in.getIdwater(),"water",in.getWaterAmount()," ml");
+                    water.add(type);
+                }
+                threeList.put("Water",water);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
     ActivityResultLauncher<Intent> launcherAddWater = registerForActivityResult(

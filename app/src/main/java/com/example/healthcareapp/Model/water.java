@@ -1,7 +1,7 @@
 package com.example.healthcareapp.Model;
 
 public class water {
-    String time , waterAmount;
+    String time , waterAmount, idwater;
 
     public String getTime() {
         return time;
@@ -17,5 +17,13 @@ public class water {
 
     public void setWaterAmount(String waterAmount) {
         this.waterAmount = waterAmount;
+    }
+
+    public String getIdwater() {
+        return idwater;
+    }
+
+    public void setIdwater(String idwater) {
+        this.idwater = idwater;
     }
 }

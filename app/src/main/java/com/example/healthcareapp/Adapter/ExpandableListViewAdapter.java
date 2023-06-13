@@ -5,11 +5,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 
-import com.example.healthcareapp.Model.food;
+import androidx.annotation.NonNull;
+
+import com.example.healthcareapp.Model.threeType;
 import com.example.healthcareapp.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,11 +26,13 @@ import java.util.List;
 public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     private Context context;
     private  List<String> meals;
-    private HashMap<String, List<food>> foodList;
-    public  ExpandableListViewAdapter(Context context, List<String> chappterList, HashMap<String,List<food>> topicsList) {
+    private HashMap<String, List<threeType>> typeList;
+    private String date;
+    public  ExpandableListViewAdapter(Context context, List<String> chappterList, HashMap<String,List<threeType>> topicsList, String date) {
+        this.date = date;
         this.context=context;
         this.meals=chappterList;
-        this.foodList = topicsList;
+        this.typeList = topicsList;
     }
     @Override
     public int getGroupCount() {
@@ -30,7 +41,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.foodList.get(this.meals.get(groupPosition)).size();
+        return this.typeList.get(this.meals.get(groupPosition)).size();
     }
 
     @Override
@@ -40,10 +51,12 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        String name = this.foodList.get(this.meals.get(groupPosition)).get(childPosition).getNameFood();
-        String cl = this.foodList.get(this.meals.get(groupPosition)).get(childPosition).getCaloriesFood();
-        food newfood = new food("",name,cl,"");
-        return newfood;
+        String id = this.typeList.get(this.meals.get(groupPosition)).get(childPosition).getIdType();
+        String name = this.typeList.get(this.meals.get(groupPosition)).get(childPosition).getNameType();
+        String cl = this.typeList.get(this.meals.get(groupPosition)).get(childPosition).getNumberType();
+        String unit = this.typeList.get(this.meals.get(groupPosition)).get(childPosition).getUnitType();
+        threeType type = new threeType(id,name,cl,unit);
+        return type;
     }
 
     @Override
@@ -76,7 +89,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        food topicTitle = (food) getChild(groupPosition, childPosition);
+        threeType topicTitle = (threeType) getChild(groupPosition, childPosition);
 
         if (convertView == null){
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -84,8 +97,66 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         }
         TextView topicTV = convertView.findViewById(R.id.textViewFoods);
         TextView topicTV1 = convertView.findViewById(R.id.textViewFoodCalories);
-        topicTV.setText(topicTitle.getNameFood());
-        topicTV1.setText(topicTitle.getCaloriesFood());
+        TextView topicTV2 = convertView.findViewById(R.id.type);
+        Button btnDelete = convertView.findViewById(R.id.delete);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                if (meals.get(groupPosition).equals("Breakfast") || meals.get(groupPosition).equals("Lunch") || meals.get(groupPosition).equals("Dinner")
+                || meals.get(groupPosition).equals("Snack") ) {
+                    DatabaseReference database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                    database.child(uid).child(date).child(meals.get(groupPosition)).child(topicTitle.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            snapshot.getRef().removeValue();
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+                else {
+                    if (meals.get(groupPosition).equals("Exercise")) {
+                        DatabaseReference database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
+                        database.child(uid).child(date).child(topicTitle.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                snapshot.getRef().removeValue();
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                    else {
+                        DatabaseReference database = FirebaseDatabase.getInstance().getReference("water");
+                        database.child(uid).child(date).child(topicTitle.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                snapshot.getRef().removeValue();
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+
+                }
+            }
+        });
+        topicTV.setText(topicTitle.getNameType());
+        topicTV1.setText(topicTitle.getNumberType());
+        topicTV2.setText(topicTitle.getUnitType());
         return convertView;
     }
 

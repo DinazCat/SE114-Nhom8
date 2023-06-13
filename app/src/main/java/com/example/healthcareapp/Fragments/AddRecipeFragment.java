@@ -29,6 +29,8 @@ import com.example.healthcareapp.ListInterface.ClickRecipeItem;
 import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.Model.recipe;
 import com.example.healthcareapp.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -63,14 +65,13 @@ public class AddRecipeFragment extends Fragment {
                 database.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot Snapshot: snapshot.getChildren()) {
-                            Snapshot.getRef().removeValue();
-                        }
+                        deleteData(re);
+
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        //Share
+
                     }
                 });
             }
@@ -79,6 +80,7 @@ public class AddRecipeFragment extends Fragment {
             public void onClickItemRecipe2(recipe re) {
                 database = FirebaseDatabase.getInstance().getReference("newRecipe");
                 database.child(uid).child(String.valueOf(re.getNameRecipe())).setValue(re);
+                //Share
             }
         });
 
@@ -110,6 +112,19 @@ public class AddRecipeFragment extends Fragment {
         });
         return view;
     }
+
+    private void deleteData(recipe re) {
+        database = FirebaseDatabase.getInstance().getReference("newRecipe");
+        database.child(uid).child(String.valueOf(re.getIdRecipe())).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {

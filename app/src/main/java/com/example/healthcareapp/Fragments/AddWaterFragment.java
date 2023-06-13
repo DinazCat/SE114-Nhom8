@@ -43,6 +43,9 @@ public class AddWaterFragment extends Fragment {
         edtWater = view.findViewById(R.id.water);
         btnSave = view.findViewById(R.id.save);
         tvDate = view.findViewById(R.id.date);
+        Calendar calendar = Calendar.getInstance();
+        String string = DateFormat.format("yyyy-MM-dd", calendar).toString();
+        setWaterAmount(string);
         tvDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +61,7 @@ public class AddWaterFragment extends Fragment {
                             tvDate.setText("Today");
                             String string = DateFormat.format("yyyy-MM-dd", calendar).toString();
                             setWaterAmount(string);
+
                         }
                         else{
                             calendar.set(year, month, dayOfMonth);
@@ -77,8 +81,7 @@ public class AddWaterFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                //you can return AddFragment or MainActivity if you want
+
                 if (edtWater.getText().toString().trim().equals("")){
                     Toast.makeText(getActivity(), "Input cannot be blank", Toast.LENGTH_LONG).show();
                 }
@@ -91,7 +94,8 @@ public class AddWaterFragment extends Fragment {
                     int randomID = random.nextInt(100000);
                     w.setWaterAmount(edtWater.getText().toString());
                     w.setTime(date);
-                    databaseReference.child(uid).child(date).child(String.valueOf(randomID)).setValue( w);
+                    w.setIdwater(String.valueOf(randomID));
+                    databaseReference.child(uid).child(date).child(String.valueOf(randomID)).setValue(w);
 
                 }
             }
