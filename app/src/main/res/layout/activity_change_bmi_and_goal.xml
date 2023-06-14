@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:text="Change BMI and goal"
+        android:text="@string/changebmi"
         android:layout_marginLeft="10dp"
         android:textColor="#3D7238"
         android:textSize="28dp"
@@ -33,7 +33,7 @@
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
+            android:text="@string/save"
             android:textColor="#3D7238"
             android:textSize="20dp"
             android:layout_gravity="center"
@@ -44,7 +44,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Age"
+        android:text="@string/age"
         android:textColor="#3D7238"
         android:textSize="24dp"
         android:layout_marginLeft="30dp"/>
@@ -67,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Height (cm)"
+        android:text="@string/height"
         android:textColor="#3D7238"
         android:textSize="24dp"
         android:layout_marginLeft="30dp"/>
@@ -88,7 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Weight (kg)"
+        android:text="@string/weight"
         android:textColor="#3D7238"
         android:textSize="24dp"
         android:layout_marginLeft="30dp"/>
@@ -108,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Sex"
+        android:text="@string/sex"
         android:textColor="#3D7238"
         android:textSize="24dp"
         android:layout_marginLeft="30dp"/>
@@ -122,7 +122,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Goal"
+        android:text="@string/goal"
         android:textColor="#3D7238"
         android:textSize="24dp"
         android:layout_marginLeft="30dp"/>
@@ -135,7 +135,7 @@
         android:id="@+id/tv_weeklyGoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Weekly goal"
+        android:text="@string/weeklygoal"
         android:textColor="#3D7238"
         android:textSize="24dp"
         android:layout_marginLeft="30dp"/>
@@ -148,7 +148,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Activity level"
+        android:text="@string/activitylevel"
         android:textColor="#3D7238"
         android:textSize="24dp"
         android:layout_marginLeft="30dp"/>

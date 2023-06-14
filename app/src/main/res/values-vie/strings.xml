@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HealthcareApp</string>
+    <string name="facebook_app_id">911478286828834</string>
+    <string name="fb_login_protocol_scheme">fb911478286828834</string>
+    <string name="facebook_client_token">93696f2f3e0e88a386d56b07513c32b0</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--    trang setting-->
+    <string name="editprofile">Thay đổi trang cá nhân</string>
+    <string name="mygoals">Mục tiêu của tôi</string>
+    <string name="notification">Thông báo</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="darkmode">Chủ đề</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="changebmi">Thay đổi Bmi và mục tiêu</string>
+    <!--    trang blog-->
+    <string name="addpostbutton">Hôm nay bạn đã ăn gì? Hãy chia sẻ với mọi người</string>
+    <!--    trang đăng bài-->
+    <string name="createnewP">Tạo bài viết mới</string>
+    <string name="post">Đăng</string>
+    <string name="back">Trước</string>
+    <string name="next">Sau</string>
+    <!--    trang baiviet-->
+    <string name="step1">Bước1. Thông tin về món ăn</string>
+    <string name="foodname">Tên món ăn</string>
+    <string name="difficult">Độ khó</string>
+    <string name="total">Khẩu phần:</string>
+    <string name="calories">Calories:</string>
+    <string name="preptime">Thời gian chuẩn bị:</string>
+    <string name="cookingtime">Thời gian nấu:</string>
+    <!--    trang baiviet1-->
+    <string name="step2">Bước2. Món ăn này được làm như thế nào?</string>
+    <string name="ingredient">Có những nguyên liệu nào?</string>
+    <string name="Recipe">Công thức làm món ăn:</string>
+    <string name="summary">Nói về món ăn này:</string>
+    <!--    trang baiviet2-->
+    <string name="step3">Bước3. Chọn hastag cho bài viết</string>
+    <string name="mealtype">Bữa ăn</string>
+    <string name="cookingstyle">Kiểu nấu</string>
+    <string name="course">Kiểu món ăn</string>
+    <string name="mainIn">Nguyên liệu chính</string>
+    <string name="diettype">Kiểu ăn kiên</string>
+    <!--    trang thêm ảnh-->
+    <string name="addimg">Thêm hình ảnh bạn thích</string>
+    <!--    trang thông báo-->
+    <string name="thongbao">Thông báo</string>
+    <string name="read">Đã đọc</string>
+    <string name="noread">Chưa đọc</string>
+    <!--    tìm kiếm post-->
+    <string name="findpost">Tìm bạn bè, bài viết</string>
+    <string name="frienduknow">Những người bạn có thể biết</string>
+    <string name="baiviet">Bài viết</string>
+    <string name="moinguoi">Mọi người</string>
+    <!--activity_add_ingredient-->
+    <string name="addnewfood"> Thêm món ăn mới</string>
+    <string name="chooseIn">Chọn nguyên liệu:</string>
+    <string name="quantity">Số lượng nguyên liệu</string>
+    <string name="tiep">Tiếp</string>
+    <!--activity_add_new_food-->
+    <string name="nameofnewfood">Tên món ăn</string>
+    <string name="addIn">Thêm nguyên liệu</string>
+    <string name="savefood">Lưu món ăn</string>
+    <!--    activity_change_bmi_goal-->
+    <string name="save">Lưu</string>
+    <string name="age">Tuổi</string>
+    <string name="height">Chiều cao(cm)</string>
+    <string name="weight">Cân nặng(kg)</string>
+    <string name="sex">Giới tính</string>
+    <string name="goal">Mục tiêu</string>
+    <string name="weeklygoal">Mục tiêu tuần</string>
+    <string name="activitylevel">Cấp độ hoạt động</string>
+    <string name="comment">Bình luận</string>
+    <!--    forgot_password-->
+    <string name="reset">Thiết lập lại</string>
+    <string name="forgotpass">Quên mật khẩu</string>
+    <string name="resetpass">Chúng tôi sẽ gửi bạn mã để cài lại mật khẩu</string>
+    <string name="emailaddress">Nhập email</string>
+    <!--    noti setting-->
+    <string name="sendmenoti">Gửi tôi thông báo khi:</string>
+    <string name="sofollow">Ai đó bắt đầu theo dõi tôi</string>
+    <string name="solike">Ai đó thích bài viết của tôi</string>
+    <string name="socomment">Ai đó bình luận bài viết của tôi</string>
+    <string name="sopost">Người mà tôi theo dõi đã đăng bài</string>
+    <string name="longtext">Khi thông báo không được mở thì các thông báo sẽ không hiện lên màn hình điện thoại. Tuy nhiên, bạn vẫn sẽ nhận được trong ứng dụng</string>
+    <!--    fragment_add-->
+    <string name="today">Today</string>
+    <string name="calremain">Calories còn lại</string>
+    <string name="add">Thêm món/thể thao/nước</string>
+    <string name="Add">Thêm</string>
+<!--    fragmentaddnewfood-->
+    <string name="calofnewfood">Calories của món ăn</string>
+    <string name="servingofnewfood">Khẩu phần của món ăn</string>
+
+    <string name="addfood">Thêm món ăn</string>
+    <string name="addrecipe">Thêm công thức</string>
+    <string name="listrecipe">Danh sách công thức bạn thêm</string>
+    <string name="share">Chia sẻ</string>
+    <string name="delete">Xóa</string>
+    <string name="name">Tên</string>
+    <string name="aboutme">Chi tiết</string>
+    <string name="phone">Số điện thoại</string>
+    <string name="country">Quốc gia</string>
+    <string name="city">Thành phố</string>
+    <string name="saveprofile">Lưu</string>
+    <string name="progress">Tiến độ</string>
+    <string-array name="meals">
+        <item> Bữa sáng </item>
+        <item> Bữa trưa </item>
+        <item> Bữa tối </item>
+        <item> Ăn nhẹ </item>
+    </string-array>
+
+    <string-array name="selectMeasurement">
+        <item> Cân nặng </item>
+        <item> Chiều cao </item>
+    </string-array>
+
+    <string-array name="selectDateRange">
+        <item> 1 tuần </item>
+        <item> 1 tháng </item>
+        <item> 1 năm </item>
+    </string-array>
+    <string-array name="goals">
+        <item> Duy trì cân nặng </item>
+        <item> Tăng cân </item>
+        <item> Giảm cân </item>
+    </string-array>
+    <string-array name="gain_weeklyGoals">
+        <item> Tăng 0.25 kg trên tuần </item>
+        <item> Tăng 0.5 kg trên tuần </item>
+        <item> Tăng 1 kg trên tuần </item>
+    </string-array>
+    <string-array name="lose_weeklyGoals">
+        <item> Giảm 0.25 kg trên tuần </item>
+        <item> Giảm 0.5 kg trên tuần </item>
+        <item> Giảm 1 kg trên tuần </item>
+    </string-array>
+    <string-array name="activityLevels">
+        <item> Not very active </item>
+        <item> Lightly active </item>
+        <item> Moderate </item>
+        <item> Active </item>
+        <item> Very active </item>
+    </string-array>
+    <string-array name="sex">
+        <item> Nam </item>
+        <item> Nữ </item>
+    </string-array>
+    <string-array name="selectUnit">
+        <item> g </item>
+        <item> kg </item>
+        <item> ml </item>
+        <item> l </item>
+        <item> cup </item>
+        <item> tsp </item>
+        <item> tbsp </item>
+        <item> piece </item>
+        <item> pieces </item>
+    </string-array>
+    <string-array name="language">
+        <item> Vie </item>
+        <item> Eng </item>
+    </string-array>
+</resources>

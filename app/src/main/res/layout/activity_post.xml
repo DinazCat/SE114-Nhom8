@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Create new post"
+            android:text="@string/createnewP"
             android:gravity="center_vertical"
             android:id="@+id/header"
             android:textColor="@color/black"
@@ -33,7 +33,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="150dp"
             android:backgroundTint="@color/green3"
-            android:text="Post"/>
+            android:text="@string/post"/>
 
     </LinearLayout>
 
@@ -52,13 +52,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
-            android:text="Back" />
+            android:text="@string/back" />
 
         <Button
             android:id="@+id/nextBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:text="Next" />
+            android:text="@string/next" />
     </LinearLayout>
 </LinearLayout>

@@ -65,7 +65,7 @@
             android:layout_gravity="center_vertical"
             android:background="@drawable/forestgreen_btn"
             android:layoutDirection="rtl"
-            android:text="Share">
+            android:text="@string/share">
 
         </Button>
         <Button
@@ -76,7 +76,7 @@
             android:layout_gravity="center_vertical"
             android:background="@drawable/forestgreen_btn"
             android:layoutDirection="rtl"
-            android:text="Delete">
+            android:text="@string/delete">
         </Button>
     </LinearLayout>
 </LinearLayout>

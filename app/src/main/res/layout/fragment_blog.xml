@@ -78,7 +78,7 @@
                 android:layout_height="40dp"
                 android:background="@drawable/border"
                 android:layout_marginHorizontal="5dp"
-                android:text="What did you eat today? Share it to everyone"
+                android:text="@string/addpostbutton"
                 android:textSize="15dp"
                 android:textAlignment="center"
                 android:gravity="center_vertical"/>

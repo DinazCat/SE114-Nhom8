@@ -10,7 +10,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -27,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -84,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppData", Context.MODE_PRIVATE);
+        String myVariable = sharedPreferences.getString("myLanguage", "Eng");
+        if(myVariable.equals("Eng")) setLocale("en");
+        else setLocale("vie");
 
     }
     private void replaceFragment(Fragment fragment) {
@@ -92,5 +100,13 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout,fragment);
         fragmentTransaction.commit();
     }
+    private void setLocale(String Lang){
+        Locale locale = new Locale(Lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+    }
+
 
 }

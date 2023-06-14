@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Step3. Choose hashtags "
+        android:text="@string/step3"
         android:textSize="20dp"
         android:textColor="@color/black"
         android:layout_marginLeft="30dp"
@@ -36,7 +36,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Meal Type"
+                    android:text="@string/mealtype"
                     android:textSize="20dp"
                     android:textColor="@color/black"
                     android:layout_marginLeft="15dp"
@@ -49,7 +49,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cooking Style"
+                    android:text="@string/cookingstyle"
                     android:textSize="20dp"
                     android:textColor="@color/black"
                     android:layout_marginLeft="15dp"
@@ -62,7 +62,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Course"
+                    android:text="@string/course"
                     android:textSize="20dp"
                     android:textColor="@color/black"
                     android:layout_marginLeft="15dp"
@@ -75,7 +75,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Main ingredient"
+                    android:text="@string/mainIn"
                     android:textSize="20dp"
                     android:textColor="@color/black"
                     android:layout_marginLeft="15dp"
@@ -88,7 +88,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Diet Type"
+                    android:text="@string/diettype"
                     android:textSize="20dp"
                     android:textColor="@color/black"
                     android:layout_marginLeft="15dp"

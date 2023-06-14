@@ -23,14 +23,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notifications"
+            android:text="@string/notification"
             android:textStyle="bold"
             android:textSize="25dp" />
     </LinearLayout>
      <TextView
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:text="Send me a push notification when"
+         android:text="@string/sendmenoti"
          android:textSize="23dp"
          android:layout_marginTop="20dp"/>
     <LinearLayout
@@ -41,7 +41,7 @@
         <TextView
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:text="Someone starts following me"
+            android:text="@string/sofollow"
             android:textSize="20dp"/>
         <CheckBox
             android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
         <TextView
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:text="Someone likes my post"
+            android:text="@string/solike"
             android:textSize="20dp"/>
         <CheckBox
             android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
         <TextView
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:text="Someone comments on my post"
+            android:text="@string/socomment"
             android:textSize="20dp"/>
         <CheckBox
             android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
         <TextView
             android:layout_width="320dp"
             android:layout_height="60dp"
-            android:text="Someone I'm following posts a new post"
+            android:text="@string/sopost"
             android:textSize="20dp"/>
         <CheckBox
             android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16dp"
-        android:text="Turning push notifications off will prevent you from seeing theses update on your lock screen. Howerver, you will still receive these notifications in-app"
+        android:text="@string/longtext"
         android:background="#F6F6F5"
         android:paddingLeft="10dp"
         android:paddingVertical="15dp"

@@ -29,7 +29,7 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Today"
+            android:text="@string/today"
             android:textColor="#fff"
             android:textSize="21dp"
             android:textStyle="bold"
@@ -75,7 +75,7 @@
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
+            android:text="@string/save"
             android:layout_gravity="center"
             />
     </LinearLayout>

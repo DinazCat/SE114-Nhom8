@@ -5,6 +5,87 @@
     <string name="facebook_client_token">93696f2f3e0e88a386d56b07513c32b0</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="editprofile">Edit Profile</string>
+    <string name="mygoals">My goals</string>
+    <string name="notification">Notifications</string>
+    <string name="language">Language</string>
+    <string name="darkmode">Dark Mode</string>
+    <string name="logout">Log out</string>
+    <string name="changebmi">Change Bmi and goal</string>
+    <string name="addpostbutton">What did you eat today? Share it to everyone</string>
+    <string name="createnewP">Create new post</string>
+    <string name="post">Post</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="step1">Step1. Something about food</string>
+    <string name="foodname">Food name</string>
+    <string name="difficult">Difficult</string>
+    <string name="total">Total:</string>
+    <string name="calories">Calories:</string>
+    <string name="preptime">Prep time:</string>
+    <string name="cookingtime">Cooking time:</string>
+    <string name="step2">Step2. How to make food? </string>
+    <string name="ingredient">What ingredients are there?</string>
+    <string name="Recipe">Give me the recipe of your food</string>
+    <string name="summary">Do you want to say something?</string>
+    <string name="step3">Step3. Choose hashtags</string>
+    <string name="mealtype">Meal type</string>
+    <string name="cookingstyle">Cooking style</string>
+    <string name="course">Course</string>
+    <string name="mainIn">Main Ingredient</string>
+    <string name="diettype">Diet Type</string>
+    <string name="addimg">Add photos you like</string>
+    <string name="thongbao">Notification</string>
+    <string name="read">Privious notifications</string>
+    <string name="noread">New</string>
+    <string name="findpost">Find posts, friends you want</string>
+    <string name="frienduknow">Friends you know:</string>
+    <string name="baiviet">Posts</string>
+    <string name="moinguoi">People</string>
+    <string name="addnewfood"> Add New Food</string>
+    <string name="chooseIn">Choose Ingredient:</string>
+    <string name="quantity">Quantity of ingredient:</string>
+    <string name="tiep">Next</string>
+    <string name="nameofnewfood">Name of new food</string>
+    <string name="addIn">Add Ingredient</string>
+    <string name="savefood">Save food</string>
+    <string name="save">Save</string>
+    <string name="age">Age</string>
+    <string name="height">Height(cm)</string>
+    <string name="weight">Weight(kg)</string>
+    <string name="sex">Sex</string>
+    <string name="goal">Goal</string>
+    <string name="weeklygoal">Weekly goal</string>
+    <string name="activitylevel">Activity level</string>
+    <string name="comment">Comments</string>
+    <string name="reset">Reset</string>
+    <string name="forgotpass">Forgot password</string>
+    <string name="resetpass">We\'ll email you a code to reset your password.</string>
+    <string name="emailaddress">Email address</string>
+    <string name="sendmenoti">Send me a push notification when:</string>
+    <string name="sofollow">Someone starts following me</string>
+    <string name="solike">Someone likes my post</string>
+    <string name="socomment">Someone comments on my post</string>
+    <string name="sopost">Someone I\'m following posts a new post</string>
+    <string name="today">Today</string>
+    <string name="calremain">Calories Remaining</string>
+    <string name="add">Add Food/Exercise/Water</string>
+    <string name="Add">ADD</string>
+    <string name="longtext">Turning push notifications off will prevent you from seeing theses update on your lock screen. Howerver, you will still receive these notifications in-app</string>
+    <string name="calofnewfood">Calories of new food</string>
+    <string name="servingofnewfood">Serving of new food</string>
+    <string name="addfood">Add food</string>
+    <string name="addrecipe">Add Recipe</string>
+    <string name="listrecipe">List Recipe You Add</string>
+    <string name="share">Share</string>
+    <string name="delete">Delete</string>
+    <string name="name">Name</string>
+    <string name="aboutme">About me</string>
+    <string name="phone">Phone</string>
+    <string name="country">Country</string>
+    <string name="city">City</string>
+    <string name="saveprofile">Save Profile</string>
+    <string name="progress">Progress</string>
     <string-array name="meals">
         <item> Breakfast </item>
         <item> Lunch </item>
@@ -58,6 +139,10 @@
         <item> tbsp </item>
         <item> piece </item>
         <item> pieces </item>
+    </string-array>
+    <string-array name="language">
+        <item> Eng </item>
+        <item> Vie </item>
     </string-array>
 
 </resources>

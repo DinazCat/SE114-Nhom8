@@ -30,7 +30,7 @@
                 android:textSize="15dp"
                 android:layout_marginLeft="5dp"
 
-                android:hint="Find posts, friends you want"
+                android:hint="@string/findpost"
                 android:background="@drawable/border"/>
         </LinearLayout>
 
@@ -55,7 +55,7 @@
                         android:layout_marginRight="30dp"
                         android:backgroundTint="@color/white"
                         android:textColor="@color/black"
-                        android:text="Bài viết" />
+                        android:text="@string/baiviet" />
 
                     <Button
                         android:id="@+id/friendBtn"
@@ -64,7 +64,7 @@
                         android:layout_marginLeft="30dp"
                         android:backgroundTint="@color/white"
                         android:textColor="@color/black"
-                        android:text="Bạn bè" />
+                        android:text="@string/moinguoi" />
 
 
                 </LinearLayout>
@@ -89,7 +89,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Những người bạn có thể biết:"
+                    android:text="@string/frienduknow"
                     android:textColor="@color/black"
                     android:textSize="19dp"
                     />

@@ -1,7 +1,9 @@
 package com.example.healthcareapp.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
@@ -15,7 +17,9 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.healthcareapp.ChangeBmiAndGoal;
@@ -35,6 +39,8 @@ public class SettingsFragment extends Fragment {
     private Button btn_ChangeBmi;
     GoogleSignInOptions gOptions;
     GoogleSignInClient gClient;
+    SharedPreferences sharedPreferences ;
+    Spinner languagechange;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,6 +51,27 @@ public class SettingsFragment extends Fragment {
         TextView logout = view.findViewById(R.id.logout);
         TextView editprofile = view.findViewById(R.id.editprofile);
         TextView notifications = view.findViewById(R.id.noti);
+        languagechange = view.findViewById(R.id.langspinner);
+        Context context = getActivity();
+        sharedPreferences = context.getSharedPreferences("MyAppData", Context.MODE_PRIVATE);
+        String myVariable = sharedPreferences.getString("myLanguage", "Eng");
+        languagechange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedItem = adapterView.getItemAtPosition(i).toString();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("myLanguage", selectedItem);
+                editor.apply();
+                if(!myVariable.equals(selectedItem))
+                    getActivity().recreate();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         btn_ChangeBmi = view.findViewById(R.id.changeBmi);
         logout.setOnClickListener(new View.OnClickListener() {

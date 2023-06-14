@@ -34,7 +34,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name"
+            android:hint="@string/name"
             android:id="@+id/et_name"
             android:layout_margin="4dp"
             android:textColor="@color/black"
@@ -44,7 +44,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="About me"
+            android:hint="@string/aboutme"
             android:id="@+id/et_about"
             android:layout_margin="4dp"
             android:textColor="@color/black"
@@ -65,7 +65,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Phone"
+            android:hint="@string/phone"
             android:id="@+id/et_phone"
             android:layout_margin="4dp"
             android:textColor="@color/black"
@@ -75,7 +75,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Country"
+            android:hint="@string/country"
             android:id="@+id/et_country"
             android:layout_margin="4dp"
             android:textColor="@color/black"
@@ -85,7 +85,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="City"
+            android:hint="@string/city"
             android:id="@+id/et_city"
             android:layout_margin="4dp"
             android:textColor="@color/black"
