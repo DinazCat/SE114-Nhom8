@@ -59,7 +59,7 @@ public class AddFragment extends Fragment {
     ExpandableListViewAdapter listViewAdapter;
     List<String> meals;
     HashMap<String, List<threeType>> threeList;
-    Button btAddFoodExercise, btAddWater;
+    Button btAddFood, btAddExercise, btAddRecipe, btAddWater;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private FragmentAListener listenter;
     TextView tvFoodCalories, tvExerciseCalories, tvGoalCalories, tvRemainingCalories, tvDate, tvGoal;
@@ -155,6 +155,7 @@ public class AddFragment extends Fragment {
         });
         expandableListView.setAdapter(listViewAdapter);
 
+        //region CHANGE DATE
         //Add Date Calendar
         tvDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,15 +222,38 @@ public class AddFragment extends Fragment {
                 datePickerDialog.show();
             }
         });
-        //Add Food/Exercise Button
-        btAddFoodExercise = view.findViewById(R.id.addFoodExercise);
-        btAddFoodExercise.setOnClickListener(new View.OnClickListener() {
+        //endregion
+        //Add Food/Exercise/Recipe/Water Button
+        btAddFood = view.findViewById(R.id.addFood);
+        btAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launcherAddFoodAndExercise.launch(new Intent(getContext(), SearchTopTabActivity.class));
             }
         });
+        btAddExercise = view.findViewById(R.id.addExercise);
+        btAddRecipe = view.findViewById(R.id.addRecipe);
+        btAddWater = view.findViewById(R.id.addWater);
+        btAddExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new SearchExerciseFragment());
+            }
+        });
 
+        btAddRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new AddRecipeFragment());
+            }
+        });
+
+        btAddWater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new AddWaterFragment());
+            }
+        });
         return view;
     }
     private void setBaseGoal(){
@@ -514,6 +538,7 @@ public class AddFragment extends Fragment {
         });
 
     }
+    //region CHANGE TO ACTIVITY
     ActivityResultLauncher<Intent> launcherAddWater = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -525,7 +550,7 @@ public class AddFragment extends Fragment {
                     }
                 }
             });
-    //region Mi
+
     ActivityResultLauncher<Intent> launcherAddFoodAndExercise = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -538,5 +563,4 @@ public class AddFragment extends Fragment {
                 }
             });
     //endregion
-
 }

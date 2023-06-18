@@ -9,6 +9,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="lightyellow">#faf9ad</color>
+    <color name="green">#6fc06c</color>
+    <color name="textgreen">#3D7238</color>
+    <color name="lightgreen">#DAFFD0</color>
     <color name="pear">#66cc00</color>
     <color name="forestgreen">#84D07D</color>
     <color name="green3">#00CD00</color>

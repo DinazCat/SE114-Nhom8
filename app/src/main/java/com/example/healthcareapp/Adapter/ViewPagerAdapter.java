@@ -33,12 +33,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 return new SearchFoodFragment();
             case 1:
                 return new AddNewFoodFragment();
-            case 2:
-                return new AddRecipeFragment();
-            case 3:
-                return new SearchExerciseFragment();
-            case 4:
-                return new AddWaterFragment();
             default:
                 return new HomeFragment();
         }
@@ -59,15 +53,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 break;
             case 1:
                 title = "New Food";
-                break;
-            case 2:
-                title = "New Recipe";
-                break;
-            case 3:
-                title = "Add Exercise";
-                break;
-            case 4:
-                title = "Add Water";
                 break;
         }
         return title;
