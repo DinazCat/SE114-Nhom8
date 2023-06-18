@@ -157,8 +157,10 @@ public class HomeFragment extends Fragment {
                     tv_remaining.setText(String.valueOf(Integer.parseInt(tv_baseGoal.getText().toString()) + calo - Integer.parseInt(tv_remaining.getText().toString()) ));
                     int goalCalo = Integer.parseInt(tv_baseGoal.getText().toString());
                     int totalCalo = Integer.parseInt(tv_remaining.getText().toString());
-                    int p = (totalCalo*100)/goalCalo;
-                    if (goalCalo!=0)  cpi.setProgress(100-p);
+
+                    if (goalCalo!=0)  {
+                        int p = (totalCalo*100)/goalCalo;
+                        cpi.setProgress(100-p);}
                 }
 
                 @Override

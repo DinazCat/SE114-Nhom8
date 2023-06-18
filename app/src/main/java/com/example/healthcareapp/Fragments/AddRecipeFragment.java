@@ -58,31 +58,7 @@ public class AddRecipeFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewRecipe.getContext());
         recyclerViewRecipe.setLayoutManager(linearLayoutManager);
         recipeList = new ArrayList<>();
-        recipeAdapter = new RecipeAdapter(recipeList, new ClickRecipeItem() {
-            @Override
-            public void onClickItemRecipe(recipe re) {
-                database = FirebaseDatabase.getInstance().getReference("newRecipe");
-                database.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        deleteData(re);
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onClickItemRecipe2(recipe re) {
-                database = FirebaseDatabase.getInstance().getReference("newRecipe");
-                database.child(uid).child(String.valueOf(re.getNameRecipe())).setValue(re);
-                //Share
-            }
-        });
+        recipeAdapter = new RecipeAdapter(recipeList, view.getContext());
 
         recyclerViewRecipe.setAdapter(recipeAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(recyclerViewRecipe.getContext(), DividerItemDecoration.VERTICAL);
@@ -113,17 +89,7 @@ public class AddRecipeFragment extends Fragment {
         return view;
     }
 
-    private void deleteData(recipe re) {
-        database = FirebaseDatabase.getInstance().getReference("newRecipe");
-        database.child(uid).child(String.valueOf(re.getIdRecipe())).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+
 
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),

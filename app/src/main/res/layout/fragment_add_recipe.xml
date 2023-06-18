@@ -8,18 +8,6 @@
     tools:context=".Fragments.AddRecipeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/addrecipe"
-        android:layout_marginTop="50dp"
-        android:textColor="@color/forestgreen"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView5"
@@ -27,12 +15,12 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/listrecipe"
-
+        android:layout_marginTop="30dp"
         android:textColor="@color/forestgreen"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />\/>
+        app:layout_constraintTop_toTopOf="parent" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerviewRecipe"
         android:layout_width="match_parent"
@@ -53,5 +41,5 @@
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerviewIng" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerviewRecipe" />
 </androidx.constraintlayout.widget.ConstraintLayout>

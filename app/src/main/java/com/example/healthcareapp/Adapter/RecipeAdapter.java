@@ -1,5 +1,6 @@
 package com.example.healthcareapp.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,23 +8,35 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.healthcareapp.Fragments.AddFragment;
+import com.example.healthcareapp.Fragments.AddRecipeFragment;
 import com.example.healthcareapp.ListInterface.ClickIngredientItem;
 import com.example.healthcareapp.ListInterface.ClickRecipeItem;
 import com.example.healthcareapp.Model.ingredient;
 import com.example.healthcareapp.Model.recipe;
 import com.example.healthcareapp.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>{
     List<recipe> recipeList;
-    private ClickRecipeItem clickRecipeItem;
+    Context mainContext;
 
-    public RecipeAdapter(List<recipe> recipeList, ClickRecipeItem clickRecipeItem) {
+    public RecipeAdapter(List<recipe> recipeList, Context mainContext) {
         this.recipeList = recipeList;
-        this.clickRecipeItem = clickRecipeItem;
+        this.mainContext = mainContext;
     }
     public void setFilteredList(List<recipe> filteredList) {
         this.recipeList = filteredList;
@@ -45,17 +58,38 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         holder.btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickRecipeItem.onClickItemRecipe2(re);
+
+                //
             }
         });
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickRecipeItem.onClickItemRecipe(re);
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference database = FirebaseDatabase.getInstance().getReference("newRecipe");
+                database.child(uid).child(re.getIdRecipe()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        snapshot.getRef().removeValue();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
             }
         });
+        replaceFragment(new AddRecipeFragment());
     }
-
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = ((FragmentActivity)mainContext).getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout,fragment);
+        fragmentTransaction.commit();
+    }
     @Override
     public int getItemCount() {
         if (recipeList != null)

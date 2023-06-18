@@ -61,7 +61,7 @@ public class AddNewFoodStep2Activity extends AppCompatActivity {
             @Override
             public void onClickItemIngredient(ingredient in) {
                 database = FirebaseDatabase.getInstance().getReference("newFoods");
-                database.child(uid).child(String.valueOf(idRecipe)).child(nameRecipe).addListenerForSingleValueEvent(new ValueEventListener() {
+                database.child(uid).child(String.valueOf(idRecipe)).child(nameRecipe).child(in.getIdIngredient()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot Snapshot: snapshot.getChildren()) {

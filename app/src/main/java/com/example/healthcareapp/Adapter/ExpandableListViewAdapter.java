@@ -10,7 +10,13 @@ import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.healthcareapp.Fragments.AddFragment;
+import com.example.healthcareapp.ListInterface.ClickNewFoodItem;
 import com.example.healthcareapp.Model.threeType;
 import com.example.healthcareapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,19 +26,26 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     private Context context;
+    private Context mainContext;
     private  List<String> meals;
     private HashMap<String, List<threeType>> typeList;
+    ClickNewFoodItem clickNewFoodItem;
     private String date;
-    public  ExpandableListViewAdapter(Context context, List<String> chappterList, HashMap<String,List<threeType>> topicsList, String date) {
+
+    public  ExpandableListViewAdapter(Context mainContext, Context context, List<String> chappterList, HashMap<String,List<threeType>> topicsList, String date, ClickNewFoodItem clickNewFoodItem) {
+        this.mainContext = mainContext;
+        this.clickNewFoodItem = clickNewFoodItem;
         this.date = date;
         this.context=context;
         this.meals=chappterList;
         this.typeList = topicsList;
+
     }
     @Override
     public int getGroupCount() {
@@ -41,6 +54,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
+
         return this.typeList.get(this.meals.get(groupPosition)).size();
     }
 
@@ -102,66 +116,28 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                if (meals.get(groupPosition).equals("Breakfast") || meals.get(groupPosition).equals("Lunch") || meals.get(groupPosition).equals("Dinner")
-                || meals.get(groupPosition).equals("Snack") ) {
-                    DatabaseReference database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                    database.child(uid).child(date).child(meals.get(groupPosition)).child(topicTitle.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            snapshot.getRef().removeValue();
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
-                else {
-                    if (meals.get(groupPosition).equals("Exercise")) {
-                        DatabaseReference database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
-                        database.child(uid).child(date).child(topicTitle.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.getRef().removeValue();
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                    }
-                    else {
-                        DatabaseReference database = FirebaseDatabase.getInstance().getReference("water");
-                        database.child(uid).child(date).child(topicTitle.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.getRef().removeValue();
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                    }
-
-                }
+                clickNewFoodItem.onClickItemDelete(topicTitle,groupPosition,childPosition);
+                replaceFragment(new AddFragment());
             }
         });
+        this.notifyDataSetChanged();
         topicTV.setText(topicTitle.getNameType());
         topicTV1.setText(topicTitle.getNumberType());
         topicTV2.setText(topicTitle.getUnitType());
+
         return convertView;
+
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
     }
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = ((FragmentActivity)mainContext).getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout,fragment);
+        fragmentTransaction.commit();
+    }
+
 }
