@@ -43,8 +43,8 @@ import java.util.List;
 
 public class AddRecipeFragment extends Fragment {
 
-    DatabaseReference database, database1;
-    RecyclerView recyclerViewRecipe;
+    DatabaseReference database1;
+    RecyclerView recyclerViewRecipe1;
     private RecipeAdapter recipeAdapter;
     private List<recipe> recipeList;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -53,19 +53,22 @@ public class AddRecipeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_recipe, container, false);
 
-        recyclerViewRecipe = view.findViewById(R.id.recyclerviewRecipe);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewRecipe.getContext());
-        recyclerViewRecipe.setLayoutManager(linearLayoutManager);
+
+        recyclerViewRecipe1 = view.findViewById(R.id.recyclerviewRecipe1);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewRecipe1.getContext());
+        recyclerViewRecipe1.setLayoutManager(linearLayoutManager);
         recipeList = new ArrayList<>();
         recipeAdapter = new RecipeAdapter(recipeList, view.getContext());
 
-        recyclerViewRecipe.setAdapter(recipeAdapter);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(recyclerViewRecipe.getContext(), DividerItemDecoration.VERTICAL);
-        recyclerViewRecipe.addItemDecoration(itemDecoration);
+        recyclerViewRecipe1.setAdapter(recipeAdapter);
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(recyclerViewRecipe1.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerViewRecipe1.addItemDecoration(itemDecoration);
+
         database1 = FirebaseDatabase.getInstance().getReference("newRecipe");
         database1.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                recipeList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     recipe re = dataSnapshot.getValue(recipe.class);
                     recipeList.add(re);
@@ -78,6 +81,8 @@ public class AddRecipeFragment extends Fragment {
 
             }
         });
+
+
         return view;
     }
 

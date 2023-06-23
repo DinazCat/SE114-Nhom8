@@ -79,13 +79,13 @@
 
         <Button
             android:id="@+id/Delete_btn"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginTop="5dp"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/forestgreen_btn"
+            android:background="@drawable/delete_48px"
             android:layoutDirection="rtl"
-            android:text="@string/delete">
+            >
         </Button>
     </LinearLayout>
 </LinearLayout>

@@ -4,10 +4,12 @@ import static java.lang.Float.parseFloat;
 import static java.lang.System.in;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -22,6 +24,7 @@ import com.example.healthcareapp.Adapter.IngredientAdapterAdd;
 import com.example.healthcareapp.ListInterface.ClickIngredientItem;
 import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.Model.ingredient;
+import com.example.healthcareapp.Model.note;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,17 +54,17 @@ public class AddIngredientsActivity extends AppCompatActivity {
     float calories = 0f;
     Random random = new Random();
     int randomID = random.nextInt(100000);
-
+    TextView tvEngVie;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_ingredients);
-
+        tvEngVie = findViewById(R.id.tv);
         Intent i = getIntent();
         String nameFood = i.getStringExtra("nameFood");
         if (nameFood.isEmpty()) Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
-        ingredientArrayList = new ArrayList<>();
 
+        ingredientArrayList = new ArrayList<>();
         editTextQuantity = findViewById(R.id.addIngredientQuantity);
         nextBtn = findViewById(R.id.next);
         //RECYCLERVIEW
@@ -73,20 +76,44 @@ public class AddIngredientsActivity extends AppCompatActivity {
         ingredientAdapterAdd = new IngredientAdapterAdd(ingredientArrayList, new ClickIngredientItem() {
             @Override
             public void onClickItemIngredient(ingredient in) {
-                if (editTextQuantity.getText().toString().isEmpty())
-                    Toast.makeText(AddIngredientsActivity.this, "Enter Quantity", Toast.LENGTH_SHORT).show();
-                else {
-                    database = FirebaseDatabase.getInstance().getReference("newFoods");
-                    in.setQuantity(editTextQuantity.getText().toString());
-                    calories += parseFloat(in.getCalorieIngredient()) * parseFloat(editTextQuantity.getText().toString());
-                    database.child(uid).child(String.valueOf(randomID)).child(String.valueOf(nameFood)).child(in.getIdIngredient()).setValue(in);
-                    Toast.makeText(AddIngredientsActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
-                }
+                AlertDialog.Builder dialog = new AlertDialog.Builder(AddIngredientsActivity.this);
+                dialog.setTitle("Add");
+                dialog.setIcon(R.drawable.noti_icon);
+                dialog.setMessage("You want to add??");
+                dialog.setCancelable(false);
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (editTextQuantity.getText().toString().isEmpty())
+                            Toast.makeText(AddIngredientsActivity.this, "Enter Quantity", Toast.LENGTH_SHORT).show();
+                        else {
+                            database = FirebaseDatabase.getInstance().getReference("newFoods");
+                            in.setQuantity(editTextQuantity.getText().toString());
+                            calories += parseFloat(in.getCalorieIngredient()) * parseFloat(editTextQuantity.getText().toString());
+                            database.child(uid).child(String.valueOf(randomID)).child(String.valueOf(nameFood)).child(in.getIdIngredient()).setValue(in);
+                            Toast.makeText(AddIngredientsActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
+                        }
+                        }
+                });
+                dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertDialog = dialog.create();
+                // Show the Alert Dialog box
+                alertDialog.show();
             }
         });
         //ADD LIST TO RECYCLERVIEW
         recyclerView.setAdapter(ingredientAdapterAdd);
-        database1 = FirebaseDatabase.getInstance().getReference("ingredients");
+        if (tvEngVie.getText().toString().equals("Add New Food")) {
+            database1 = FirebaseDatabase.getInstance().getReference("ingredientsEng");
+        }
+        else {
+            database1 = FirebaseDatabase.getInstance().getReference("ingredients");
+        }
         database1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
