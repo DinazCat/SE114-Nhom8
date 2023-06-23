@@ -1,6 +1,8 @@
 package com.example.healthcareapp.Model;
 
 
+import java.text.DecimalFormat;
+
 public class bmiInfo {
     public String userID;
     public String userName;
@@ -23,6 +25,21 @@ public class bmiInfo {
             bmi = 10 * Integer.parseInt(weight) + 6.25 * Integer.parseInt(height) - 5 * Integer.parseInt(age) - 161;
         }
         return bmi;
+    }
+    public float CalculatorBMI() {
+        float _bmi = 0f;
+        float h = Integer.parseInt(height)*Integer.parseInt(height)/10000f;
+        if (h!=0) _bmi = Integer.parseInt(weight)/(h);
+        return _bmi;
+    }
+    public String foxSayBMI() {
+        String foxSay;
+        float _bmi = CalculatorBMI();
+        if (_bmi<=18.5f) foxSay = "You're in the underweight range";
+        else if (_bmi<=24.9f) foxSay = "You're in the healthy weight range";
+             else if (_bmi<=29.9f) foxSay = "You're in the overweight range";
+                else foxSay = "You're in the obese range";
+        return foxSay;
     }
     public int CaloriesNeedToBurn(){
         int calories = 0;

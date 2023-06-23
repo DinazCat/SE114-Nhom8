@@ -2,9 +2,11 @@ package com.example.healthcareapp.Fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +29,8 @@ import com.example.healthcareapp.Adapter.FoodAdapter;
 import com.example.healthcareapp.ListInterface.ClickFoodItem;
 import com.example.healthcareapp.Model.exercise;
 import com.example.healthcareapp.Model.food;
+import com.example.healthcareapp.Model.note;
+import com.example.healthcareapp.NoteActivity;
 import com.example.healthcareapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -47,13 +51,13 @@ public class SearchFoodFragment extends Fragment {
     private SearchView searchView;
     private Spinner spn;
     DatabaseReference database, database1;
-    TextView tvDate;
+    TextView tvDate, tvEngVie;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_food, container, false);
-
+        tvEngVie = view.findViewById(R.id.textViewAddFoodEngVie);
         tvDate = view.findViewById(R.id.date);
         Calendar calendar = Calendar.getInstance();
         String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
@@ -131,15 +135,70 @@ public class SearchFoodFragment extends Fragment {
         foodAdapter = new FoodAdapter(foodList, new ClickFoodItem() {
             @Override
             public void onClickItemFood(food _food) {
-                database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                database.child(uid).child(date).child(spn.getSelectedItem().toString()).child(String.valueOf(_food.getIdFood())).setValue(_food);
-                Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                dialog.setTitle("Add");
+                dialog.setIcon(R.drawable.noti_icon);
+                dialog.setMessage("You want to add??");
+                dialog.setCancelable(false);
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (tvEngVie.getText().toString().equals("Add food")) {
+                            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                            database.child(uid).child(date).child(spn.getSelectedItem().toString()).child(String.valueOf(_food.getIdFood())).setValue(_food);
+                            Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            if (spn.getSelectedItemPosition()==0) {
+                                database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                                database.child(uid).child(date).child("Breakfast").child(String.valueOf(_food.getIdFood())).setValue(_food);
+                                Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                if (spn.getSelectedItemPosition()==1) {
+                                    database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                                    database.child(uid).child(date).child("Lunch").child(String.valueOf(_food.getIdFood())).setValue(_food);
+                                    Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    if (spn.getSelectedItemPosition()==2) {
+                                        database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                                        database.child(uid).child(date).child("Dinner").child(String.valueOf(_food.getIdFood())).setValue(_food);
+                                        Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                                            database.child(uid).child(date).child("Snack").child(String.valueOf(_food.getIdFood())).setValue(_food);
+                                            Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertDialog = dialog.create();
+                // Show the Alert Dialog box
+                alertDialog.show();
+
             }
         });
         recyclerViewFood.setAdapter(foodAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(recyclerViewFood.getContext(), DividerItemDecoration.VERTICAL);
         recyclerViewFood.addItemDecoration(itemDecoration);
-        database1 = FirebaseDatabase.getInstance().getReference("foods");
+        if (tvEngVie.getText().toString().equals("Add food")) {
+            database1 = FirebaseDatabase.getInstance().getReference("foodsEng");
+        }
+        else {
+            database1 = FirebaseDatabase.getInstance().getReference("foods");
+        }
+
         database1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -86,6 +86,8 @@
     <string name="city">City</string>
     <string name="saveprofile">Save Profile</string>
     <string name="progress">Progress</string>
+    <string name="listnewfoodyouadded"> List New Food You Added </string>
+    <string name="addexercise"> Add Exercise</string>
     <string-array name="meals">
         <item> Breakfast </item>
         <item> Lunch </item>
@@ -139,6 +141,11 @@
         <item> tbsp </item>
         <item> piece </item>
         <item> pieces </item>
+    </string-array>
+    <string-array name="serving">
+        <item> 1 cup </item>
+        <item> 1 ounce </item>
+        <item> 1 slice </item>
     </string-array>
     <string-array name="language">
         <item> Eng </item>

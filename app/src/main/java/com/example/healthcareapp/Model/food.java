@@ -5,8 +5,8 @@ public class food {
     public food( ) {
 
     }
-    public food(String imgFood, String nameFood, String caloriesFood, String servingFood) {
-        this.idFood = imgFood;
+    public food(String idFood, String nameFood, String caloriesFood, String servingFood) {
+        this.idFood = idFood;
         this.nameFood = nameFood;
         this.caloriesFood = caloriesFood;
         this.servingFood = servingFood;

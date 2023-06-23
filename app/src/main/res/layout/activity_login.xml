@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/forminput_bg"
         android:padding="10dp"
-        android:layout_marginTop="460dp"
+        android:layout_marginTop="380dp"
         android:textSize="17dp"
         android:hint="Email"
         android:textColorHint="@color/textgreen"

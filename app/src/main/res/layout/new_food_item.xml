@@ -56,17 +56,25 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_gravity="center">
-        <Button
-            android:id="@+id/Delete_btn"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
+        <ImageButton
+            android:id="@+id/Edit_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/forestgreen_btn"
+            android:background="@drawable/edit_60px"
             android:layoutDirection="rtl"
-            android:text="@string/delete">
-        </Button>
+            >
+        </ImageButton>
+        <ImageButton
+            android:id="@+id/Delete_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/delete_60px"
+            android:layoutDirection="rtl"
+            >
+        </ImageButton>
     </LinearLayout>
 </LinearLayout>

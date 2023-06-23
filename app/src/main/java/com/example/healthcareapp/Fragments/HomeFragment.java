@@ -2,9 +2,15 @@ package com.example.healthcareapp.Fragments;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -21,6 +27,7 @@ import android.widget.Toast;
 import com.example.healthcareapp.Model.bmiInfo;
 import com.example.healthcareapp.Model.exercise;
 import com.example.healthcareapp.Model.food;
+import com.example.healthcareapp.NoteActivity;
 import com.example.healthcareapp.R;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,16 +45,21 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class HomeFragment extends Fragment {
-    private TextView tv_date, tv_baseGoal, tv_Water, tv_snack, tv_exercise, tv_breakfast, tv_lunch, tv_dinner, tv_remaining;
+    private TextView tv_analysis, tv_foxsay, tv_date, tv_baseGoal, tv_Water, tv_snack, tv_exercise, tv_breakfast, tv_lunch, tv_dinner, tv_remaining, tv_bmi;
     private
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     CircularProgressIndicator cpi;
     DatabaseReference database, database1;
+    ImageView imageViewNote;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        //Datetime
+        Calendar calendar = Calendar.getInstance();
+        String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
+        String todayHT = DateFormat.format("dd/MM/yyyy", calendar).toString();
         //tv_weeklyGoal = view.findViewById(R.id.weeklyGoal_tv);
         tv_date = view.findViewById(R.id.date);
         tv_baseGoal = view.findViewById(R.id.baseGoal);
@@ -59,12 +71,36 @@ public class HomeFragment extends Fragment {
         tv_snack = view.findViewById(R.id.snacks);
         tv_remaining = view.findViewById(R.id.remaining);
         cpi = view.findViewById(R.id.circularProgressIndicator);
+        tv_bmi = view.findViewById(R.id.bmi);
+        tv_foxsay = view.findViewById(R.id.foxSay);
+        tv_analysis = view.findViewById(R.id.analysis);
+
+        imageViewNote = view.findViewById(R.id.note);
+
         //bmi thay đổi theo ngày khi sửa
-        Calendar calendar = Calendar.getInstance();
-        String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
+
         setBaseGoal();
         setWater();
         setFoodAndExercise(today);
+        imageViewNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tv_date.getText().toString().equals("Today")) {
+                    Intent i = new Intent(getContext(), NoteActivity.class);
+                    i.putExtra("date", today);
+                    i.putExtra("dateHT", todayHT);
+                    launcherActivity.launch(i);
+                }
+                else {
+                    String[] list = tv_date.getText().toString().split("/",0);
+                    String date = list[2] + '-' + list[1] + '-' + list[0];Intent i = new Intent(getContext(), NoteActivity.class);
+                    i.putExtra("date", date);
+                    i.putExtra("dateHT", tv_date.getText().toString());
+                    launcherActivity.launch(i);
+
+            }
+            }
+        });
 
         tv_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +120,7 @@ public class HomeFragment extends Fragment {
                             setWater();
                             setFoodAndExercise(today);
 
+
                         }
                         else{
                             calendar.set(year, month, dayOfMonth);
@@ -99,6 +136,8 @@ public class HomeFragment extends Fragment {
                 datePickerDialog.show();
             }
         });
+
+
         return view;
     }
 
@@ -161,6 +200,10 @@ public class HomeFragment extends Fragment {
                     if (goalCalo!=0)  {
                         int p = (totalCalo*100)/goalCalo;
                         cpi.setProgress(100-p);}
+
+                    if (totalCalo<0) tv_analysis.setText("Overconsumption");
+                    else if (totalCalo==0) tv_analysis.setText("Enough");
+
                 }
 
                 @Override
@@ -180,7 +223,8 @@ public class HomeFragment extends Fragment {
                     bmiInfos.add(bmiInfo);
                 }
                 SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-                if(tv_date.getText().toString().equals("Today")){
+                if (tv_date.getText().toString().equals("Today"))
+                {
                     Calendar calendar = Calendar.getInstance();
                     Date selectedDate = null;
                     try {
@@ -204,9 +248,15 @@ public class HomeFragment extends Fragment {
                     }
                     if(bmiList.size() <= 0){
                         tv_baseGoal.setText(String.valueOf(bmiInfos.get(0).CaloriesNeedToBurn()));
+                        tv_bmi.setText(String.valueOf(bmiInfos.get(0).CalculatorBMI()));
+                        tv_foxsay.setText(bmiInfos.get(0).foxSayBMI());
                     }
                     else{
                         tv_baseGoal.setText(String.valueOf(bmiList.get(bmiList.size()-1).CaloriesNeedToBurn()));
+                        char[] ch = new char[10];
+                        String.valueOf(bmiInfos.get(bmiList.size()-1).CalculatorBMI()).getChars(0,4,ch,0);
+                        tv_bmi.setText(String.valueOf(ch));
+                        tv_foxsay.setText(bmiList.get(bmiList.size()-1).foxSayBMI());
                     }
                 }
                 else{
@@ -279,4 +329,16 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    ActivityResultLauncher<Intent> launcherActivity = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+
+                    }
+                }
+            });
 }

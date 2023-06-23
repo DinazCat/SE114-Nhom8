@@ -43,7 +43,6 @@ import java.util.List;
 
 public class AddRecipeFragment extends Fragment {
 
-    Button btAddFood;
     DatabaseReference database, database1;
     RecyclerView recyclerViewRecipe;
     private RecipeAdapter recipeAdapter;
@@ -53,7 +52,7 @@ public class AddRecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_recipe, container, false);
-        btAddFood = view.findViewById(R.id.addFood);
+
         recyclerViewRecipe = view.findViewById(R.id.recyclerviewRecipe);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewRecipe.getContext());
         recyclerViewRecipe.setLayoutManager(linearLayoutManager);
@@ -79,27 +78,10 @@ public class AddRecipeFragment extends Fragment {
 
             }
         });
-        btAddFood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(), AddNewFoodActivity.class);
-                launcher.launch(new Intent(i));
-            }
-        });
         return view;
     }
 
 
 
-    ActivityResultLauncher<Intent> launcher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
 
-                    }
-                }
-            });
 }

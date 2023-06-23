@@ -1,31 +1,28 @@
-package com.example.healthcareapp.Fragments;
-
-import android.app.DatePickerDialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
+package com.example.healthcareapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
 
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healthcareapp.Adapter.ExerciseAdapter;
+import com.example.healthcareapp.Fragments.AddFragment;
 import com.example.healthcareapp.ListInterface.ClickExerciseItem;
-import com.example.healthcareapp.ListInterface.ClickFoodItem;
 import com.example.healthcareapp.Model.exercise;
-import com.example.healthcareapp.Model.food;
-import com.example.healthcareapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,27 +34,35 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class SearchExerciseFragment extends Fragment {
-
+public class SearchExerciseActivity extends AppCompatActivity {
     private RecyclerView recyclerViewExercise;
     private ExerciseAdapter exerciseAdapter;
     private List<exercise> exerciseList;
     private SearchView searchViewExercise;
     TextView tvDate;
+    Button btn_back;
     DatabaseReference database, database1;
     TextView tvEngVie;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search_exercise, container, false);
-        tvEngVie = view.findViewById(R.id.textViewExercise);
-        tvDate = view.findViewById(R.id.date);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search_exercise);tvEngVie = findViewById(R.id.textViewExercise);
+        btn_back = findViewById(R.id.back);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SearchExerciseActivity.this, AddFragment.class);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+        tvDate = findViewById(R.id.date);
         Calendar calendar = Calendar.getInstance();
         String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
 
         //SEARCH VIEW
-        searchViewExercise = view.findViewById(R.id.searchViewExercise);
+        searchViewExercise = findViewById(R.id.searchViewExercise);
         searchViewExercise.clearFocus();
         searchViewExercise.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -73,7 +78,7 @@ public class SearchExerciseFragment extends Fragment {
         });
 
         //RECYCLERVIEW
-        recyclerViewExercise = view.findViewById(R.id.recyclerviewSearchExercise);
+        recyclerViewExercise = findViewById(R.id.recyclerviewSearchExercise);
         setRecyclerView(today);
 
         //Set DATE
@@ -84,7 +89,7 @@ public class SearchExerciseFragment extends Fragment {
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SearchExerciseActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         Calendar calendar = Calendar.getInstance();
@@ -104,8 +109,9 @@ public class SearchExerciseFragment extends Fragment {
                 datePickerDialog.show();
             }
         });
-        return view;
+
     }
+
     private void setRecyclerView(String date) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewExercise.getContext());
         recyclerViewExercise.setLayoutManager(linearLayoutManager);
@@ -114,7 +120,7 @@ public class SearchExerciseFragment extends Fragment {
         exerciseAdapter = new ExerciseAdapter(exerciseList, new ClickExerciseItem() {
             @Override
             public void onClickItemExercise(exercise e) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder dialog = new AlertDialog.Builder(SearchExerciseActivity.this);
                 dialog.setTitle("Add");
                 dialog.setIcon(R.drawable.noti_icon);
                 dialog.setMessage("You want to add??");
@@ -124,7 +130,7 @@ public class SearchExerciseFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
                         database.child(uid).child(date).child(String.valueOf(e.getIdExercise())).setValue(e);
-                        Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SearchExerciseActivity.this, "Add Succes", Toast.LENGTH_SHORT).show();
                     }
                 });
                 dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {

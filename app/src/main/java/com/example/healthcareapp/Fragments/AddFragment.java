@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -28,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healthcareapp.Adapter.ExpandableListViewAdapter;
+import com.example.healthcareapp.AddWaterActivity;
 import com.example.healthcareapp.ListInterface.ClickNewFoodItem;
 import com.example.healthcareapp.Model.bmiInfo;
 import com.example.healthcareapp.Model.exercise;
@@ -35,7 +38,9 @@ import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.Model.threeType;
 import com.example.healthcareapp.Model.water;
 import com.example.healthcareapp.R;
+import com.example.healthcareapp.SearchExerciseActivity;
 import com.example.healthcareapp.SearchTopTabActivity;
+import com.example.healthcareapp.SearchTopTapRecipe;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -99,57 +104,78 @@ public class AddFragment extends Fragment {
 
             @Override
             public void onClickItemDelete(threeType th, int groupPosition, int childPosition) {
-                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                if (meals.get(groupPosition).equals("Breakfast") || meals.get(groupPosition).equals("Lunch") || meals.get(groupPosition).equals("Dinner")
-                        || meals.get(groupPosition).equals("Snack") ) {
-                    DatabaseReference database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                    database.child(uid).child(date).child(meals.get(groupPosition)).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            snapshot.getRef().removeValue();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                dialog.setTitle("Delete");
+                dialog.setIcon(R.drawable.noti_icon);
+                dialog.setMessage("You want to delete??");
+                dialog.setCancelable(false);
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        if (meals.get(groupPosition).equals("Breakfast") || meals.get(groupPosition).equals("Lunch") || meals.get(groupPosition).equals("Dinner")
+                                || meals.get(groupPosition).equals("Snack") ) {
+                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                            database.child(uid).child(date).child(meals.get(groupPosition)).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    snapshot.getRef().removeValue();
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
 
                         }
+                        else {
+                            if (meals.get(groupPosition).equals("Exercise")) {
+                                DatabaseReference database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
+                                database.child(uid).child(date).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        snapshot.getRef().removeValue();
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                                    }
 
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                            else {
+                                DatabaseReference database = FirebaseDatabase.getInstance().getReference("water");
+                                database.child(uid).child(date).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        snapshot.getRef().removeValue();
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                            listViewAdapter.notifyDataSetChanged();
                         }
-                    });
 
-                }
-                else {
-                    if (meals.get(groupPosition).equals("Exercise")) {
-                        DatabaseReference database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
-                        database.child(uid).child(date).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.getRef().removeValue();
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
                     }
-                    else {
-                        DatabaseReference database = FirebaseDatabase.getInstance().getReference("water");
-                        database.child(uid).child(date).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.getRef().removeValue();
 
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                });
+                dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
                     }
-                    listViewAdapter.notifyDataSetChanged();
-                }
+                });
+                AlertDialog alertDialog = dialog.create();
+                // Show the Alert Dialog box
+                alertDialog.show();
             }
 
         });
@@ -237,21 +263,21 @@ public class AddFragment extends Fragment {
         btAddExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(new SearchExerciseFragment());
+                launcherAddFoodAndExercise.launch(new Intent(getContext(), SearchExerciseActivity.class));
             }
         });
 
         btAddRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(new AddRecipeFragment());
+                launcherAddFoodAndExercise.launch(new Intent(getContext(), SearchTopTapRecipe.class));
             }
         });
 
         btAddWater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(new AddWaterFragment());
+                launcherAddFoodAndExercise.launch(new Intent(getContext(), AddWaterActivity.class));;
             }
         });
         return view;

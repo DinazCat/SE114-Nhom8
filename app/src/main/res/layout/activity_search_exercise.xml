@@ -4,60 +4,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E9F4E6"
-    tools:context=".Fragments.SearchFoodFragment">
+    tools:context=".SearchExerciseActivity">
 
+    <Button
+        android:id="@+id/back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_backview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
-        android:id="@+id/textViewAddFoodEngVie"
-        android:layout_width="match_parent"
+        android:id="@+id/textViewExercise"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
         android:gravity="center"
-        android:textColor="@color/textgreen"
+        android:text="@string/addexercise"
+        android:textColor="@color/forestgreen"
+        android:textSize="20dp"
         android:textStyle="bold"
-        android:text="@string/addfood"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/border_calories"
-        android:gravity="center_horizontal"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAddFoodEngVie"
-        tools:layout_editor_absoluteX="10dp">
-
+        android:layout_marginHorizontal="10dp"
+        android:gravity="center_horizontal"
+        android:id="@+id/linear"
+        app:layout_constraintTop_toBottomOf="@id/textViewExercise">
         <ImageView
-            android:id="@+id/imgCalendar"
             android:layout_width="30dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
+            android:id="@+id/imgCalendar"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/schedule_100px" />
-
+            android:background="@drawable/schedule_100px"/>
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:text="@string/today"
             android:textColor="#fff"
             android:textSize="21dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            />
     </LinearLayout>
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-
-        app:layout_constraintTop_toBottomOf="@id/linear" />
 
     <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
+        android:id="@+id/searchViewExercise"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -66,16 +67,17 @@
         android:queryHint="Search Here ..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner"/>
+        app:layout_constraintTop_toBottomOf="@id/linear"
+        />
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerviewSearchFood"
+        android:id="@+id/recyclerviewSearchExercise"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+        app:layout_constraintTop_toBottomOf="@+id/searchViewExercise" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

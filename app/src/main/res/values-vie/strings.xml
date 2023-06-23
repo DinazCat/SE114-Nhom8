@@ -104,6 +104,8 @@
     <string name="city">Thành phố</string>
     <string name="saveprofile">Lưu</string>
     <string name="progress">Tiến độ</string>
+    <string name="listnewfoodyouadded"> Danh sách thức ăn mới bạn đã thêm </string>
+    <string name="addexercise"> Thêm hoạt động</string>
     <string-array name="meals">
         <item> Bữa sáng </item>
         <item> Bữa trưa </item>
