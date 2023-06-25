@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.example.healthcareapp.Fragments.AddFragment;
 import com.example.healthcareapp.Fragments.AddRecipeFragment;
 import com.example.healthcareapp.Fragments.NewRecipeStep1Fragment;
+import com.example.healthcareapp.Language;
+import com.example.healthcareapp.LanguageUtils;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -50,13 +52,25 @@ public class ViewPageRecipeAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         String title = "";
-        switch (position) {
-            case 0:
-                title = "Recipe You Added";
-                break;
-            case 1:
-                title = "Add New Recipe";
-                break;
+        if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+            switch (position) {
+                case 0:
+                    title = "Recipe You Added";
+                    break;
+                case 1:
+                    title = "Add New Recipe";
+                    break;
+            }
+        }
+        else {
+            switch (position) {
+                case 0:
+                    title = "Công thức đã thêm";
+                    break;
+                case 1:
+                    title = "Thêm công thức mới";
+                    break;
+            }
         }
         return title;
     }

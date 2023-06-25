@@ -88,6 +88,37 @@
     <string name="progress">Progress</string>
     <string name="listnewfoodyouadded"> List New Food You Added </string>
     <string name="addexercise"> Add Exercise</string>
+    <string name="RemainingGoalFoodExercire"> Remaining = Goal - Food + Exercire </string>
+
+    <string name="Exercise">Exercise</string>
+    <string name="Breakfast">Breakfast</string>
+    <string name="Lunch">Lunch</string>
+    <string name="Dinner">Dinner</string>
+    <string name="Snacks">Snacks</string>
+    <string name="remaining">remaining</string>
+    <string name="Note">Note</string>
+    <string name="YourBMIis">Your BMI is:</string>
+    <string name="Water">Water</string>
+    <string name="Myanalysis">My Analysis</string>
+    <string name="Basegoal">Base goal</string>
+    <string name="Today">Today</string>
+    <string name="Addfood">Add Food</string>
+    <string name="Addexercise">Add Exercise</string>
+    <string name="Addwater">Add Water</string>
+    <string name="Addrecipe">Add Recipe</string>
+    <string name="Goal">Goal</string>
+    <string name="Food">Food</string>
+    <string name="Remaining">Remaining</string>
+    <string name="AddWater">Add Water (ml)</string>
+
+
+    <string name="yourweight">your weight</string>
+    <string name="yourname">your name</string>
+    <string name="yourheight">your height</string>
+    <string name="writehere">write here</string>
+
+    <string name="whatgoal">What is your goal?</string>
+
     <string-array name="meals">
         <item> Breakfast </item>
         <item> Lunch </item>

@@ -120,28 +120,54 @@ public class SearchExerciseActivity extends AppCompatActivity {
         exerciseAdapter = new ExerciseAdapter(exerciseList, new ClickExerciseItem() {
             @Override
             public void onClickItemExercise(exercise e) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(SearchExerciseActivity.this);
-                dialog.setTitle("Add");
-                dialog.setIcon(R.drawable.noti_icon);
-                dialog.setMessage("You want to add??");
-                dialog.setCancelable(false);
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
-                        database.child(uid).child(date).child(String.valueOf(e.getIdExercise())).setValue(e);
-                        Toast.makeText(SearchExerciseActivity.this, "Add Succes", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alertDialog = dialog.create();
-                // Show the Alert Dialog box
-                alertDialog.show();
+                if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(SearchExerciseActivity.this);
+                    dialog.setTitle("Add");
+                    dialog.setIcon(R.drawable.noti_icon);
+                    dialog.setMessage("You want to add??");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
+                            database.child(uid).child(date).child(String.valueOf(e.getIdExercise())).setValue(e);
+                            Toast.makeText(SearchExerciseActivity.this, "Add Succes", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    // Show the Alert Dialog box
+                    alertDialog.show();
+                }
+                else {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(SearchExerciseActivity.this);
+                    dialog.setTitle("Thêm vào");
+                    dialog.setIcon(R.drawable.noti_icon);
+                    dialog.setMessage("Bạn có muốn thêm hoạt động này vào không??");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
+                            database.child(uid).child(date).child(String.valueOf(e.getIdExercise())).setValue(e);
+                            Toast.makeText(SearchExerciseActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    dialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    // Show the Alert Dialog box
+                    alertDialog.show();
+                }
 
             }
         });

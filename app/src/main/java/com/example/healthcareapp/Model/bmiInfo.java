@@ -32,13 +32,22 @@ public class bmiInfo {
         if (h!=0) _bmi = Integer.parseInt(weight)/(h);
         return _bmi;
     }
-    public String foxSayBMI() {
+    public String foxSayBMIEng() {
         String foxSay;
         float _bmi = CalculatorBMI();
         if (_bmi<=18.5f) foxSay = "You're in the underweight range";
         else if (_bmi<=24.9f) foxSay = "You're in the healthy weight range";
              else if (_bmi<=29.9f) foxSay = "You're in the overweight range";
                 else foxSay = "You're in the obese range";
+        return foxSay;
+    }
+    public String foxSayBMIVie() {
+        String foxSay;
+        float _bmi = CalculatorBMI();
+        if (_bmi<=18.5f) foxSay = "Bạn đang ở mức gầy";
+        else if (_bmi<=24.9f) foxSay = "Bạn đang ở mức bình thường";
+        else if (_bmi<=29.9f) foxSay = "Bạn đang ở mức hơi quá cân";
+        else foxSay = "Bạn đang ở mức béo phì";
         return foxSay;
     }
     public int CaloriesNeedToBurn(){

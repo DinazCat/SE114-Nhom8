@@ -76,34 +76,66 @@ public class AddIngredientsActivity extends AppCompatActivity {
         ingredientAdapterAdd = new IngredientAdapterAdd(ingredientArrayList, new ClickIngredientItem() {
             @Override
             public void onClickItemIngredient(ingredient in) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(AddIngredientsActivity.this);
-                dialog.setTitle("Add");
-                dialog.setIcon(R.drawable.noti_icon);
-                dialog.setMessage("You want to add??");
-                dialog.setCancelable(false);
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (editTextQuantity.getText().toString().isEmpty())
-                            Toast.makeText(AddIngredientsActivity.this, "Enter Quantity", Toast.LENGTH_SHORT).show();
-                        else {
-                            database = FirebaseDatabase.getInstance().getReference("newFoods");
-                            in.setQuantity(editTextQuantity.getText().toString());
-                            calories += parseFloat(in.getCalorieIngredient()) * parseFloat(editTextQuantity.getText().toString());
-                            database.child(uid).child(String.valueOf(randomID)).child(String.valueOf(nameFood)).child(in.getIdIngredient()).setValue(in);
-                            Toast.makeText(AddIngredientsActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
+                if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(AddIngredientsActivity.this);
+                    dialog.setTitle("Add");
+                    dialog.setIcon(R.drawable.noti_icon);
+                    dialog.setMessage("You want to add??");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (editTextQuantity.getText().toString().isEmpty())
+                                Toast.makeText(AddIngredientsActivity.this, "Enter Quantity", Toast.LENGTH_SHORT).show();
+                            else {
+                                database = FirebaseDatabase.getInstance().getReference("newFoods");
+                                in.setQuantity(editTextQuantity.getText().toString());
+                                calories += parseFloat(in.getCalorieIngredient()) * parseFloat(editTextQuantity.getText().toString());
+                                database.child(uid).child(String.valueOf(randomID)).child(String.valueOf(nameFood)).child(in.getIdIngredient()).setValue(in);
+                                Toast.makeText(AddIngredientsActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
+                            }
                         }
+                    });
+                    dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
                         }
-                });
-                dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alertDialog = dialog.create();
-                // Show the Alert Dialog box
-                alertDialog.show();
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    // Show the Alert Dialog box
+                    alertDialog.show();
+                }
+                else {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(AddIngredientsActivity.this);
+                    dialog.setTitle("Thêm vào");
+                    dialog.setIcon(R.drawable.noti_icon);
+                    dialog.setMessage("Bạn có muốn thêm vào??");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (editTextQuantity.getText().toString().isEmpty())
+                                Toast.makeText(AddIngredientsActivity.this, "Điền số lượng them gram", Toast.LENGTH_SHORT).show();
+                            else {
+                                database = FirebaseDatabase.getInstance().getReference("newFoods");
+                                in.setQuantity(editTextQuantity.getText().toString());
+                                calories += parseFloat(in.getCalorieIngredient()) * parseFloat(editTextQuantity.getText().toString());
+                                database.child(uid).child(String.valueOf(randomID)).child(String.valueOf(nameFood)).child(in.getIdIngredient()).setValue(in);
+                                Toast.makeText(AddIngredientsActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    dialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    // Show the Alert Dialog box
+                    alertDialog.show();
+                }
             }
         });
         //ADD LIST TO RECYCLERVIEW

@@ -58,7 +58,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/white_btn"
-        android:hint="your name"
+        android:hint="@string/yourname"
         android:padding="20dp"
         />
 
@@ -81,7 +81,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/white_btn"
-        android:hint="your height"
+        android:hint="@string/yourheight"
         android:padding="20dp" />
     <TextView
 
@@ -101,7 +101,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/white_btn"
-        android:hint="your weight"
+        android:hint="@string/yourweight"
         android:padding="20dp" />
     <TextView
 

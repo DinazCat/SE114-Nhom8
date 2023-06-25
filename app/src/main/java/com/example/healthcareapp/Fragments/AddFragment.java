@@ -31,6 +31,8 @@ import android.widget.Toast;
 
 import com.example.healthcareapp.Adapter.ExpandableListViewAdapter;
 import com.example.healthcareapp.AddWaterActivity;
+import com.example.healthcareapp.Language;
+import com.example.healthcareapp.LanguageUtils;
 import com.example.healthcareapp.ListInterface.ClickNewFoodItem;
 import com.example.healthcareapp.Model.bmiInfo;
 import com.example.healthcareapp.Model.exercise;
@@ -104,36 +106,20 @@ public class AddFragment extends Fragment {
 
             @Override
             public void onClickItemDelete(threeType th, int groupPosition, int childPosition) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-                dialog.setTitle("Delete");
-                dialog.setIcon(R.drawable.noti_icon);
-                dialog.setMessage("You want to delete??");
-                dialog.setCancelable(false);
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        if (meals.get(groupPosition).equals("Breakfast") || meals.get(groupPosition).equals("Lunch") || meals.get(groupPosition).equals("Dinner")
-                                || meals.get(groupPosition).equals("Snack") ) {
-                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                            database.child(uid).child(date).child(meals.get(groupPosition)).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    snapshot.getRef().removeValue();
-
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-
-                        }
-                        else {
-                            if (meals.get(groupPosition).equals("Exercise")) {
-                                DatabaseReference database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
-                                database.child(uid).child(date).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                    dialog.setTitle("Delete");
+                    dialog.setIcon(R.drawable.noti_icon);
+                    dialog.setMessage("You want to delete??");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            if (meals.get(groupPosition).equals("Breakfast") || meals.get(groupPosition).equals("Lunch") || meals.get(groupPosition).equals("Dinner")
+                                    || meals.get(groupPosition).equals("Snack")) {
+                                DatabaseReference database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                                database.child(uid).child(date).child(meals.get(groupPosition)).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         snapshot.getRef().removeValue();
@@ -145,37 +131,172 @@ public class AddFragment extends Fragment {
 
                                     }
                                 });
+
+                            } else {
+                                if (meals.get(groupPosition).equals("Exercise")) {
+                                    DatabaseReference database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
+                                    database.child(uid).child(date).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            snapshot.getRef().removeValue();
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                } else {
+                                    DatabaseReference database = FirebaseDatabase.getInstance().getReference("water");
+                                    database.child(uid).child(date).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            snapshot.getRef().removeValue();
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                }
+                                listViewAdapter.notifyDataSetChanged();
                             }
-                            else {
-                                DatabaseReference database = FirebaseDatabase.getInstance().getReference("water");
-                                database.child(uid).child(date).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        snapshot.getRef().removeValue();
 
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-                            }
-                            listViewAdapter.notifyDataSetChanged();
                         }
 
-                    }
+                    });
+                    dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    // Show the Alert Dialog box
+                    alertDialog.show();
+                }
+                else {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                    dialog.setTitle("Xóa");
+                    dialog.setIcon(R.drawable.noti_icon);
+                    dialog.setMessage("Bạn có muốn xóa??");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            if (meals.get(groupPosition).equals("Bữa tối") || meals.get(groupPosition).equals("Bữa sáng") || meals.get(groupPosition).equals("Bữa trưa") || meals.get(groupPosition).equals("Ăn vặt")) {
+                                DatabaseReference database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                                if (meals.get(groupPosition).equals("Bữa sáng")) {
+                                    database.child(uid).child(date).child("Breakfast").child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            snapshot.getRef().removeValue();
 
-                });
-                dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alertDialog = dialog.create();
-                // Show the Alert Dialog box
-                alertDialog.show();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                }
+                                if (meals.get(groupPosition).equals("Bữa trưa")) {
+                                    database.child(uid).child(date).child("Lunch").child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            snapshot.getRef().removeValue();
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                }
+                                else {
+                                    if (meals.get(groupPosition).equals("Bữa tối")) {
+                                        database.child(uid).child(date).child("Dinner").child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                snapshot.getRef().removeValue();
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        if (meals.get(groupPosition).equals("Ăn vặt")) {
+                                            database.child(uid).child(date).child("Snacks").child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    snapshot.getRef().removeValue();
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+
+                            } else {
+                                if (meals.get(groupPosition).equals("Hoạt động")) {
+                                    DatabaseReference database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
+                                    database.child(uid).child(date).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            snapshot.getRef().removeValue();
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                } else {
+                                    DatabaseReference database = FirebaseDatabase.getInstance().getReference("water");
+                                    database.child(uid).child(date).child(th.getIdType()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            snapshot.getRef().removeValue();
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                }
+                                listViewAdapter.notifyDataSetChanged();
+                            }
+
+                        }
+
+                    });
+                    dialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    // Show the Alert Dialog box
+                    alertDialog.show();
+                }
             }
 
         });
@@ -195,7 +316,10 @@ public class AddFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         Calendar calendar = Calendar.getInstance();
                         if (calendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth && calendar.get(Calendar.MONTH) == month && calendar.get(Calendar.YEAR) == year){
-                            tvDate.setText("Today");
+                            if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+                                tvDate.setText("Today");
+                            }
+                            else {tvDate.setText("Hôm nay");}
                             String string = DateFormat.format("yyyy-MM-dd", calendar).toString();
                             setBaseGoal();
                             setList(string);
@@ -294,7 +418,7 @@ public class AddFragment extends Fragment {
                     bmiInfos.add(bmiInfo);
                 }
                 SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-                if(tvDate.getText().toString().equals("Today")){
+                if(tvDate.getText().toString().equals("Today") || tvDate.getText().toString().equals("Hôm nay")){
                     Calendar calendar = Calendar.getInstance();
                     Date selectedDate = null;
                     try {
@@ -361,6 +485,7 @@ public class AddFragment extends Fragment {
     }
     private  void setList(String date) {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("foodDiary");
+
         database.child(uid).child(date).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -430,139 +555,276 @@ public class AddFragment extends Fragment {
         List<threeType> exercise = new ArrayList<>();
         List<threeType> water = new ArrayList<>();
         meals.clear();
-        meals.add("Breakfast");
-        meals.add("Lunch");
-        meals.add("Dinner");
-        meals.add("Snack");
-        meals.add("Water");
-        meals.add("Exercise");
-        //threeType type = new threeType(in.getIdFood(),in.getNameFood(),in.getCaloriesFood(),"calories");
-        //BREAKFAST
-        database = FirebaseDatabase.getInstance().getReference("foodDiary");
-        database.child(uid).child(date).child("Breakfast").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                breakfast.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    food in = dataSnapshot.getValue(food.class);
-                    threeType type = new threeType(in.getIdFood(),in.getNameFood(),in.getCaloriesFood()," calories");
-                    breakfast.add(type);
+
+        if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+            meals.add("Breakfast");
+            meals.add("Lunch");
+            meals.add("Dinner");
+            meals.add("Snack");
+            meals.add("Water");
+            meals.add("Exercise");
+            //threeType type = new threeType(in.getIdFood(),in.getNameFood(),in.getCaloriesFood(),"calories");
+            //BREAKFAST
+            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+            database.child(uid).child(date).child("Breakfast").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    breakfast.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        threeType type = new threeType(in.getIdFood(), in.getNameFood(), in.getCaloriesFood(), " calories");
+                        breakfast.add(type);
+                    }
+                    threeList.put("Breakfast", breakfast);
+
                 }
-                threeList.put("Breakfast",breakfast);
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //LUNCH
-        database = FirebaseDatabase.getInstance().getReference("foodDiary");
-        database.child(uid).child(date).child("Lunch").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                lunch.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    food in = dataSnapshot.getValue(food.class);
-                    threeType type = new threeType(in.getIdFood(),in.getNameFood(),in.getCaloriesFood()," calories");
-                    lunch.add(type);
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
                 }
-                threeList.put("Lunch",lunch);
+            });
 
-            }
+            //LUNCH
+            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+            database.child(uid).child(date).child("Lunch").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    lunch.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        threeType type = new threeType(in.getIdFood(), in.getNameFood(), in.getCaloriesFood(), " calories");
+                        lunch.add(type);
+                    }
+                    threeList.put("Lunch", lunch);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //DINNER
-        database = FirebaseDatabase.getInstance().getReference("foodDiary");
-        database.child(uid).child(date).child("Dinner").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dinner.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    food in = dataSnapshot.getValue(food.class);
-                    threeType type = new threeType(in.getIdFood(),in.getNameFood(),in.getCaloriesFood()," calories");
-                    dinner.add(type);
                 }
-                threeList.put("Dinner",dinner);
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //SNACK
-        database = FirebaseDatabase.getInstance().getReference("foodDiary");
-        database.child(uid).child(date).child("Snack").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                snack.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    food in = dataSnapshot.getValue(food.class);
-                    threeType type = new threeType(in.getIdFood(),in.getNameFood(),in.getCaloriesFood()," calories");
-                    snack.add(type);
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
                 }
-                threeList.put("Snack",snack);
+            });
 
-            }
+            //DINNER
+            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+            database.child(uid).child(date).child("Dinner").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    dinner.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        threeType type = new threeType(in.getIdFood(), in.getNameFood(), in.getCaloriesFood(), " calories");
+                        dinner.add(type);
+                    }
+                    threeList.put("Dinner", dinner);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //EXERCISE
-        database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
-        database.child(uid).child(date).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                exercise.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    exercise in = dataSnapshot.getValue(exercise.class);
-                    threeType type = new threeType(in.getIdExercise(),in.getNameExercise(),in.getCaloriesBurnedAMin()," calories");
-                    exercise.add(type);
                 }
-                threeList.put("Exercise",exercise);
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //WATER
-        database = FirebaseDatabase.getInstance().getReference("water");
-        database.child(uid).child(date).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                water.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    water in = dataSnapshot.getValue(water.class);
-                    threeType type = new threeType(in.getIdwater(),"water",in.getWaterAmount()," ml");
-                    water.add(type);
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
                 }
-                threeList.put("Water",water);
+            });
 
-            }
+            //SNACK
+            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+            database.child(uid).child(date).child("Snack").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    snack.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        threeType type = new threeType(in.getIdFood(), in.getNameFood(), in.getCaloriesFood(), " calories");
+                        snack.add(type);
+                    }
+                    threeList.put("Snack", snack);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
-            }
-        });
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            //EXERCISE
+            database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
+            database.child(uid).child(date).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    exercise.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        exercise in = dataSnapshot.getValue(exercise.class);
+                        threeType type = new threeType(in.getIdExercise(), in.getNameExercise(), in.getCaloriesBurnedAMin(), " calories");
+                        exercise.add(type);
+                    }
+                    threeList.put("Exercise", exercise);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            //WATER
+            database = FirebaseDatabase.getInstance().getReference("water");
+            database.child(uid).child(date).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    water.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        water in = dataSnapshot.getValue(water.class);
+                        threeType type = new threeType(in.getIdwater(), "water", in.getWaterAmount(), " ml");
+                        water.add(type);
+                    }
+                    threeList.put("Water", water);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else {
+            meals.add("Bữa sáng");
+            meals.add("Bữa trưa");
+            meals.add("Bữa tối");
+            meals.add("Ăn vặt");
+            meals.add("Nước");
+            meals.add("Hoạt động");
+            //threeType type = new threeType(in.getIdFood(),in.getNameFood(),in.getCaloriesFood(),"calories");
+            //BREAKFAST
+            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+            database.child(uid).child(date).child("Breakfast").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    breakfast.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        threeType type = new threeType(in.getIdFood(), in.getNameFood(), in.getCaloriesFood(), " calories");
+                        breakfast.add(type);
+                    }
+                    threeList.put("Bữa sáng", breakfast);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            //LUNCH
+            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+            database.child(uid).child(date).child("Lunch").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    lunch.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        threeType type = new threeType(in.getIdFood(), in.getNameFood(), in.getCaloriesFood(), " calories");
+                        lunch.add(type);
+                    }
+                    threeList.put("Bữa trưa", lunch);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            //DINNER
+            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+            database.child(uid).child(date).child("Dinner").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    dinner.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        threeType type = new threeType(in.getIdFood(), in.getNameFood(), in.getCaloriesFood(), " calories");
+                        dinner.add(type);
+                    }
+                    threeList.put("Bữa tối", dinner);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            //SNACK
+            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+            database.child(uid).child(date).child("Snack").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    snack.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        food in = dataSnapshot.getValue(food.class);
+                        threeType type = new threeType(in.getIdFood(), in.getNameFood(), in.getCaloriesFood(), " calories");
+                        snack.add(type);
+                    }
+                    threeList.put("Ăn vặt", snack);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            //EXERCISE
+            database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
+            database.child(uid).child(date).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    exercise.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        exercise in = dataSnapshot.getValue(exercise.class);
+                        threeType type = new threeType(in.getIdExercise(), in.getNameExercise(), in.getCaloriesBurnedAMin(), " calories");
+                        exercise.add(type);
+                    }
+                    threeList.put("Hoạt động", exercise);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            //WATER
+            database = FirebaseDatabase.getInstance().getReference("water");
+
+            database.child(uid).child(date).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    water.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        water in = dataSnapshot.getValue(water.class);
+                        threeType type = new threeType(in.getIdwater(), "Nước", in.getWaterAmount(), " ml");
+                        water.add(type);
+                    }
+                    threeList.put("Nước", water);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
     //region CHANGE TO ACTIVITY
     ActivityResultLauncher<Intent> launcherAddWater = registerForActivityResult(

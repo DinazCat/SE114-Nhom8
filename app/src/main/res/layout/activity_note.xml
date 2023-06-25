@@ -52,7 +52,7 @@
     <EditText
         android:layout_width="300dp"
         android:layout_height="250dp"
-        android:hint="write here"
+        android:hint="@string/writehere"
         android:gravity="top"
         android:id="@+id/contentNote"
         android:backgroundTint="@color/white"
@@ -65,7 +65,7 @@
         android:id="@+id/saveNote"
         android:layout_width="130dp"
         android:layout_height="50dp"
-        android:text="Save"
+        android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

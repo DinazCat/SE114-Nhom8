@@ -1,5 +1,8 @@
 package com.example.healthcareapp.Fragments;
 
+import static com.example.healthcareapp.LanguageUtils.CURRENT_LANGUAGE;
+import static com.example.healthcareapp.LanguageUtils.setCurrentLanguage;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +26,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.healthcareapp.ChangeBmiAndGoal;
+import com.example.healthcareapp.Language;
+import com.example.healthcareapp.LanguageUtils;
 import com.example.healthcareapp.LoginActivity;
 import com.example.healthcareapp.NotificationSettingActivity;
 import com.example.healthcareapp.R;
@@ -64,6 +69,8 @@ public class SettingsFragment extends Fragment {
                 editor.apply();
                 if(!myVariable.equals(selectedItem))
                     getActivity().recreate();
+                if (selectedItem.equals("Eng")) LanguageUtils.setCurrentLanguage(Language.ENGLISH);
+                else LanguageUtils.setCurrentLanguage(Language.VIETNAMESE);
 
             }
 

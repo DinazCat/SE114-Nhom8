@@ -25,7 +25,7 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/today"
+            android:text="@string/Today"
             android:textColor="#fff"
             android:textSize="21dp"
             android:textStyle="bold"
@@ -73,7 +73,7 @@
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="Goal"
+                    android:text="@string/Goal"
                     android:textSize="12dp"
                     android:textAlignment="center"
                     />
@@ -102,7 +102,7 @@
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:text="Food"
+                    android:text="@string/Food"
                     android:textSize="12dp"
                     android:textAlignment="center"
                     />
@@ -130,7 +130,7 @@
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="Exercise"
+                    android:text="@string/Exercise"
                     android:textSize="12dp"
                     android:textAlignment="center"
                     />
@@ -162,7 +162,7 @@
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="Remaining"
+                    android:text="@string/Remaining"
                     android:textSize="12dp"
                     android:textAlignment="center"
                     android:textColor="#49be25"
@@ -185,7 +185,7 @@
         <Button
             android:layout_width="170dp"
             android:layout_height="40dp"
-            android:text="Add Food"
+            android:text="@string/Addfood"
             android:textSize="16dp"
             android:id="@+id/addFood"
             android:layout_marginRight="5dp"
@@ -194,7 +194,7 @@
         <Button
             android:layout_width="170dp"
             android:layout_height="40dp"
-            android:text="Add Exercise"
+            android:text="@string/Addexercise"
             android:textSize="16dp"
             android:id="@+id/addExercise"
             android:layout_marginRight="5dp"
@@ -212,7 +212,7 @@
         <Button
             android:layout_width="170dp"
             android:layout_height="40dp"
-            android:text="Add Recipe"
+            android:text="@string/Addrecipe"
             android:textSize="16dp"
             android:id="@+id/addRecipe"
             android:layout_marginRight="5dp"
@@ -221,7 +221,7 @@
         <Button
             android:layout_width="170dp"
             android:layout_height="40dp"
-            android:text="Add Water"
+            android:text="@string/Addwater"
             android:textSize="16dp"
             android:id="@+id/addWater"
             android:layout_marginRight="5dp"

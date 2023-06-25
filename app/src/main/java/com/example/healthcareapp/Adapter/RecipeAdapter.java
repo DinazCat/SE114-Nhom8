@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthcareapp.Fragments.AddFragment;
 import com.example.healthcareapp.Fragments.AddRecipeFragment;
+import com.example.healthcareapp.Language;
+import com.example.healthcareapp.LanguageUtils;
 import com.example.healthcareapp.ListInterface.ClickIngredientItem;
 import com.example.healthcareapp.ListInterface.ClickRecipeItem;
 import com.example.healthcareapp.Model.ingredient;
@@ -68,40 +70,76 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(v.getContext());
-                dialog.setTitle("Delete");
-                dialog.setIcon(R.drawable.noti_icon);
-                dialog.setMessage("You want to delete??");
-                dialog.setCancelable(false);
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        DatabaseReference database = FirebaseDatabase.getInstance().getReference("newRecipe");
-                        database.child(uid).child(re.getIdRecipe()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.getRef().removeValue();
+                if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(v.getContext());
+                    dialog.setTitle("Delete");
+                    dialog.setIcon(R.drawable.noti_icon);
+                    dialog.setMessage("You want to delete??");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("newRecipe");
+                            database.child(uid).child(re.getIdRecipe()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    snapshot.getRef().removeValue();
 
-                            }
+                                }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
+                                }
+                            });
                         }
-                });
-                dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alertDialog = dialog.create();
-                // Show the Alert Dialog box
-                alertDialog.show();
+                    });
+                    dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    // Show the Alert Dialog box
+                    alertDialog.show();
+                }
+                else {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(v.getContext());
+                    dialog.setTitle("Xóa");
+                    dialog.setIcon(R.drawable.noti_icon);
+                    dialog.setMessage("Bạn muốn xóa công thức này??");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("newRecipe");
+                            database.child(uid).child(re.getIdRecipe()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    snapshot.getRef().removeValue();
 
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                    });
+                    dialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    // Show the Alert Dialog box
+                    alertDialog.show();
+                }
             }
         });
 

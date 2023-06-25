@@ -1,8 +1,10 @@
 package com.example.healthcareapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -81,22 +83,77 @@ public class AddWaterActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(AddWaterActivity.this);
+                    dialog.setTitle("Save");
+                    dialog.setIcon(R.drawable.noti_icon);
+                    dialog.setMessage("You want to save??");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (edtWater.getText().toString().trim().equals("")) {
+                                Toast.makeText(AddWaterActivity.this, "Input cannot be blank", Toast.LENGTH_LONG).show();
+                            } else {
+                                String uid = FirebaseAuth.getInstance().getUid();
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("water");
 
-                if (edtWater.getText().toString().trim().equals("")){
-                    Toast.makeText(AddWaterActivity.this, "Input cannot be blank", Toast.LENGTH_LONG).show();
+                                water w = new water();
+                                Random random = new Random();
+                                int randomID = random.nextInt(100000);
+                                w.setWaterAmount(edtWater.getText().toString());
+                                w.setTime(date);
+                                w.setIdwater(String.valueOf(randomID));
+                                databaseReference.child(uid).child(date).child(String.valueOf(randomID)).setValue(w);
+
+                            }
+                        }
+                    });
+                    dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    // Show the Alert Dialog box
+                    alertDialog.show();
                 }
                 else {
-                    String uid = FirebaseAuth.getInstance().getUid();
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("water");
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(AddWaterActivity.this);
+                    dialog.setTitle("Lưu");
+                    dialog.setIcon(R.drawable.noti_icon);
+                    dialog.setMessage("Bạn có muốn lưu??");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (edtWater.getText().toString().trim().equals("")) {
+                                Toast.makeText(AddWaterActivity.this, "Không thể để trống", Toast.LENGTH_LONG).show();
+                            } else {
+                                String uid = FirebaseAuth.getInstance().getUid();
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("water");
 
-                    water w = new water();
-                    Random random = new Random();
-                    int randomID = random.nextInt(100000);
-                    w.setWaterAmount(edtWater.getText().toString());
-                    w.setTime(date);
-                    w.setIdwater(String.valueOf(randomID));
-                    databaseReference.child(uid).child(date).child(String.valueOf(randomID)).setValue(w);
+                                water w = new water();
+                                Random random = new Random();
+                                int randomID = random.nextInt(100000);
+                                w.setWaterAmount(edtWater.getText().toString());
+                                w.setTime(date);
+                                w.setIdwater(String.valueOf(randomID));
+                                databaseReference.child(uid).child(date).child(String.valueOf(randomID)).setValue(w);
 
+                            }
+                        }
+                    });
+                    dialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    // Show the Alert Dialog box
+                    alertDialog.show();
                 }
             }
         });

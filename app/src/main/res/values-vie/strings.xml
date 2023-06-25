@@ -106,6 +106,34 @@
     <string name="progress">Tiến độ</string>
     <string name="listnewfoodyouadded"> Danh sách thức ăn mới bạn đã thêm </string>
     <string name="addexercise"> Thêm hoạt động</string>
+    <string name="RemainingGoalFoodExercire"> Còn lại=Mục tiêu-Thức ăn+Hoạt động</string>
+
+    <string name="Exercise">Hoạt động</string>
+    <string name="Breakfast">Sáng</string>
+    <string name="Lunch">Trưa</string>
+    <string name="Dinner">Tối</string>
+    <string name="Snacks">Ăn vặt</string>
+    <string name="remaining">còn lại</string>
+    <string name="Note">Ghi chú</string>
+    <string name="YourBMIis">BMI của bạn là:</string>
+    <string name="Water">Nước</string>
+    <string name="Myanalysis">Phân tích: </string>
+    <string name="Basegoal">Mục tiêu</string>
+    <string name="Today">Hôm nay</string>
+    <string name="Addfood">Thêm Thức Ăn</string>
+    <string name="Addexercise">Thêm Hoạt Động</string>
+    <string name="Addwater">Thêm Nước</string>
+    <string name="Addrecipe">Thêm Công Thức</string>
+
+    <string name="Goal">Mục tiêu</string>
+    <string name="Food">Thức ăn</string>
+    <string name="Remaining">Còn lại</string>
+    <string name="AddWater">Thêm nước (ml)</string>
+    <string name="yourweight">cân nặng của bạn</string>
+    <string name="yourname">tên của bạn</string>
+    <string name="yourheight">chiều cao của bạn</string>
+    <string name="writehere">viết vào đây</string>
+    <string name="whatgoal">Mục tiêu của bạn là gì?</string>
     <string-array name="meals">
         <item> Bữa sáng </item>
         <item> Bữa trưa </item>
@@ -159,6 +187,11 @@
         <item> tbsp </item>
         <item> piece </item>
         <item> pieces </item>
+    </string-array>
+    <string-array name="serving">
+        <item> 1 bát </item>
+        <item> 1 phần </item>
+        <item> 1 miếng </item>
     </string-array>
     <string-array name="language">
         <item> Vie </item>

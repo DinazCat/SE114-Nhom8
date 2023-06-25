@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healthcareapp.Adapter.NewFoodAdapter;
+import com.example.healthcareapp.Language;
+import com.example.healthcareapp.LanguageUtils;
 import com.example.healthcareapp.ListInterface.ClickFoodItem;
 import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.R;
@@ -164,56 +166,108 @@ public class AddNewFoodFragment extends Fragment {
         btSaveFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (etCalorieNewFood.getText().toString().trim().isEmpty() || etNameNewFood.getText().toString().trim().isEmpty() ) {
-                    Toast.makeText(getContext(), "Please Enter Name, Calorie and Serving", Toast.LENGTH_SHORT).show();
-                } else {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-                    dialog.setTitle("Save");
-                    dialog.setIcon(R.drawable.noti_icon);
-                    dialog.setMessage("You want to save??");
-                    dialog.setCancelable(false);
-                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Random random = new Random();
-                            int randomID = random.nextInt(1000000);
+                if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+                    if (etCalorieNewFood.getText().toString().trim().isEmpty() || etNameNewFood.getText().toString().trim().isEmpty()) {
+                        Toast.makeText(getContext(), "Please Enter Name, Calorie and Serving", Toast.LENGTH_SHORT).show();
+                    } else {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                        dialog.setTitle("Save");
+                        dialog.setIcon(R.drawable.noti_icon);
+                        dialog.setMessage("You want to save??");
+                        dialog.setCancelable(false);
+                        dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Random random = new Random();
+                                int randomID = random.nextInt(1000000);
 
-                            food _food = new food();
-                            _food.setIdFood(String.valueOf(randomID));
-                            _food.setNameFood(etNameNewFood.getText().toString().trim());
-                            _food.setCaloriesFood(etCalorieNewFood.getText().toString().trim());
-                            _food.setServingFood(spn.getSelectedItem().toString().trim());
+                                food _food = new food();
+                                _food.setIdFood(String.valueOf(randomID));
+                                _food.setNameFood(etNameNewFood.getText().toString().trim());
+                                _food.setCaloriesFood(etCalorieNewFood.getText().toString().trim());
+                                _food.setServingFood(spn.getSelectedItem().toString().trim());
 
-                            database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
-                            database.child(uid).child(_food.getIdFood()).setValue(_food);
+                                database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
+                                database.child(uid).child(_food.getIdFood()).setValue(_food);
 
-                            if (tvEngVie.getText().toString().equals("List New Food You Added")) {
-                                DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foodsEng");
-                                database1.child(_food.getIdFood()).setValue(_food);
+                                if (tvEngVie.getText().toString().equals("List New Food You Added")) {
+                                    DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foodsEng");
+                                    database1.child(_food.getIdFood()).setValue(_food);
+                                } else {
+                                    DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foods");
+                                    database1.child(_food.getIdFood()).setValue(_food);
+                                }
+                                etNameNewFood.setText("");
+                                etCalorieNewFood.setText("");
+
+                                Toast.makeText(getContext(), "Add New Food Success", Toast.LENGTH_SHORT).show();
+
+                                newFoodAdapter.notifyDataSetChanged();
                             }
-                            else {
-                                DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foods");
-                                database1.child(_food.getIdFood()).setValue(_food);
+
+                        });
+                        dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
                             }
-                            etNameNewFood.setText("");
-                            etCalorieNewFood.setText("");
+                        });
+                        AlertDialog alertDialog = dialog.create();
+                        // Show the Alert Dialog box
+                        alertDialog.show();
 
-                            Toast.makeText(getContext(), "Add New Food Success", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    if (etCalorieNewFood.getText().toString().trim().isEmpty() || etNameNewFood.getText().toString().trim().isEmpty()) {
+                        Toast.makeText(getContext(), "Vui lòng điền đủ thông tin tên, lượng calories và phần thức ăn ", Toast.LENGTH_SHORT).show();
+                    } else {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                        dialog.setTitle("Lưu");
+                        dialog.setIcon(R.drawable.noti_icon);
+                        dialog.setMessage("Bạn có muốn lưu??");
+                        dialog.setCancelable(false);
+                        dialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Random random = new Random();
+                                int randomID = random.nextInt(1000000);
 
-                            newFoodAdapter.notifyDataSetChanged();
-                        }
+                                food _food = new food();
+                                _food.setIdFood(String.valueOf(randomID));
+                                _food.setNameFood(etNameNewFood.getText().toString().trim());
+                                _food.setCaloriesFood(etCalorieNewFood.getText().toString().trim());
+                                _food.setServingFood(spn.getSelectedItem().toString().trim());
 
-                    });
-                    dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    AlertDialog alertDialog = dialog.create();
-                    // Show the Alert Dialog box
-                    alertDialog.show();
+                                database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
+                                database.child(uid).child(_food.getIdFood()).setValue(_food);
 
+                                if (tvEngVie.getText().toString().equals("List New Food You Added")) {
+                                    DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foodsEng");
+                                    database1.child(_food.getIdFood()).setValue(_food);
+                                } else {
+                                    DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foods");
+                                    database1.child(_food.getIdFood()).setValue(_food);
+                                }
+                                etNameNewFood.setText("");
+                                etCalorieNewFood.setText("");
+
+                                Toast.makeText(getContext(), "Thêm thức ăn mới thành công", Toast.LENGTH_SHORT).show();
+
+                                newFoodAdapter.notifyDataSetChanged();
+                            }
+
+                        });
+                        dialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog alertDialog = dialog.create();
+                        // Show the Alert Dialog box
+                        alertDialog.show();
+                    }
                 }
             }
         });

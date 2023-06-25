@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.healthcareapp.Language;
+import com.example.healthcareapp.LanguageUtils;
 import com.example.healthcareapp.ListInterface.ClickFoodItem;
 import com.example.healthcareapp.ListInterface.ClickNewFoodItem;
 import com.example.healthcareapp.ListInterface.ClickRecipeItem;
@@ -62,55 +64,108 @@ public class NewFoodAdapter extends RecyclerView.Adapter<NewFoodAdapter.NewFoodV
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(v.getContext());
-                dialog.setTitle("Delete");
-                dialog.setIcon(R.drawable.noti_icon);
-                dialog.setMessage("You want to delete??");
-                dialog.setCancelable(false);
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        // Xóa trong recycle view new food
-                        DatabaseReference database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
-                        database.child(uid).child(_food.getIdFood()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.getRef().removeValue();
+                if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(v.getContext());
+                    dialog.setTitle("Delete");
+                    dialog.setIcon(R.drawable.noti_icon);
+                    dialog.setMessage("You want to delete??");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            // Xóa trong recycle view new food
+                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
+                            database.child(uid).child(_food.getIdFood()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    snapshot.getRef().removeValue();
 
-                            }
+                                }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
-                        // Xóa trong recycle view food khong cho add nữa
-                        DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foods");
-                        database1.child(_food.getIdFood()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.getRef().removeValue();
+                                }
+                            });
+                            // Xóa trong recycle view food khong cho add nữa
+                            DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foods");
+                            database1.child(_food.getIdFood()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    snapshot.getRef().removeValue();
 
-                            }
+                                }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
-                    }
+                                }
+                            });
+                        }
 
-                });
-                dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alertDialog = dialog.create();
-                // Show the Alert Dialog box
-                alertDialog.show();
+                    });
+                    dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    // Show the Alert Dialog box
+                    alertDialog.show();
+                }
+                else {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(v.getContext());
+                    dialog.setTitle("Xóa");
+                    dialog.setIcon(R.drawable.noti_icon);
+                    dialog.setMessage("Bạn có muốn xóa??");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            // Xóa trong recycle view new food
+                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
+                            database.child(uid).child(_food.getIdFood()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    snapshot.getRef().removeValue();
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                            // Xóa trong recycle view food khong cho add nữa
+                            DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foods");
+                            database1.child(_food.getIdFood()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    snapshot.getRef().removeValue();
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+
+                    });
+                    dialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    // Show the Alert Dialog box
+                    alertDialog.show();
+                }
             }
         });
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {

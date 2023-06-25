@@ -32,7 +32,7 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/today"
+                android:text="@string/Today"
                 android:textColor="#fff"
                 android:textSize="21dp"
                 android:textStyle="bold"
@@ -60,7 +60,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Remaining = Goal - Food + Exercire"
+                android:text="@string/RemainingGoalFoodExercire"
                 android:textColor="#444444"
                 android:textSize="20dp"
                 android:textStyle="bold"
@@ -82,7 +82,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Exercise"
+                        android:text="@string/Exercise"
                         android:textColor="@color/white"
                         android:textSize="20dp"
                         android:layout_gravity="center"
@@ -100,7 +100,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Water"
+                        android:text="@string/Water"
                         android:textColor="@color/white"
                         android:textSize="20dp"
                         android:layout_marginTop="5dp"
@@ -119,7 +119,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Note"
+                        android:text="@string/Note"
                         android:textColor="@color/white"
                         android:textSize="20dp"
                         android:layout_marginTop="5dp"
@@ -141,7 +141,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Base goal"
+                        android:text="@string/Basegoal"
                         android:textColor="@color/white"
                         android:layout_gravity="center"
                         android:textSize="20dp"
@@ -178,7 +178,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="remaining"
+                            android:text="@string/remaining"
                             android:textColor="@color/white"
                             android:textSize="20dp"
                             android:layout_marginTop="20dp"
@@ -214,7 +214,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Breakfast"
+                        android:text="@string/Breakfast"
                         android:textColor="@color/white"
                         android:textSize="20dp"
                         android:layout_gravity="center"
@@ -232,7 +232,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lunch"
+                        android:text="@string/Lunch"
                         android:textColor="@color/white"
                         android:textSize="20dp"
                         android:layout_marginTop="5dp"
@@ -251,7 +251,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dinner"
+                        android:text="@string/Dinner"
                         android:textColor="@color/white"
                         android:textSize="20dp"
                         android:layout_marginTop="5dp"
@@ -270,7 +270,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Snacks"
+                        android:text="@string/Snacks"
                         android:textColor="@color/white"
                         android:textSize="20dp"
                         android:layout_marginTop="5dp"
@@ -306,7 +306,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="My analysis: "
+                android:text="@string/Myanalysis"
                 android:textColor="@color/white"
                 android:textSize="21dp"
                 android:textStyle="bold"
@@ -337,7 +337,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Your BMI is: "
+                    android:text="@string/YourBMIis"
                     android:textSize="24dp"
                     android:textStyle="bold"
                     android:textColor="@color/textgreen"

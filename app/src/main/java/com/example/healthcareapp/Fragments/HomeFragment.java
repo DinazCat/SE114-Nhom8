@@ -24,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.healthcareapp.Language;
+import com.example.healthcareapp.LanguageUtils;
 import com.example.healthcareapp.Model.bmiInfo;
 import com.example.healthcareapp.Model.exercise;
 import com.example.healthcareapp.Model.food;
@@ -82,10 +84,11 @@ public class HomeFragment extends Fragment {
         setBaseGoal();
         setWater();
         setFoodAndExercise(today);
+        if (tv_date.getText().toString().equals("Hôm nay")) LanguageUtils.setCurrentLanguage(Language.VIETNAMESE);
         imageViewNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tv_date.getText().toString().equals("Today")) {
+                if (tv_date.getText().toString().equals("Today") || tv_date.getText().toString().equals("Hôm nay")) {
                     Intent i = new Intent(getContext(), NoteActivity.class);
                     i.putExtra("date", today);
                     i.putExtra("dateHT", todayHT);
@@ -114,7 +117,8 @@ public class HomeFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         Calendar calendar = Calendar.getInstance();
                         if (calendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth && calendar.get(Calendar.MONTH) == month && calendar.get(Calendar.YEAR) == year){
-                            tv_date.setText("Today");
+                            if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) { tv_date.setText("Today");}
+                            else {tv_date.setText("Hôm nay");}
                             String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
                             setBaseGoal();
                             setWater();
@@ -201,9 +205,15 @@ public class HomeFragment extends Fragment {
                         int p = (totalCalo*100)/goalCalo;
                         cpi.setProgress(100-p);}
 
-                    if (totalCalo<0) tv_analysis.setText("Overconsumption");
-                    else if (totalCalo==0) tv_analysis.setText("Enough");
-
+                    if (LanguageUtils.getCurrentLanguage()==Language.ENGLISH) {
+                        if (totalCalo < 0) tv_analysis.setText("Overconsumption");
+                        else if (totalCalo == 0) tv_analysis.setText("Enough");
+                    }
+                    else {
+                        if (totalCalo < 0) tv_analysis.setText("Đã vượt");
+                        else if (totalCalo == 0) tv_analysis.setText("Đã dùng đủ");
+                        else tv_analysis.setText("Chưa dùng hết");
+                    }
                 }
 
                 @Override
@@ -223,7 +233,7 @@ public class HomeFragment extends Fragment {
                     bmiInfos.add(bmiInfo);
                 }
                 SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-                if (tv_date.getText().toString().equals("Today"))
+                if (tv_date.getText().toString().equals("Today") || tv_date.getText().toString().equals("Hôm nay"))
                 {
                     Calendar calendar = Calendar.getInstance();
                     Date selectedDate = null;
@@ -249,14 +259,18 @@ public class HomeFragment extends Fragment {
                     if(bmiList.size() <= 0){
                         tv_baseGoal.setText(String.valueOf(bmiInfos.get(0).CaloriesNeedToBurn()));
                         tv_bmi.setText(String.valueOf(bmiInfos.get(0).CalculatorBMI()));
-                        tv_foxsay.setText(bmiInfos.get(0).foxSayBMI());
+                        if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+                        tv_foxsay.setText(bmiInfos.get(0).foxSayBMIEng()); }
+                        else { tv_foxsay.setText(bmiInfos.get(0).foxSayBMIVie());}
                     }
                     else{
                         tv_baseGoal.setText(String.valueOf(bmiList.get(bmiList.size()-1).CaloriesNeedToBurn()));
                         char[] ch = new char[10];
                         String.valueOf(bmiInfos.get(bmiList.size()-1).CalculatorBMI()).getChars(0,4,ch,0);
                         tv_bmi.setText(String.valueOf(ch));
-                        tv_foxsay.setText(bmiList.get(bmiList.size()-1).foxSayBMI());
+                        if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+                        tv_foxsay.setText(bmiList.get(bmiList.size()-1).foxSayBMIEng()); }
+                        else {tv_foxsay.setText(bmiList.get(bmiList.size()-1).foxSayBMIVie()); }
                     }
                 }
                 else{
@@ -297,7 +311,7 @@ public class HomeFragment extends Fragment {
     }
     private void setWater(){
         String date;
-        if(tv_date.getText().toString().equals("Today")) {
+        if(tv_date.getText().toString().equals("Today") || tv_date.getText().toString().equals("Hôm nay")) {
             date = (DateFormat.format("yyyy/MM/dd", Calendar.getInstance()).toString());
         }
         else {

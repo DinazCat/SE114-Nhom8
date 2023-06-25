@@ -12,6 +12,8 @@ import com.example.healthcareapp.Fragments.AddWaterFragment;
 import com.example.healthcareapp.Fragments.HomeFragment;
 import com.example.healthcareapp.Fragments.SearchExerciseFragment;
 import com.example.healthcareapp.Fragments.SearchFoodFragment;
+import com.example.healthcareapp.Language;
+import com.example.healthcareapp.LanguageUtils;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -47,13 +49,25 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         String title = "";
-        switch (position) {
-            case 0:
-                title = "Add Food";
-                break;
-            case 1:
-                title = "New Food";
-                break;
+        if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+            switch (position) {
+                case 0:
+                    title = "Add Food";
+                    break;
+                case 1:
+                    title = "Add New Food";
+                    break;
+            }
+        }
+        else {
+            switch (position) {
+                case 0:
+                    title = "Thêm thức ăn";
+                    break;
+                case 1:
+                    title = "Thêm thức ăn mới";
+                    break;
+            }
         }
         return title;
     }
