@@ -86,7 +86,7 @@ ImageButton Backbtn;
         });
         for(int i = 0; i < friendlist.size()-1; i++)
         {
-            for(int j = 1; j < friendlist.size();j++){
+            for(int j = i+1; j < friendlist.size();j++){
                if(friendlist.get(i).getId().equals(friendlist.get(j).getId()))
                {
                    BlogFragment.friendlist.remove(i);

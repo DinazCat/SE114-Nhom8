@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
@@ -92,24 +93,33 @@ public class NotiAdapter extends BaseAdapter {
                     transaction.commit();
                 }
                 else {
-                    DocumentReference docRef =  FirebaseFirestore.getInstance().collection("posts").document(items.get(i).postid);
-                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    PostInformation Info ;
-                                    Info = document.toObject(PostInformation.class);
-                                    Info.id = document.getId();
-                                    PostDetailActivity.info = Info;
-                                    activity.startActivity(new Intent(activity,PostDetailActivity.class));
+                    try{
+                        DocumentReference docRef =  FirebaseFirestore.getInstance().collection("posts").document(items.get(i).postid);
+                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        PostInformation Info ;
+                                        Info = document.toObject(PostInformation.class);
+                                        Info.id = document.getId();
+                                        PostDetailActivity.info = Info;
+                                        activity.startActivity(new Intent(activity,PostDetailActivity.class));
+                                    }
+                                    else  Toast.makeText(activity, "Bài viết đã bị xóa!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    System.out.println( "get failed with "+ task.getException());
+                                    Toast.makeText(activity, "Bài viết đã bị xóa!", Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
-                                System.out.println( "get failed with "+ task.getException());
                             }
-                        }
-                    });
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        Toast.makeText(activity, "Bài viết đã bị xóa!", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
 
@@ -132,13 +142,13 @@ public class NotiAdapter extends BaseAdapter {
                         });
                 if(items.get(i).Read.equals("no")) {
                     NotificationFragment.noread.remove(i);
-//                    NotiAdapter adapter = new NotiAdapter(activity, NotificationFragment.noread,f);
-//                    NotificationFragment.noreadLv.setAdapter(adapter);
+                    NotiAdapter adapter = new NotiAdapter(activity, NotificationFragment.noread,f);
+                    NotificationFragment.noreadLv.setAdapter(adapter);
                 }
                 else{
                     NotificationFragment.read.remove(i);
-//                    NotiAdapter adapter = new NotiAdapter(activity, NotificationFragment.read,f);
-//                    NotificationFragment.readLv.setAdapter(adapter);
+                    NotiAdapter adapter = new NotiAdapter(activity, NotificationFragment.read,f);
+                    NotificationFragment.readLv.setAdapter(adapter);
                 }
             }
         });

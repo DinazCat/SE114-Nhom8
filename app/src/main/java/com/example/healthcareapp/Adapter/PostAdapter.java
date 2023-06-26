@@ -327,7 +327,7 @@ public class PostAdapter extends RecyclerView.Adapter {
                             item.guestId = curUser.getUid();
                             item.classify = "like";
                             item.postid = object.id;
-                            item.message = " đã thích bài viết của bạn về món ăn: "+object.postFoodName;
+                            item.message = " liked your post about food: "+object.postFoodName;
                             item.Read = "no";
                             item.time = String.valueOf(System.currentTimeMillis());
                             if(!curUser.getUid().equals(object.userid))
@@ -675,16 +675,16 @@ public class PostAdapter extends RecyclerView.Adapter {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            BlogFragment.postlist.remove(position);
-                            ProfileFragment.postlist.remove(position);
-                            ProfileFragment fragment = new ProfileFragment();
-                            Bundle args = new Bundle();
-                            args.putString("userId", curUser.getUid());
-                            fragment.setArguments(args);
-                            FragmentTransaction transaction = fragmentManager.beginTransaction();
-                            transaction.replace(R.id.frame_layout, fragment);
-                            transaction.addToBackStack(null);
-                            transaction.commit();
+                           // BlogFragment.postlist.remove(position);
+                           // ProfileFragment.postlist.remove(position);
+//                            ProfileFragment fragment = new ProfileFragment();
+//                            Bundle args = new Bundle();
+//                            args.putString("userId", curUser.getUid());
+//                            fragment.setArguments(args);
+//                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                            transaction.replace(R.id.frame_layout, fragment);
+//                            transaction.addToBackStack(null);
+//                            transaction.commit();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

@@ -18,9 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.healthcareapp.Adapter.ImageAdapter;
 import com.example.healthcareapp.R;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -68,6 +71,8 @@ public class EditProfileFragment extends Fragment {
     DocumentReference documentReference;
     FirebaseAuth auth;
     FirebaseUser user;
+    ImageButton cam, gal;
+    LinearLayout chooseImg;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,6 +87,9 @@ public class EditProfileFragment extends Fragment {
         etCountry = view.findViewById(R.id.et_country);
         btSave = view.findViewById(R.id.bt_save);
         image = view.findViewById(R.id.img_user);
+        cam = view.findViewById(R.id.camera);
+        gal = view.findViewById(R.id.gallery);
+        chooseImg = view.findViewById(R.id.choose);
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -138,17 +146,41 @@ public class EditProfileFragment extends Fragment {
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(chooseImg.getVisibility()==View.INVISIBLE)
+                    chooseImg.setVisibility(View.VISIBLE);
+                else chooseImg.setVisibility(View.INVISIBLE);
+            }
+        });
+        cam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseImg.setVisibility(View.INVISIBLE);
                 ImagePicker.Companion.with(EditProfileFragment.this)
-                        .crop()
+                        .cameraOnly()
                         .maxResultSize(1080,1080)
                         .start(101);
+            }
+        });
+
+        gal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseImg.setVisibility(View.INVISIBLE);
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
             }
         });
         return view;
     }
 
+
+    public static final int PICK_IMAGE = 1;
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == 101 && data != null) {
             Uri uri = data.getData();
@@ -159,8 +191,19 @@ public class EditProfileFragment extends Fragment {
                 System.out.println(e);
             }
         }
-    }
+        else  if (requestCode == PICK_IMAGE) {
+            if (data != null) {
+                Uri uri = data.getData();
+                if (uri != null) imageUri = uri;
+                try {
+                    Picasso.get().load(imageUri).into(image);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
 
+        }
+    }
     private void uploadImage(Uri filePath) {
         if (filePath != null) {
             String ImageName = filePath.toString();

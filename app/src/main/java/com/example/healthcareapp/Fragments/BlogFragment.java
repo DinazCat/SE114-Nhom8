@@ -318,7 +318,7 @@ public class BlogFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //arr = new ArrayList<>();
                 final long count = dataSnapshot.getChildrenCount();
-
+                friendlist = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String followerID = snapshot.getKey();
                     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(followerID);

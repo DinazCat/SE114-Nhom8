@@ -24,7 +24,7 @@ public class Fragment_baiviet1 extends Fragment {
 
     public static RecyclerView listI;
     ImageButton addI;
-    public static EditText making, summary;
+    public static EditText making=null, summary;
     public static ArrayList<IngredientData> listIdata = new ArrayList<>();
     public static String FMaking, FSummary;
     @Override

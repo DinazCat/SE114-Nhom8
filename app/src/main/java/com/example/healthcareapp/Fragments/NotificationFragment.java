@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -44,95 +45,108 @@ public class NotificationFragment extends Fragment {
     public static ListView readLv, noreadLv;
     FirebaseUser curUser;
     private FirebaseFirestore db;
+    ImageButton Backbtn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
         curUser = FirebaseAuth.getInstance().getCurrentUser();
-//        noread = new ArrayList<>();
-//        read = new ArrayList<>();
+        noread = new ArrayList<>();
+        read = new ArrayList<>();
         readL = view.findViewById(R.id.readList);
         noreadL = view.findViewById(R.id.noreadList);
         readLv = view.findViewById(R.id.lvRead);
         noreadLv = view.findViewById(R.id.lvNoread);
-
+        Backbtn = view.findViewById(R.id.back);
+        Backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BlogFragment fragment = new BlogFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_layout, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
         db = FirebaseFirestore.getInstance();
         db.collection("Notification")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        noread = new ArrayList<>();
-                        read = new ArrayList<>();
-                        for (DocumentSnapshot document : value.getDocuments()) {
-                            Noti Info;
-                            Info = document.toObject(Noti.class);
-                            Info.id = document.getId();
-                            if ( Info.PostownerId.equals(curUser.getUid()) ) {
-                                if ( Info.Read.equals("no") ) {
-                                    System.out.println("count" + Info.id);
-                                    noread.add(Info);
-                                } else read.add(Info);
-                                UpdateNoti(document.getId());
-                            }
-                        }
-                        if ( noread.size() == 0 ) {
-                            noreadL.setVisibility(View.INVISIBLE);
-                        } else {
-                            NotiAdapter adapter = new NotiAdapter(getActivity(), noread, getActivity().getSupportFragmentManager());
-                            noreadLv.setAdapter(adapter);
-                        }
-                        if ( read.size() == 0 ) {
-                            readL.setVisibility(View.INVISIBLE);
-                        } else {
-                            NotiAdapter adapter = new NotiAdapter(getActivity(), read, getActivity().getSupportFragmentManager());
-                            readLv.setAdapter(adapter);
-                        }
-
-
-                        }
-                   // }
-                });
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
 //                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Noti Info ;
-//                                Info = document.toObject(Noti.class);
-//                                Info.id = document.getId();
-//                                if(Info.PostownerId.equals(curUser.getUid())) {
-//                                    if ( Info.Read.equals("no") ){
-//                                        System.out.println("count"+Info.id);
-//                                        noread.add(Info);
-//                                    }
-//                                    else read.add(Info);
-//                                    UpdateNoti(document.getId());
-//                                }
+//                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                        noread = new ArrayList<>();
+//                        read = new ArrayList<>();
+//                        for (DocumentSnapshot document : value.getDocuments()) {
+//                            Noti Info;
+//                            Info = document.toObject(Noti.class);
+//                            Info.id = document.getId();
+//                            if ( Info.PostownerId.equals(curUser.getUid()) ) {
+//                                if ( Info.Read.equals("no") ) {
+//                                    System.out.println("count" + Info.id);
+//                                    noread.add(Info);
+//                                } else read.add(Info);
+//                                UpdateNoti(document.getId());
 //                            }
-//                            if(noread.size()==0){
-//                                noreadL.setVisibility(View.INVISIBLE);
-//                            }
-//                            else {
-//                                NotiAdapter adapter = new NotiAdapter(getActivity(), noread,getActivity().getSupportFragmentManager());
-//                                noreadLv.setAdapter(adapter);
-//                            }
-//                            if(read.size()==0){
-//                                readL.setVisibility(View.INVISIBLE);
-//                            }
-//                            else{
-//                                NotiAdapter adapter = new NotiAdapter(getActivity(), read,getActivity().getSupportFragmentManager());
-//                                readLv.setAdapter(adapter);
-//                            }
-//
-//
-//                        } else {
-//                            System.out.println(task.getException());
 //                        }
-//                    }
+//                        if ( noread.size() == 0 ) {
+//                            noreadL.setVisibility(View.INVISIBLE);
+//                        } else {
+//                            NotiAdapter adapter = new NotiAdapter(getActivity(), noread, getActivity().getSupportFragmentManager());
+//                            noreadLv.setAdapter(adapter);
+//                        }
+//                        if ( read.size() == 0 ) {
+//                            readL.setVisibility(View.INVISIBLE);
+//                        } else {
+//                            NotiAdapter adapter = new NotiAdapter(getActivity(), read, getActivity().getSupportFragmentManager());
+//                            readLv.setAdapter(adapter);
+//                        }
 //
 //
+//                        }
 //                });
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Noti Info ;
+                                Info = document.toObject(Noti.class);
+                                Info.id = document.getId();
+                                if(Info.PostownerId.equals(curUser.getUid())) {
+                                    if ( Info.Read.equals("no") ){
+                                        System.out.println("count"+Info.id);
+                                        noread.add(Info);
+                                    }
+                                    else read.add(Info);
+                                    UpdateNoti(document.getId());
+                                }
+                            }
+                            if(noread.size()==0){
+                                noreadL.setVisibility(View.INVISIBLE);
+                                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
+
+                                noreadL.setLayoutParams(layoutParams);
+                            }
+                            else {
+                                NotiAdapter adapter = new NotiAdapter(getActivity(), noread,getActivity().getSupportFragmentManager());
+                                noreadLv.setAdapter(adapter);
+                            }
+                            if(read.size()==0){
+                                readL.setVisibility(View.INVISIBLE);
+                            }
+                            else{
+                                NotiAdapter adapter = new NotiAdapter(getActivity(), read,getActivity().getSupportFragmentManager());
+                                readLv.setAdapter(adapter);
+                            }
+
+
+                        } else {
+                            System.out.println(task.getException());
+                        }
+                    }
+
+
+                });
 
 
         return view;

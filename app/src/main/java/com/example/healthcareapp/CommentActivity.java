@@ -179,7 +179,7 @@ public class CommentActivity extends AppCompatActivity {
                     item.guestId = curUser.getUid();
                     item.classify = "cmt";
                     item.postid = postId;
-                    item.message = " đã bình luận bài viết của bạn về món ăn: "+foodname;
+                    item.message = " commented on your post about food: "+foodname;
                     item.Read = "no";
                     item.time = String.valueOf(System.currentTimeMillis());
                     if(!curUser.getUid().equals(authorId))

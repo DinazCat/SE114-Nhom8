@@ -149,7 +149,7 @@ public class ProfileFragment extends Fragment {
                             item.guestId = curUser.getUid();
                             item.classify = "follow";
                             item.postid = "";
-                            item.message = " đang follow bạn.";
+                            item.message = " started following you!";
                             item.Read = "no";
                             item.time = String.valueOf(System.currentTimeMillis());
                             db.collection("Notification")

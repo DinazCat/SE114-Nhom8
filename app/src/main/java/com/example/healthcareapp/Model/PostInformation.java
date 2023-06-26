@@ -4,23 +4,23 @@ import java.util.Comparator;
 import java.util.List;
 
 public class PostInformation {
-    public String id;
-    public String username;
-    public String userid;
-    public String postFoodName;
-    public String postFoodRating;
-    public String postFoodSummary;
-    public String postFoodMaking;
+    public String id ="";
+    public String username="";
+    public String userid="";
+    public String postFoodName="";
+    public String postFoodRating="";
+    public String postFoodSummary="";
+    public String postFoodMaking="";
 
-    public String Total;
-    public String Calories;
-    public String Prep;
-    public String Cooking;
+    public String Total="";
+    public String Calories="";
+    public String Prep="";
+    public String Cooking="";
     public List<String> Hashtag;
     public List<IngredientData> Ingredient;
     public List<String> postimgs;
-    public String userimg;
-    public String posttime;
+    public String userimg ="";
+    public String posttime="";
     public List<String> likes;
     public List<String> comments;
     public static Comparator<PostInformation> sortByLikesDescending = new Comparator<PostInformation>() {

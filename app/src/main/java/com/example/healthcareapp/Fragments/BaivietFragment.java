@@ -16,7 +16,7 @@ import com.example.healthcareapp.R;
 public class BaivietFragment extends Fragment {
     public  static EditText FoodName, Total, Cal, Prep, Cooking;
     RatingBar FoodReview;
-    public static String FName, FCal, FTotal,FPrep,FCooking, FRating;
+    public static String FName, FCal, FTotal,FPrep,FCooking, FRating = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,6 +32,7 @@ public class BaivietFragment extends Fragment {
         {
             FName=""; FCal=""; FTotal = ""; FPrep = "";FCooking=" " ;FRating = "";
             FoodReview.setRating(1.0f);
+            FRating = "1.0";
         }
         else{
             FoodReview.setRating(Float.parseFloat(FRating));

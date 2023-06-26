@@ -41,6 +41,53 @@
                     android:layout_marginTop="5dp"/>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/choose"
+                android:background="#FAFAD2"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:orientation="vertical">
+                    <ImageButton
+                        android:id="@+id/camera"
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/camera"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="Camera"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:orientation="vertical">
+                    <ImageButton
+                        android:id="@+id/gallery"
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/gallery"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="Gallery"/>
+                </LinearLayout>
+
+            </LinearLayout>
 
 
         </RelativeLayout>

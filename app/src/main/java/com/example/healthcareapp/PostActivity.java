@@ -145,16 +145,32 @@ public class PostActivity extends AppCompatActivity {
         Postbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(BaivietFragment.FoodName.getText().toString() !="" || AddImgFragment.images.size() != 0)
+                if(BaivietFragment.FoodName.getText().toString() != null &&
+                        BaivietFragment.Total.getText().toString() != null &&
+                        BaivietFragment.Cal.getText().toString() != null &&
+                        BaivietFragment.Prep.getText().toString() != null &&
+                        BaivietFragment.Cooking.getText().toString() != null &&
+                        BaivietFragment.FRating != ""&&
+                        Fragment_baiviet1.making != null &&
+                        Fragment_baiviet1.making.getText().toString() != null &&
+                        Fragment_baiviet1.listIdata.size() > 0)
                 {
                     addDatatoFirestore();
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Please enter post's information!", Toast.LENGTH_LONG);
                 }
+
             }
         });
 
+    }
+    private boolean Checkdone(PostInformation p){
+        if(p.postFoodName != "" && p.postFoodRating != "" && p.postFoodMaking != "" && p.Calories != "" && p.Prep !="" && p.Cooking != "" && p.Total != "" && p.Ingredient.size() > 0)
+        {
+            return true;
+        }
+        return false;
     }
     private  void replaceFragment(Fragment f){
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -386,7 +402,7 @@ public class PostActivity extends AppCompatActivity {
                     item.guestId = user.getUid();
                     item.classify = "post";
                     item.postid = postIdtoNoti;
-                    item.message = " đã đăng 1 bài viết về món ăn: "+BaivietFragment.FoodName;
+                    item.message = " just uploaded a new post: "+BaivietFragment.FoodName;
                     item.Read = "no";
                     item.time = String.valueOf(System.currentTimeMillis());
                     FirebaseFirestore.getInstance().collection("Notification")
