@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.example.healthcareapp.Adapter.IngredientAdapterAdd;
 import com.example.healthcareapp.AddIngredientsActivity;
 import com.example.healthcareapp.AddNewFoodActivity;
+import com.example.healthcareapp.Language;
+import com.example.healthcareapp.LanguageUtils;
 import com.example.healthcareapp.Model.ingredient;
 import com.example.healthcareapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
 
 public class NewRecipeStep1Fragment extends Fragment {
     Button btAddIngredient;
-    EditText etNameIngredient;
+    EditText etNameRecipe, etPrepRecipe, etCookingRecipe;
     DatabaseReference database;
     RecyclerView recyclerView;
     IngredientAdapterAdd ingredientAdapterAdd;
@@ -43,17 +45,34 @@ public class NewRecipeStep1Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_recipe_step1, container, false);
 
         btAddIngredient = view.findViewById(R.id.addIngredient);
-        etNameIngredient = view.findViewById(R.id.addIngredientName);
+        etNameRecipe = view.findViewById(R.id.addRecipeName);
+        etCookingRecipe = view.findViewById(R.id.addRecipeCooking);
+        etPrepRecipe = view.findViewById(R.id.addRecipePrep);
 
         btAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(view.getContext(), AddIngredientsActivity.class);
-                if (etNameIngredient.getText().toString().trim().isEmpty())
-                    Toast.makeText(view.getContext(), "Enter Food Name", Toast.LENGTH_SHORT).show();
+                if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
+                    Intent i = new Intent(view.getContext(), AddIngredientsActivity.class);
+                    if (etNameRecipe.getText().toString().trim().isEmpty() || etCookingRecipe.getText().toString().trim().isEmpty() || etPrepRecipe.getText().toString().trim().isEmpty())
+                        Toast.makeText(view.getContext(), "Please enter name, cooking time and prepare time", Toast.LENGTH_SHORT).show();
+                    else {
+                        i.putExtra("nameFood", etNameRecipe.getText().toString().trim());
+                        i.putExtra("cookingFood", etCookingRecipe.getText().toString().trim());
+                        i.putExtra("prepFood", etPrepRecipe.getText().toString().trim());
+                        launcherActivity.launch(i);
+                    }
+                }
                 else {
-                    i.putExtra("nameFood", etNameIngredient.getText().toString().trim());
-                    launcherActivity.launch(i);
+                    Intent i = new Intent(view.getContext(), AddIngredientsActivity.class);
+                    if (etNameRecipe.getText().toString().trim().isEmpty() || etCookingRecipe.getText().toString().trim().isEmpty() || etPrepRecipe.getText().toString().trim().isEmpty())
+                        Toast.makeText(view.getContext(), "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                    else {
+                        i.putExtra("nameFood", etNameRecipe.getText().toString().trim());
+                        i.putExtra("cookingFood", etCookingRecipe.getText().toString().trim());
+                        i.putExtra("prepFood", etPrepRecipe.getText().toString().trim());
+                        launcherActivity.launch(i);
+                    }
                 }
             }
         });

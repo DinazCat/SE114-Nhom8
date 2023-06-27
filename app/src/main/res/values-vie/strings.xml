@@ -13,14 +13,14 @@
     <string name="language">Ngôn ngữ</string>
     <string name="darkmode">Chủ đề</string>
     <string name="logout">Đăng xuất</string>
-    <string name="changebmi">Thay đổi Bmi và mục tiêu</string>
+    <string name="changebmi">Thay đổi BMI và mục tiêu</string>
     <!--    trang blog-->
     <string name="addpostbutton">Hôm nay bạn đã ăn gì? Hãy chia sẻ với mọi người</string>
     <!--    trang đăng bài-->
     <string name="createnewP">Tạo bài viết mới</string>
     <string name="post">Đăng</string>
     <string name="back">Trước</string>
-    <string name="next">Sau</string>
+    <string name="next">Tiếp theo</string>
     <!--    trang baiviet-->
     <string name="step1">Bước1. Thông tin về món ăn</string>
     <string name="foodname">Tên món ăn</string>
@@ -134,6 +134,7 @@
     <string name="yourheight">chiều cao của bạn</string>
     <string name="writehere">viết vào đây</string>
     <string name="whatgoal">Mục tiêu của bạn là gì?</string>
+    <string name="seedetail">Chi tiết</string>
     <string-array name="meals">
         <item> Bữa sáng </item>
         <item> Bữa trưa </item>

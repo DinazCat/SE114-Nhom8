@@ -1,7 +1,9 @@
 package com.example.healthcareapp.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -27,6 +33,7 @@ import com.example.healthcareapp.Model.ingredient;
 import com.example.healthcareapp.Model.note;
 import com.example.healthcareapp.Model.recipe;
 import com.example.healthcareapp.NoteActivity;
+import com.example.healthcareapp.PostActivity;
 import com.example.healthcareapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -39,9 +46,11 @@ import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>{
     List<recipe> recipeList;
+    ClickRecipeItem clickRecipeItem;
 
-    public RecipeAdapter(List<recipe> recipeList, Context mainContext) {
+    public RecipeAdapter(List<recipe> recipeList, Context mainContext, ClickRecipeItem clickRecipeItem ) {
         this.recipeList = recipeList;
+        this.clickRecipeItem = clickRecipeItem;
     }
     public void setFilteredList(List<recipe> filteredList) {
         this.recipeList = filteredList;
@@ -63,8 +72,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         holder.btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                clickRecipeItem.onClickItemRecipeShare(re);
             }
         });
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
@@ -169,4 +177,5 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
 
     }
+
 }

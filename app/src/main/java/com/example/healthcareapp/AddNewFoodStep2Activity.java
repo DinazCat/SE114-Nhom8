@@ -36,7 +36,7 @@ import java.util.Random;
 
 public class AddNewFoodStep2Activity extends AppCompatActivity {
     Button saveBtn;
-    DatabaseReference database, database1;
+    DatabaseReference database, database1, databaseCalo;
     ArrayList<ingredient> ingredientArrayList;
     TextView tvNameFood;
     float caloriesRecipe = 0f;
@@ -53,6 +53,8 @@ public class AddNewFoodStep2Activity extends AppCompatActivity {
 
         String idRecipe = i.getStringExtra("idFood");
         String nameRecipe = i.getStringExtra("nameFood");
+        String cookingRecipe = i.getStringExtra("cookingFood");
+        String prepRecipe = i.getStringExtra("prepFood");
 
         //RECYCLERVIEW
         recyclerView = findViewById(R.id.recyclerviewIng);
@@ -134,36 +136,21 @@ public class AddNewFoodStep2Activity extends AppCompatActivity {
                     // Show the Alert Dialog box
                     alertDialog.show();
                 }
+                setRecyclerView(idRecipe, nameRecipe);
             }
-            });
-        //ADD LIST TO RECYCLERVIEW
-        recyclerView.setAdapter(ingredientAddedAdapter);
-        database1 = FirebaseDatabase.getInstance().getReference("newFoods");
-        database1.child(uid).child(idRecipe).child(nameRecipe).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ingredientArrayList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    ingredient in = dataSnapshot.getValue(ingredient.class);
-                    caloriesRecipe += parseFloat(in.getCalorieIngredient()) * parseFloat(in.getQuantity());
-                    ingredientArrayList.add(in);
-                }
-                ingredientAddedAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(AddNewFoodStep2Activity.this, "fail",Toast.LENGTH_SHORT).show();
-            }
+            public void onClickItemShareIngredient(ingredient in) {}
         });
+        //ADD LIST TO RECYCLERVIEW
 
+        setRecyclerView(idRecipe, nameRecipe);
         tvNameFood.setText(nameRecipe);
         if (nameRecipe.isEmpty()) Toast.makeText(this, "Add Fail", Toast.LENGTH_SHORT).show();
-         saveBtn = findViewById(R.id.saveFood);
+        saveBtn = findViewById(R.id.saveFood);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setCaloriesRecipe(idRecipe,nameRecipe);
                 if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(AddNewFoodStep2Activity.this);
                     dialog.setTitle("Save");
@@ -177,6 +164,8 @@ public class AddNewFoodStep2Activity extends AppCompatActivity {
                             re.setIdRecipe(idRecipe);
                             re.setNameRecipe(nameRecipe);
                             re.setCalorieRecipe(String.valueOf(caloriesRecipe));
+                            re.setCooking(cookingRecipe);
+                            re.setPrep(prepRecipe);
                             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             database = FirebaseDatabase.getInstance().getReference("newRecipe");
                             database.child(uid).child(idRecipe).setValue(re);
@@ -207,6 +196,8 @@ public class AddNewFoodStep2Activity extends AppCompatActivity {
                             re.setIdRecipe(idRecipe);
                             re.setNameRecipe(nameRecipe);
                             re.setCalorieRecipe(String.valueOf(caloriesRecipe));
+                            re.setCooking(cookingRecipe);
+                            re.setPrep(prepRecipe);
                             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             database = FirebaseDatabase.getInstance().getReference("newRecipe");
                             database.child(uid).child(idRecipe).setValue(re);
@@ -224,6 +215,45 @@ public class AddNewFoodStep2Activity extends AppCompatActivity {
                     // Show the Alert Dialog box
                     alertDialog.show();
                 }
+            }
+        });
+    }
+    private void setRecyclerView(String idRecipe, String nameRecipe) {
+        recyclerView.setAdapter(ingredientAddedAdapter);
+        database1 = FirebaseDatabase.getInstance().getReference("newFoods");
+        database1.child(uid).child(idRecipe).child(nameRecipe).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ingredientArrayList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    ingredient in = dataSnapshot.getValue(ingredient.class);
+                    ingredientArrayList.add(in);
+                }
+                ingredientAddedAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AddNewFoodStep2Activity.this, "fail",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void setCaloriesRecipe(String idRecipe, String nameRecipe) {
+        databaseCalo = FirebaseDatabase.getInstance().getReference("newFoods");
+        databaseCalo.child(uid).child(idRecipe).child(nameRecipe).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    ingredient in = dataSnapshot.getValue(ingredient.class);
+                    caloriesRecipe += parseFloat(in.getCalorieIngredient()) * parseFloat(in.getQuantity());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AddNewFoodStep2Activity.this, "fail",Toast.LENGTH_SHORT).show();
             }
         });
     }

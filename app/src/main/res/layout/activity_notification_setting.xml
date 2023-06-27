@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".NotificationSettingActivity"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@color/lightgreen">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,14 +26,16 @@
             android:layout_height="wrap_content"
             android:text="@string/notification"
             android:textStyle="bold"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:textColor="@color/textgreen"/>
     </LinearLayout>
      <TextView
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:text="@string/sendmenoti"
          android:textSize="23dp"
-         android:layout_marginTop="20dp"/>
+         android:layout_marginTop="20dp"
+         android:textColor="@color/textgreen"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,11 +45,12 @@
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:text="@string/sofollow"
+            android:textColor="@color/textgreen"
             android:textSize="20dp"/>
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/cb_follow"/>
+            android:id="@+id/cb_follow" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,6 +60,7 @@
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:text="@string/solike"
+            android:textColor="@color/textgreen"
             android:textSize="20dp"/>
         <CheckBox
             android:layout_width="wrap_content"
@@ -70,6 +75,7 @@
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:text="@string/socomment"
+            android:textColor="@color/textgreen"
             android:textSize="20dp"/>
         <CheckBox
             android:layout_width="wrap_content"
@@ -84,6 +90,7 @@
             android:layout_width="320dp"
             android:layout_height="60dp"
             android:text="@string/sopost"
+            android:textColor="@color/textgreen"
             android:textSize="20dp"/>
         <CheckBox
             android:layout_width="wrap_content"

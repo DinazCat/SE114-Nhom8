@@ -11,7 +11,7 @@
     <string name="language">Language</string>
     <string name="darkmode">Dark Mode</string>
     <string name="logout">Log out</string>
-    <string name="changebmi">Change Bmi and goal</string>
+    <string name="changebmi">Change BMI and goal</string>
     <string name="addpostbutton">What did you eat today? Share it to everyone</string>
     <string name="createnewP">Create new post</string>
     <string name="post">Post</string>
@@ -118,7 +118,7 @@
     <string name="writehere">write here</string>
 
     <string name="whatgoal">What is your goal?</string>
-
+    <string name="seedetail">See detail</string>
     <string-array name="meals">
         <item> Breakfast </item>
         <item> Lunch </item>

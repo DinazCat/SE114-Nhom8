@@ -52,6 +52,12 @@ public class IngredientAdapterAdd extends RecyclerView.Adapter<IngredientAdapter
                 clickIngredientItem.onClickItemIngredient(in);
             }
         });
+        //holder.btnShare.setOnClickListener(new View.OnClickListener() {
+        //@Override
+        //public void onClick(View v) {
+        //    clickIngredientItem.onClickItemShareIngredient(in);
+        //}
+        //});
     }
 
     @Override
@@ -65,7 +71,7 @@ public class IngredientAdapterAdd extends RecyclerView.Adapter<IngredientAdapter
 
         private TextView ingredientName;
         private TextView ingredientCalorie;
-        private Button btnAdd;
+        private Button btnAdd, btnShare;
 
 
         public IngredientAddViewHolder(@NonNull View itemView) {
@@ -73,6 +79,7 @@ public class IngredientAdapterAdd extends RecyclerView.Adapter<IngredientAdapter
             ingredientName = itemView.findViewById(R.id.nameIngredient);
             ingredientCalorie = itemView.findViewById(R.id.caloriesIngredient);
             btnAdd = itemView.findViewById(R.id.Add_btn);
+            //btnShare = itemView.findViewById(R.id.Share_btn);
         }
 
 

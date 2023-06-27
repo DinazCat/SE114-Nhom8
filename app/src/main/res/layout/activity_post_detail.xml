@@ -52,10 +52,11 @@
             android:id="@+id/tv_foodname"
             android:text="Greek Yogurt"
             android:textSize="27dp"
-            android:textColor="#444"
+            android:textColor="@color/textgreen"
             android:layout_marginTop="7dp"
             android:textAlignment="center"
-            android:fontFamily="@font/luckiestguy"/>
+            android:fontFamily="@font/luckiestguy"
+            />
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -86,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="25dp"
                         android:textStyle="bold"
-                        android:textColor="#E8B51A"
+                        android:textColor="@color/textgreen"
                         android:text="1" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -108,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="25dp"
                         android:textStyle="bold"
-                        android:textColor="#E8B51A"
+                        android:textColor="@color/textgreen"
                         android:text="1h" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -130,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="25dp"
                         android:textStyle="bold"
-                        android:textColor="#E8B51A"
+                        android:textColor="@color/textgreen"
                         android:text="20m" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -158,7 +159,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="25dp"
                         android:textStyle="bold"
-                        android:textColor="#E8B51A"
+                        android:textColor="@color/textgreen"
                         android:text="216" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -180,7 +181,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="25dp"
                         android:textStyle="bold"
-                        android:textColor="#E8B51A"
+                        android:textColor="@color/textgreen"
                         android:text="1.0"
                         android:drawableEnd="@drawable/baseline_star_rate_24"
                         />
@@ -215,7 +216,7 @@
                 android:layout_height="wrap_content"
                 android:text="Ingredients"
                 android:textStyle="bold"
-                android:textColor="#5AC30D"
+                android:textColor="@color/textgreen"
                 android:textSize="22dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"/>
@@ -237,7 +238,7 @@
                 android:text="Steps"
                 android:textStyle="bold"
                 android:textSize="22dp"
-                android:textColor="#CE3E3E"
+                android:textColor="@color/textgreen"
                 android:layout_marginLeft="10dp" />
             <TextView
                 android:id="@+id/tv_steps"
@@ -255,7 +256,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textColor="#546ED5"
+                android:textColor="@color/textgreen"
                 android:text="Summary"
                 android:textSize="22dp"
                 android:layout_marginLeft="10dp" />
@@ -275,7 +276,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textColor="#23D8A3"
+                android:textColor="@color/textgreen"
                 android:text="Tag"
                 android:textSize="22dp"
                 android:layout_marginLeft="10dp" />

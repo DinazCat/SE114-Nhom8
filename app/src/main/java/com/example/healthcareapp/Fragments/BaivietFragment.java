@@ -32,15 +32,30 @@ public class BaivietFragment extends Fragment {
         {
             FName=""; FCal=""; FTotal = ""; FPrep = "";FCooking=" " ;FRating = "";
             FoodReview.setRating(1.0f);
-            FRating = "1.0";
         }
         else{
-            FoodReview.setRating(Float.parseFloat(FRating));
-            FoodName.setText(FName);
-            Cal.setText(FCal);
-            Prep.setText(FPrep);
-            Total.setText(FTotal);
-            Cooking.setText(FCooking);
+            if (PostActivity.thaotac.equals("Share")) {
+                FName= PostActivity.re.getNameRecipe();
+                FCal=PostActivity.re.getCalorieRecipe();
+                FTotal = "";
+                FPrep = PostActivity.re.getPrep();
+                FCooking= PostActivity.re.getCooking();
+                FRating = "";
+                FoodReview.setRating(1.0f);
+
+                FoodName.setText(FName);
+                Cal.setText(FCal);
+                Prep.setText(FPrep);
+                Cooking.setText(FCooking);
+            }
+            else {
+                FoodReview.setRating(Float.parseFloat(FRating));
+                FoodName.setText(FName);
+                Cal.setText(FCal);
+                Prep.setText(FPrep);
+                Total.setText(FTotal);
+                Cooking.setText(FCooking);
+            }
         }
 
 //        FName = FoodName.getText().toString();

@@ -184,7 +184,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="246dp"
                     android:id="@+id/img4"
-                    android:background="@color/lightyellow"
+                    android:background="@color/lightgreen"
                     android:scaleType="fitXY" />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -221,14 +221,14 @@
                         android:layout_width="200dp"
                         android:layout_height="223dp"
                         android:id="@+id/img7"
-                        android:background="@color/lightyellow"
+                        android:background="@color/lightgreen"
                         android:scaleType="fitXY" />
                     <ImageView
                         android:layout_width="205dp"
                         android:layout_height="223dp"
                         android:layout_marginLeft="2dp"
                         android:id="@+id/img8"
-                        android:background="@color/lightyellow"
+                        android:background="@color/lightgreen"
                         android:scaleType="fitXY" />
 
                 </LinearLayout>
@@ -241,7 +241,7 @@
                         android:layout_width="200dp"
                         android:layout_height="223dp"
                         android:id="@+id/img9"
-                        android:background="@color/lightyellow"
+                        android:background="@color/lightgreen"
                         android:scaleType="fitXY" />
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -251,7 +251,7 @@
                             android:layout_height="223dp"
                             android:layout_marginLeft="2dp"
                             android:id="@+id/img10"
-                            android:background="@color/lightyellow"
+                            android:background="@color/lightgreen"
                             android:scaleType="fitXY" />
                         <TextView
                             android:layout_width="205dp"

@@ -59,10 +59,12 @@ public class AddIngredientsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_ingredients);
+
         tvEngVie = findViewById(R.id.tv);
         Intent i = getIntent();
-        String nameFood = i.getStringExtra("nameFood");
-        if (nameFood.isEmpty()) Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
+        String nameRecipe = i.getStringExtra("nameFood");
+        String cookingRecipe = i.getStringExtra("cookingFood");
+        String prepRecipe = i.getStringExtra("prepFood");
 
         ingredientArrayList = new ArrayList<>();
         editTextQuantity = findViewById(R.id.addIngredientQuantity);
@@ -91,7 +93,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
                                 database = FirebaseDatabase.getInstance().getReference("newFoods");
                                 in.setQuantity(editTextQuantity.getText().toString());
                                 calories += parseFloat(in.getCalorieIngredient()) * parseFloat(editTextQuantity.getText().toString());
-                                database.child(uid).child(String.valueOf(randomID)).child(String.valueOf(nameFood)).child(in.getIdIngredient()).setValue(in);
+                                database.child(uid).child(String.valueOf(randomID)).child(String.valueOf(nameRecipe)).child(in.getIdIngredient()).setValue(in);
                                 Toast.makeText(AddIngredientsActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -116,12 +118,12 @@ public class AddIngredientsActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (editTextQuantity.getText().toString().isEmpty())
-                                Toast.makeText(AddIngredientsActivity.this, "Điền số lượng them gram", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddIngredientsActivity.this, "Điền số lượng theo gram", Toast.LENGTH_SHORT).show();
                             else {
                                 database = FirebaseDatabase.getInstance().getReference("newFoods");
                                 in.setQuantity(editTextQuantity.getText().toString());
                                 calories += parseFloat(in.getCalorieIngredient()) * parseFloat(editTextQuantity.getText().toString());
-                                database.child(uid).child(String.valueOf(randomID)).child(String.valueOf(nameFood)).child(in.getIdIngredient()).setValue(in);
+                                database.child(uid).child(String.valueOf(randomID)).child(String.valueOf(nameRecipe)).child(in.getIdIngredient()).setValue(in);
                                 Toast.makeText(AddIngredientsActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -137,6 +139,8 @@ public class AddIngredientsActivity extends AppCompatActivity {
                     alertDialog.show();
                 }
             }
+            @Override
+            public void onClickItemShareIngredient(ingredient in) {}
         });
         //ADD LIST TO RECYCLERVIEW
         recyclerView.setAdapter(ingredientAdapterAdd);
@@ -167,7 +171,9 @@ public class AddIngredientsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(AddIngredientsActivity.this, AddNewFoodStep2Activity.class);
                 i.putExtra("idFood", String.valueOf(randomID));
-                i.putExtra("nameFood", nameFood);
+                i.putExtra("nameFood", nameRecipe);
+                i.putExtra("cookingFood", cookingRecipe);
+                i.putExtra("prepFood", prepRecipe);
                 startActivity(i);
             }
         });

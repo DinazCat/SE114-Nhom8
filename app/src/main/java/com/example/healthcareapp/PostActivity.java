@@ -25,6 +25,7 @@ import com.example.healthcareapp.Fragments.Fragment_baiviet1;
 import com.example.healthcareapp.Fragments.Fragment_baiviet2;
 import com.example.healthcareapp.Model.Noti;
 import com.example.healthcareapp.Model.PostInformation;
+import com.example.healthcareapp.Model.recipe;
 import com.example.healthcareapp.service.FcmNotificationsSender;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -55,6 +56,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class PostActivity extends AppCompatActivity {
+    public static recipe re;
     FirebaseFirestore db;
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -83,6 +85,7 @@ public class PostActivity extends AppCompatActivity {
         nextBtn = findViewById(R.id.nextBtn);
 //        userimg = findViewById(R.id.iv_user);
 //        username = findViewById(R.id.tv_username);
+        re = getIntentonshare();
         header = findViewById(R.id.header);
         if(thaotac.equals( "edit")) {
             header.setText("Sửa bài viết");
@@ -448,5 +451,25 @@ public class PostActivity extends AppCompatActivity {
                 System.out.println(error);
             }
         });
+    }
+    private recipe getIntentonshare() {
+        recipe _re = new recipe();
+        Intent i = getIntent();
+        String s = "";
+        s = i.getStringExtra("idRecipe");
+        _re.setIdRecipe(s);
+
+        s = i.getStringExtra("nameRecipe");
+        _re.setNameRecipe(s);
+
+        s = i.getStringExtra("caloRecipe");
+        _re.setCalorieRecipe(s);
+
+        s = i.getStringExtra("cookingRecipe");
+        _re.setCooking(s);
+
+        s = i.getStringExtra("prepRecipe");
+        _re.setPrep(s);
+        return _re;
     }
 }

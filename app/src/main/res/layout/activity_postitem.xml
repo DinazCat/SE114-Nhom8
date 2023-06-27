@@ -131,7 +131,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:text="See Detail"
+            android:text="@string/seedetail"
             android:id="@+id/seeD"
             android:textColor="#0000FF"
             android:clickable="true"
@@ -208,7 +208,7 @@
                     android:id="@+id/img2"
                     android:layout_width="200dp"
                     android:layout_height="250dp"
-                    android:background="@color/lightyellow"
+                    android:background="@color/lightgreen"
                     android:scaleType="fitXY" />
 
                 <ImageView
@@ -216,7 +216,7 @@
                     android:layout_width="205dp"
                     android:layout_height="250dp"
                     android:layout_marginLeft="2dp"
-                    android:background="@color/lightyellow"
+                    android:background="@color/lightgreen"
                     android:scaleType="fitXY" />
 
             </LinearLayout>

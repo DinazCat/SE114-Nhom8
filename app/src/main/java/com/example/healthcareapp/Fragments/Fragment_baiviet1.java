@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,16 +16,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthcareapp.Adapter.IngredientAdapter;
 import com.example.healthcareapp.Model.IngredientData;
+import com.example.healthcareapp.Model.ingredient;
 import com.example.healthcareapp.PostActivity;
 import com.example.healthcareapp.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 
 public class Fragment_baiviet1 extends Fragment {
-
+    DatabaseReference databaseCalo;
     public static RecyclerView listI;
     ImageButton addI;
+    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     public static EditText making=null, summary;
     public static ArrayList<IngredientData> listIdata = new ArrayList<>();
     public static String FMaking, FSummary;
@@ -38,6 +48,27 @@ public class Fragment_baiviet1 extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         listI.setLayoutManager(linearLayoutManager);
         listI.setItemAnimator(new DefaultItemAnimator());
+        if (PostActivity.thaotac.equals("Share")) {
+            databaseCalo = FirebaseDatabase.getInstance().getReference("newFoods");
+            databaseCalo.child(uid).child(PostActivity.re.getIdRecipe()).child(PostActivity.re.getNameRecipe()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        ingredient in = dataSnapshot.getValue(ingredient.class);
+                        IngredientData object = new IngredientData();
+                        object.name = in.getNameIngredient();
+                        object.wty = in.getQuantity();
+                        object.unit = "gram";
+                        listIdata.add(object);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getContext(), "fail",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
         if( PostActivity.thaotac.equals("push"))
         {
             FMaking=""; FSummary="";

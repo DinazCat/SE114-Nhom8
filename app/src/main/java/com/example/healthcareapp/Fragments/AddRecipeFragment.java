@@ -28,6 +28,7 @@ import com.example.healthcareapp.ListInterface.ClickFoodItem;
 import com.example.healthcareapp.ListInterface.ClickRecipeItem;
 import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.Model.recipe;
+import com.example.healthcareapp.PostActivity;
 import com.example.healthcareapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -58,7 +59,24 @@ public class AddRecipeFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewRecipe1.getContext());
         recyclerViewRecipe1.setLayoutManager(linearLayoutManager);
         recipeList = new ArrayList<>();
-        recipeAdapter = new RecipeAdapter(recipeList, view.getContext());
+        recipeAdapter = new RecipeAdapter(recipeList, view.getContext(), new ClickRecipeItem() {
+            @Override
+            public void onClickItemRecipeShare(recipe re) {
+                Intent i = new Intent(view.getContext(), PostActivity.class);
+                i.putExtra("idRecipe", re.getIdRecipe());
+                i.putExtra("nameRecipe", re.getNameRecipe());
+                i.putExtra("caloRecipe", re.getCalorieRecipe());
+                i.putExtra("cookingRecipe", re.getCooking());
+                i.putExtra("prepRecipe", re.getPrep());
+                PostActivity.thaotac="Share";
+                launcherActivity.launch(i);
+            }
+
+            @Override
+            public void onClickItemRecipeAdd(recipe re) {
+
+            }
+        });
 
         recyclerViewRecipe1.setAdapter(recipeAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(recyclerViewRecipe1.getContext(), DividerItemDecoration.VERTICAL);
@@ -86,7 +104,16 @@ public class AddRecipeFragment extends Fragment {
         return view;
     }
 
-
+    ActivityResultLauncher<Intent> launcherActivity = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                    }
+                }
+            });
 
 
 }
