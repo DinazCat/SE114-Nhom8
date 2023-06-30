@@ -21,6 +21,7 @@ import com.example.healthcareapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.zip.Inflater;
@@ -52,7 +53,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     public void onBindViewHolder(@NonNull FoodViewHolder holder, int position) {
         final food _food = foodList.get(position);
         if (_food == null) return;
-
+        Picasso.get().load(_food.getImgFood()).into(holder.imgFood);
         holder.tvNameFood.setText(_food.getNameFood());
         holder.tvCaloriesFood.setText(_food.getCaloriesFood());
         holder.tvServing.setText(_food.getServingFood());

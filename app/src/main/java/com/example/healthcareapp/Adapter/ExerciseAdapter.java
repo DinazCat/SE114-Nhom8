@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthcareapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -43,7 +44,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     public void onBindViewHolder(@NonNull ExerciseViewHolder holder, int position) {
         exercise e = exerciseList.get(position);
         if (e == null) return;
-        //holder.imgFood.setImageResource(e.getImgFood());
+        if (e.getImgExercise() != null)
+        Picasso.get().load(e.getImgExercise()).into(holder.imgExercise);
+
         holder.tvNameExercise.setText(e.getNameExercise());
         holder.tvCaloriesExercise.setText(e.getCaloriesBurnedAMin());
         holder.tvMinutePerformedExercise.setText(e.getMinutePerformed());

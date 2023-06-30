@@ -28,12 +28,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.checkerframework.checker.units.qual.C;
 
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NewFoodAdapter extends RecyclerView.Adapter<NewFoodAdapter.NewFoodViewHolder>{
     List<food> newFoodList;
@@ -59,6 +62,9 @@ public class NewFoodAdapter extends RecyclerView.Adapter<NewFoodAdapter.NewFoodV
     @Override
     public void onBindViewHolder(@NonNull NewFoodAdapter.NewFoodViewHolder holder, int position) {
         food _food = newFoodList.get(position);
+        if (_food.getImgFood()!=null) {
+            Picasso.get().load(_food.getImgFood()).into(holder.imgFood);
+        }
         holder.newFoodName.setText(_food.getNameFood());
         holder.newFoodCalorie.setText(_food.getCaloriesFood());
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +191,7 @@ public class NewFoodAdapter extends RecyclerView.Adapter<NewFoodAdapter.NewFoodV
     }
 
     public class NewFoodViewHolder extends RecyclerView.ViewHolder {
-
+        private CircleImageView imgFood;
         private TextView newFoodName;
         private TextView newFoodCalorie;
         private ImageButton btnDelete, btnEdit;
@@ -193,6 +199,7 @@ public class NewFoodAdapter extends RecyclerView.Adapter<NewFoodAdapter.NewFoodV
 
         public NewFoodViewHolder(@NonNull View itemView) {
             super(itemView);
+            imgFood = itemView.findViewById(R.id.imageFood);
             newFoodName = itemView.findViewById(R.id.nameNewFood);
             newFoodCalorie = itemView.findViewById(R.id.caloriesNewFood);
             btnDelete = itemView.findViewById(R.id.Delete_btn);

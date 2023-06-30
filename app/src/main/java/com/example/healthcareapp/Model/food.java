@@ -1,15 +1,24 @@
 package com.example.healthcareapp.Model;
 
 public class food {
-    String idFood, nameFood, caloriesFood, servingFood;
+    String idFood, nameFood, caloriesFood, servingFood, imgFood;
     public food( ) {
 
     }
-    public food(String idFood, String nameFood, String caloriesFood, String servingFood) {
+    public food(String imgFood, String idFood, String nameFood, String caloriesFood, String servingFood) {
         this.idFood = idFood;
         this.nameFood = nameFood;
         this.caloriesFood = caloriesFood;
         this.servingFood = servingFood;
+        this.imgFood = imgFood;
+    }
+
+    public String getImgFood() {
+        return imgFood;
+    }
+
+    public void setImgFood(String imgFood) {
+        this.imgFood = imgFood;
     }
 
     public String getIdFood() {
