@@ -135,6 +135,10 @@
     <string name="writehere">viết vào đây</string>
     <string name="whatgoal">Mục tiêu của bạn là gì?</string>
     <string name="seedetail">Chi tiết</string>
+
+    <string name="weightTab">Cân nặng</string>
+    <string name="heightTab">Chiều cao</string>
+    <string name="caloriesTab">Calo tiêu thụ</string>
     <string-array name="meals">
         <item> Bữa sáng </item>
         <item> Bữa trưa </item>

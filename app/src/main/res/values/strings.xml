@@ -119,6 +119,10 @@
 
     <string name="whatgoal">What is your goal?</string>
     <string name="seedetail">See detail</string>
+
+    <string name="weightTab">Weight</string>
+    <string name="heightTab">Height</string>
+    <string name="caloriesTab">Calories burned</string>
     <string-array name="meals">
         <item> Breakfast </item>
         <item> Lunch </item>
