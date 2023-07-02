@@ -66,43 +66,63 @@
             android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/ic_email"
             android:drawablePadding="5dp"/>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/phone"
-            android:id="@+id/et_phone"
+            android:hint="@string/age"
+            android:id="@+id/et_age"
             android:layout_margin="4dp"
             android:textColor="@color/black"
             android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/ic_phone"
+            android:drawableLeft="@drawable/baseline_access_time_24"
+            android:drawablePadding="5dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginHorizontal="5dp">
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_sex"/>
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:background="@drawable/search_view_bg"
+                android:layout_marginHorizontal="5dp"
+                android:id="@+id/sex"/>
+        </LinearLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/weightTab"
+            android:id="@+id/et_weight"
+            android:layout_margin="4dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/baseline_scale_24"
             android:drawablePadding="5dp"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/country"
-            android:id="@+id/et_country"
+            android:hint="@string/heightTab"
+            android:id="@+id/et_height"
             android:layout_margin="4dp"
             android:textColor="@color/black"
+            android:drawableLeft="@drawable/ic_height"
             android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/ic_globe"
             android:drawablePadding="5dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/city"
-            android:id="@+id/et_city"
-            android:layout_margin="4dp"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/ic_city"
-            android:drawablePadding="5dp"/>
+
         <Button
             android:id="@+id/bt_save"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Save Profile"
             android:textColor="@color/black"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             />
     </LinearLayout>
     <LinearLayout

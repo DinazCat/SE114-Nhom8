@@ -16,14 +16,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.healthcareapp.Adapter.ImageAdapter;
+import com.example.healthcareapp.Model.bmiInfo;
 import com.example.healthcareapp.R;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -53,12 +56,15 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class EditProfileFragment extends Fragment {
-    EditText etName, etAbout, etEmail, etPhone, etCountry, etCity;
+    EditText etName, etAbout, etEmail, etAge, etWeight, etHeight;
+    String goal, weeklyGoal, activityLevel;
+    Spinner spnSex;
     Button btSave;
     ImageView image;
     Uri imageUri;
@@ -82,13 +88,17 @@ public class EditProfileFragment extends Fragment {
         etName = view.findViewById(R.id.et_name);
         etAbout = view.findViewById(R.id.et_about);
         etEmail= view.findViewById(R.id.et_email);
-        etPhone = view.findViewById(R.id.et_phone);
-        etCity = view.findViewById(R.id.et_city);
-        etCountry = view.findViewById(R.id.et_country);
+        etAge = view.findViewById(R.id.et_age);
+        etWeight = view.findViewById(R.id.et_weight);
+        etHeight = view.findViewById(R.id.et_height);
+        spnSex = view.findViewById(R.id.sex);
         btSave = view.findViewById(R.id.bt_save);
         image = view.findViewById(R.id.img_user);
         cam = view.findViewById(R.id.camera);
         gal = view.findViewById(R.id.gallery);
+        ArrayAdapter<CharSequence> adapterSex = ArrayAdapter.createFromResource(view.getContext(), R.array.sex, android.R.layout.simple_spinner_item);
+        adapterSex.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnSex.setAdapter(adapterSex);
         chooseImg = view.findViewById(R.id.choose);
 
         auth = FirebaseAuth.getInstance();
@@ -102,16 +112,10 @@ public class EditProfileFragment extends Fragment {
                     String name = ds.child("name").getValue() + "";
                     String about = ds.child("about").getValue() + "";
                     String img = ds.child("img").getValue() + "";
-                    String city = ds.child("city").getValue() + "";
-                    String country = ds.child("country").getValue() + "";
                     String email = ds.child("email").getValue() + "";
-                    String phone = ds.child("phone").getValue() + "";
                     etName.setText(name);
                     etAbout.setText(about);
-                    etCity.setText(city);
-                    etCountry.setText(country);
                     etEmail.setText(email);
-                    etPhone.setText(phone);
                     try {
                         Picasso.get().load(img).into(image);
                         imgFile = img;
@@ -127,6 +131,7 @@ public class EditProfileFragment extends Fragment {
 
             }
         });
+        showLastBmi();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
@@ -280,21 +285,19 @@ public class EditProfileFragment extends Fragment {
         String email = etEmail.getText().toString();
         String name = etName.getText().toString();
         String about = etAbout.getText().toString();
-        String phone = etPhone.getText().toString();
-        String city = etCity.getText().toString();
-        String country = etCountry.getText().toString();
         String img = imgFile!=null ? imgFile : "";
         HashMap<Object,String> hashMap = new HashMap<>();
         hashMap.put("id", uid);
         hashMap.put("email", email);
         hashMap.put("name", name);
         hashMap.put("img", img);
-        hashMap.put("phone", phone);
-        hashMap.put("city", city);
-        hashMap.put("country", country);
+        hashMap.put("phone", "");
+        hashMap.put("city", "");
+        hashMap.put("country", "");
         hashMap.put("about", about);
 
         try {
+            updateBmi();
             databaseReference.child(uid).setValue(hashMap);
 
             if (imgFile != null) {
@@ -348,5 +351,46 @@ public class EditProfileFragment extends Fragment {
         } catch (Exception e){
             System.out.println(e);
         }
+    }
+    public void showLastBmi(){
+        Query query = FirebaseDatabase.getInstance().getReference("bmiDiary").child(user.getUid()).orderByChild("time").limitToLast(1);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<bmiInfo> bmiInfos = new ArrayList<>();
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    bmiInfo bmiInfo = ds.getValue(bmiInfo.class);
+                    bmiInfos.add(bmiInfo);
+                }
+                etAge.setText(bmiInfos.get(0).age);
+                etWeight.setText(bmiInfos.get(0).weight);
+                etHeight.setText(bmiInfos.get(0).height);
+                goal = bmiInfos.get(0).goal;
+                activityLevel = bmiInfos.get(0).activityLevel;
+                weeklyGoal = bmiInfos.get(0).weeklyGoal;
+                ArrayAdapter<String> array_spnSex=(ArrayAdapter<String>)spnSex.getAdapter();
+                spnSex.setSelection(array_spnSex.getPosition(bmiInfos.get(0).sex));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d(TAG, "Error:" + error.getMessage());
+            }
+        });
+    }
+    public void updateBmi(){
+        bmiInfo bmi_info = new bmiInfo();
+        bmi_info.userID = user.getUid();
+        bmi_info.age = etAge.getText().toString();
+        bmi_info.height = etHeight.getText().toString();
+        bmi_info.weight = etWeight.getText().toString();
+        bmi_info.sex = spnSex.getSelectedItem().toString();
+        bmi_info.goal = goal;
+        bmi_info.weeklyGoal = weeklyGoal;
+        bmi_info.activityLevel = activityLevel;
+        bmi_info.time = System.currentTimeMillis();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("bmiDiary");
+        String key = databaseReference.push().getKey();
+        databaseReference.child(user.getUid()).child(key).setValue(bmi_info);
     }
 }
