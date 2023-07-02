@@ -13,7 +13,7 @@
     <string name="language">Ngôn ngữ</string>
     <string name="darkmode">Chủ đề</string>
     <string name="logout">Đăng xuất</string>
-    <string name="changebmi">Thay đổi BMI và mục tiêu</string>
+    <string name="changeGoal">Thay đổi mục tiêu</string>
     <!--    trang blog-->
     <string name="addpostbutton">Hôm nay bạn đã ăn gì? Hãy chia sẻ với mọi người</string>
     <!--    trang đăng bài-->
@@ -67,9 +67,9 @@
     <string name="height">Chiều cao(cm)</string>
     <string name="weight">Cân nặng(kg)</string>
     <string name="sex">Giới tính</string>
-    <string name="goal">Mục tiêu</string>
-    <string name="weeklygoal">Mục tiêu tuần</string>
-    <string name="activitylevel">Cấp độ hoạt động</string>
+    <string name="goal">Mục tiêu: </string>
+    <string name="weeklygoal">Mục tiêu tuần: </string>
+    <string name="activitylevel">Mức độ hoạt động: </string>
     <string name="comment">Bình luận</string>
     <!--    forgot_password-->
     <string name="reset">Thiết lập lại</string>
@@ -172,11 +172,11 @@
         <item> Giảm 1 kg trên tuần </item>
     </string-array>
     <string-array name="activityLevels">
-        <item> Not very active </item>
-        <item> Lightly active </item>
-        <item> Moderate </item>
-        <item> Active </item>
-        <item> Very active </item>
+        <item> Không năng động  </item>
+        <item> Khá năng động </item>
+        <item> Bình thường </item>
+        <item> Năng động </item>
+        <item> Cực kỳ năng động </item>
     </string-array>
     <string-array name="sex">
         <item> Nam </item>

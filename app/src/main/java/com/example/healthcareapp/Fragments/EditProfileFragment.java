@@ -368,8 +368,12 @@ public class EditProfileFragment extends Fragment {
                 goal = bmiInfos.get(0).goal;
                 activityLevel = bmiInfos.get(0).activityLevel;
                 weeklyGoal = bmiInfos.get(0).weeklyGoal;
-                ArrayAdapter<String> array_spnSex=(ArrayAdapter<String>)spnSex.getAdapter();
-                spnSex.setSelection(array_spnSex.getPosition(bmiInfos.get(0).sex));
+                if(bmiInfos.get(0).sex == "Male") {
+                    spnSex.setSelection(0);
+                }
+                else{
+                    spnSex.setSelection(1);
+                }
             }
 
             @Override
@@ -384,7 +388,15 @@ public class EditProfileFragment extends Fragment {
         bmi_info.age = etAge.getText().toString();
         bmi_info.height = etHeight.getText().toString();
         bmi_info.weight = etWeight.getText().toString();
-        bmi_info.sex = spnSex.getSelectedItem().toString();
+        int index = spnSex.getSelectedItemPosition();
+        switch (index){
+            case 0:
+                bmi_info.sex = "Male";
+                break;
+            case 1:
+                bmi_info.sex = "Female";
+                break;
+        }
         bmi_info.goal = goal;
         bmi_info.weeklyGoal = weeklyGoal;
         bmi_info.activityLevel = activityLevel;

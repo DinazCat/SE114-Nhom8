@@ -108,13 +108,4 @@
         android:drawablePadding="10dp"
         android:id="@+id/logout"/>
 
-
-    <Button
-        android:id="@+id/changeBmi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/changebmi"
-        android:layout_marginTop="100dp"
-        />
-
 </LinearLayout>

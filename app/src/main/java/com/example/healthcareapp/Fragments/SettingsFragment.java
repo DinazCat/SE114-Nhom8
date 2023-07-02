@@ -1,8 +1,5 @@
 package com.example.healthcareapp.Fragments;
 
-import static com.example.healthcareapp.LanguageUtils.CURRENT_LANGUAGE;
-import static com.example.healthcareapp.LanguageUtils.setCurrentLanguage;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,11 +18,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.healthcareapp.ChangeBmiAndGoal;
+import com.example.healthcareapp.ChangeGoalActivity;
 import com.example.healthcareapp.Language;
 import com.example.healthcareapp.LanguageUtils;
 import com.example.healthcareapp.LoginActivity;
@@ -41,7 +37,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SettingsFragment extends Fragment {
 
     private FirebaseAuth auth;
-    private Button btn_ChangeBmi;
+    private TextView btn_ChangeGoal;
     GoogleSignInOptions gOptions;
     GoogleSignInClient gClient;
     SharedPreferences sharedPreferences ;
@@ -80,7 +76,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        btn_ChangeBmi = view.findViewById(R.id.changeBmi);
+        btn_ChangeGoal = view.findViewById(R.id.mygoals);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,15 +119,15 @@ public class SettingsFragment extends Fragment {
         });
 
         //change bmi Info
-        btn_ChangeBmi.setOnClickListener(new View.OnClickListener() {
+        btn_ChangeGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launcherChangeBmiAndGoal.launch(new Intent(getContext(), ChangeBmiAndGoal.class));
+                launcherChangeGoal.launch(new Intent(getContext(), ChangeGoalActivity.class));
             }
         });
         return view;
     }
-    ActivityResultLauncher<Intent> launcherChangeBmiAndGoal = registerForActivityResult(
+    ActivityResultLauncher<Intent> launcherChangeGoal = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
