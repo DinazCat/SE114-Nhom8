@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.healthcareapp.Model.bmiInfo;
 
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -40,6 +42,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import org.checkerframework.checker.units.qual.A;
 
 public class CaloriesBurnedFragment extends Fragment {
     String uid = FirebaseAuth.getInstance().getUid();
@@ -90,47 +94,33 @@ public class CaloriesBurnedFragment extends Fragment {
     }
     private void getEntriesCaloriesOneWeek() {
         getDateOneWeek();
-        Query query = FirebaseDatabase.getInstance().getReference("bmiDiary").child(uid);
+        Query query = FirebaseDatabase.getInstance().getReference("foodDiary").child(uid);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot){
                 ArrayList<BarEntry> entries = new ArrayList();
-                ArrayList<bmiInfo> bmiInfos = new ArrayList<>();
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    bmiInfo bmiInfo = ds.getValue(bmiInfo.class);
-                    bmiInfos.add(bmiInfo);
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                for(int j = 0; j <=6; j++) {
+                    int total = 0;
+                    for (DataSnapshot ds : snapshot.child(df.format(datesOneWeek.get(j))).child("Breakfast").getChildren()) {
+                        food in = ds.getValue(food.class);
+                        total += Integer.parseInt(in.getCaloriesFood());
+                    }
+                    for (DataSnapshot ds : snapshot.child(df.format(datesOneWeek.get(j))).child("Lunch").getChildren()) {
+                        food in = ds.getValue(food.class);
+                        total += Integer.parseInt(in.getCaloriesFood());
+                    }
+                    for (DataSnapshot ds : snapshot.child(df.format(datesOneWeek.get(j))).child("Dinner").getChildren()) {
+                        food in = ds.getValue(food.class);
+                        total += Integer.parseInt(in.getCaloriesFood());
+                    }
+                    for (DataSnapshot ds : snapshot.child(df.format(datesOneWeek.get(j))).child("Snack").getChildren()) {
+                        food in = ds.getValue(food.class);
+                        total += Integer.parseInt(in.getCaloriesFood());
+                    }
+                    entries.add(new BarEntry(j, total));
                 }
-                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-                for (int j = 0; j <= 6; j++){
-                    Calendar calendar = Calendar.getInstance();
-                    ArrayList<bmiInfo> bmiList = new ArrayList<>();
 
-                    for(int i = 0; i < bmiInfos.size(); i++){
-
-                        calendar.setTimeInMillis(bmiInfos.get(i).time);
-                        Date date = null;
-                        try {
-                            date = df.parse(DateFormat.format("dd/MM/yyyy", calendar).toString());
-
-                        } catch (ParseException e) {
-                            throw new RuntimeException(e);
-                        }
-                        if (date.compareTo(datesOneWeek.get(j)) <= 0) {
-                            bmiList.add(bmiInfos.get(i));
-                        }
-
-                    }
-                    if(bmiList.size() <= 0){
-                        entries.add(new BarEntry(j, Integer.parseInt(bmiInfos.get(0).height)));
-
-
-                    }
-                    else{
-                        entries.add(new BarEntry(j, Integer.parseInt(bmiList.get(bmiList.size()-1).height)));
-
-                    }
-
-                }
                 showChartForWeek(entries, datesOneWeek, "Height");
             }
 
@@ -143,41 +133,31 @@ public class CaloriesBurnedFragment extends Fragment {
     }
     private void getEntriesCaloriesOneMonth() {
         getDateOneMonth();
-        Query query = FirebaseDatabase.getInstance().getReference("bmiDiary").child(uid).orderByChild("time");
+        Query query = FirebaseDatabase.getInstance().getReference("foodDiary").child(uid);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot){
-                ArrayList<bmiInfo> bmiInfos = new ArrayList<>();
-                ArrayList<BarEntry> entries = new ArrayList();;
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    bmiInfo bmiInfo = ds.getValue(bmiInfo.class);
-                    bmiInfos.add(bmiInfo);
-                }
-                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                ArrayList<BarEntry> entries = new ArrayList();
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 for (int j = 0; j < datesOneMonth.size(); j++){
-                    Calendar calendar = Calendar.getInstance();
-                    ArrayList<bmiInfo> bmiList = new ArrayList<>();
-                    for(int i = 0; i < bmiInfos.size(); i++){
-
-                        calendar.setTimeInMillis(bmiInfos.get(i).time);
-                        Date date = null;
-                        try {
-                            date = df.parse(DateFormat.format("dd/MM/yyyy", calendar).toString());
-
-                        } catch (ParseException e) {
-                            throw new RuntimeException(e);
-                        }
-                        if (date.compareTo(datesOneMonth.get(j)) <= 0) {
-                            bmiList.add(bmiInfos.get(i));
-                        }
-
+                    int total = 0;
+                    for (DataSnapshot ds : snapshot.child(df.format(datesOneMonth.get(j))).child("Breakfast").getChildren()) {
+                        food in = ds.getValue(food.class);
+                        total += Integer.parseInt(in.getCaloriesFood());
                     }
-                    if(bmiList.size() <= 0){
-                        entries.add(new BarEntry(j, Integer.parseInt(bmiInfos.get(0).height)));
+                    for (DataSnapshot ds : snapshot.child(df.format(datesOneMonth.get(j))).child("Lunch").getChildren()) {
+                        food in = ds.getValue(food.class);
+                        total += Integer.parseInt(in.getCaloriesFood());
                     }
-                    else{
-                        entries.add(new BarEntry(j, Integer.parseInt(bmiList.get(bmiList.size()-1).height)));
+                    for (DataSnapshot ds : snapshot.child(df.format(datesOneMonth.get(j))).child("Dinner").getChildren()) {
+                        food in = ds.getValue(food.class);
+                        total += Integer.parseInt(in.getCaloriesFood());
                     }
+                    for (DataSnapshot ds : snapshot.child(df.format(datesOneMonth.get(j))).child("Snack").getChildren()) {
+                        food in = ds.getValue(food.class);
+                        total += Integer.parseInt(in.getCaloriesFood());
+                    }
+                    entries.add(new BarEntry(j, total));
                 }
                 showChartForMonth(entries, datesOneMonth, "Height");
             }
@@ -190,37 +170,37 @@ public class CaloriesBurnedFragment extends Fragment {
     }
     private void getEntriesCaloriesOneYear() {
         getMonthOneYear();
-        Query query = FirebaseDatabase.getInstance().getReference("bmiDiary").child(uid).orderByChild("time");
+        Query query = FirebaseDatabase.getInstance().getReference("foodDiary").child(uid);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot){
-                ArrayList<bmiInfo> bmiInfos = new ArrayList<>();
                 ArrayList<BarEntry> entries = new ArrayList();;
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    bmiInfo bmiInfo = ds.getValue(bmiInfo.class);
-                    bmiInfos.add(bmiInfo);
-                }
-                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 for (int j = 0; j < monthsOneYear.size(); j++){
-                    Calendar calendar = Calendar.getInstance();
-                    ArrayList<bmiInfo> bmiList = new ArrayList<>();
-                    for(int i = 0; i < bmiInfos.size(); i++){
-
-                        calendar.setTimeInMillis(bmiInfos.get(i).time);
-                        String date = DateFormat.format("MM/yyyy", calendar).toString();
-                        String[] stringDate = date.split("/");
+                    int total = 0;
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        String date = ds.getKey().toString();
+                        String[] stringDate = date.split("-");
                         String[] stringD = monthsOneYear.get(j).split("/");
-                        if (stringDate[1].compareTo(stringD[1]) < 0 || (stringDate[1].compareTo(stringD[1]) == 0 && stringDate[0].compareTo(stringD[0]) <= 0)) {
-                            bmiList.add(bmiInfos.get(i));
+                        if (stringDate[1].compareTo(stringD[0]) == 0 && stringDate[0].compareTo(stringD[1]) == 0) {
+                            for(DataSnapshot datas : ds.child("Breakfast").getChildren()){
+                                food in = datas.getValue(food.class);
+                                total += Integer.parseInt(in.getCaloriesFood());
+                            }
+                            for(DataSnapshot datas : ds.child("Lunch").getChildren()){
+                                food in = datas.getValue(food.class);
+                                total += Integer.parseInt(in.getCaloriesFood());
+                            }
+                            for(DataSnapshot datas : ds.child("Dinner").getChildren()){
+                                food in = datas.getValue(food.class);
+                                total += Integer.parseInt(in.getCaloriesFood());
+                            }
+                            for(DataSnapshot datas : ds.child("Snack").getChildren()){
+                                food in = datas.getValue(food.class);
+                                total += Integer.parseInt(in.getCaloriesFood());
+                            }
                         }
-
                     }
-                    if(bmiList.size() <= 0){
-                        entries.add(new BarEntry(j, Integer.parseInt(bmiInfos.get(0).height)));
-                    }
-                    else{
-                        entries.add(new BarEntry(j, Integer.parseInt(bmiList.get(bmiList.size()-1).height)));
-                    }
+                    entries.add(new BarEntry(j, total));
                 }
                 showChartForYear(entries, monthsOneYear, "Height");
             }

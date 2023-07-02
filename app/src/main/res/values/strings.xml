@@ -136,7 +136,7 @@
     </string-array>
 
     <string-array name="selectDateRange">
-        <item> 1 weeks </item>
+        <item> 1 week </item>
         <item> 1 month </item>
         <item> 1 year </item>
     </string-array>
