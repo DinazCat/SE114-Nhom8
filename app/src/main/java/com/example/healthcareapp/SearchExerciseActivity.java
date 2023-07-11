@@ -9,13 +9,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +30,7 @@ import com.example.healthcareapp.Adapter.ExerciseAdapter;
 import com.example.healthcareapp.Fragments.AddFragment;
 import com.example.healthcareapp.ListInterface.ClickExerciseItem;
 import com.example.healthcareapp.Model.exercise;
+import com.example.healthcareapp.Model.food;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,6 +56,15 @@ public class SearchExerciseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_exercise);tvEngVie = findViewById(R.id.textViewExercise);
+
+        Intent i = this.getIntent();
+        String date = i.getStringExtra("date");
+        tvDate = findViewById(R.id.date);
+        if (date == null)
+            tvDate.setText("Today");
+        else
+            tvDate.setText(date);
+
         btn_back = findViewById(R.id.back);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,54 +138,47 @@ public class SearchExerciseActivity extends AppCompatActivity {
             @Override
             public void onClickItemExercise(exercise e) {
                 if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(SearchExerciseActivity.this);
-                    dialog.setTitle("Add");
-                    dialog.setIcon(R.drawable.noti_icon);
-                    dialog.setMessage("You want to add??");
-                    dialog.setCancelable(false);
-                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    final Dialog dialog = new Dialog(SearchExerciseActivity.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.dialog_add_excercise);
+                    Window window =dialog.getWindow();
+                    if (window == null) {
+                        return;
+                    }
+                    window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                    window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                    WindowManager.LayoutParams windowAttributes = window.getAttributes();
+                    windowAttributes.gravity = Gravity.CENTER;
+                    window.setAttributes(windowAttributes);
+
+                    Button btnCancel = dialog.findViewById(R.id.cancel);
+                    Button btnAdd = dialog.findViewById(R.id.add);
+                    EditText number = dialog.findViewById(R.id.editTextNumber);
+
+
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    btnAdd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Integer n = Integer.parseInt(number.getText().toString());
+                            exercise e2 = e;
+                            e2.setCaloriesBurnedAMin(String.valueOf(Integer.parseInt(e.getCaloriesBurnedAMin())/Integer.parseInt(e.getMinutePerformed())*n));
                             database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
                             database.child(uid).child(date).child(String.valueOf(e.getIdExercise())).setValue(e);
                             Toast.makeText(SearchExerciseActivity.this, "Add Succes", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
                         }
-                    });
-                    dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    AlertDialog alertDialog = dialog.create();
-                    // Show the Alert Dialog box
-                    alertDialog.show();
-                }
-                else {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(SearchExerciseActivity.this);
-                    dialog.setTitle("Thêm vào");
-                    dialog.setIcon(R.drawable.noti_icon);
-                    dialog.setMessage("Bạn có muốn thêm hoạt động này vào không??");
-                    dialog.setCancelable(false);
-                    dialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
-                            database.child(uid).child(date).child(String.valueOf(e.getIdExercise())).setValue(e);
-                            Toast.makeText(SearchExerciseActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    dialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    AlertDialog alertDialog = dialog.create();
-                    // Show the Alert Dialog box
-                    alertDialog.show();
-                }
 
+                    });
+                    dialog.show();
+                }
             }
         });
         recyclerViewExercise.setAdapter(exerciseAdapter);

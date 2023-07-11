@@ -43,6 +43,15 @@ public class AddWaterActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        Intent i = this.getIntent();
+        String date = i.getStringExtra("date");
+        tvDate = findViewById(R.id.date);
+        if (date == null)
+            tvDate.setText("Today");
+        else
+            tvDate.setText(date);
+
         edtWater = findViewById(R.id.water);
         btnSave = findViewById(R.id.save);
         tvDate = findViewById(R.id.date);

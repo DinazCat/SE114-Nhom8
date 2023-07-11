@@ -43,6 +43,7 @@ public class AddWaterFragment extends Fragment {
         edtWater = view.findViewById(R.id.water);
         btnSave = view.findViewById(R.id.save);
         tvDate = view.findViewById(R.id.date);
+
         Calendar calendar = Calendar.getInstance();
         String string = DateFormat.format("yyyy-MM-dd", calendar).toString();
         setWaterAmount(string);

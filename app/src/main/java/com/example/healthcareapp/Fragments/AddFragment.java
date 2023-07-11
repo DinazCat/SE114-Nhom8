@@ -378,7 +378,9 @@ public class AddFragment extends Fragment {
         btAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launcherAddFoodAndExercise.launch(new Intent(getContext(), SearchTopTabActivity.class));
+                Intent i = new Intent(getContext(), SearchTopTabActivity.class);
+                i.putExtra("date",tvDate.getText().toString());
+                launcherAddFoodAndExercise.launch(i);
             }
         });
         btAddExercise = view.findViewById(R.id.addExercise);
@@ -387,21 +389,28 @@ public class AddFragment extends Fragment {
         btAddExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launcherAddFoodAndExercise.launch(new Intent(getContext(), SearchExerciseActivity.class));
+                Intent i = new Intent(getContext(), SearchExerciseActivity.class);
+                i.putExtra("date",tvDate.getText().toString());
+                launcherAddFoodAndExercise.launch(i);
             }
         });
 
         btAddRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launcherAddFoodAndExercise.launch(new Intent(getContext(), SearchTopTapRecipe.class));
+                Intent i = new Intent(getContext(), SearchTopTapRecipe.class);
+                i.putExtra("date",tvDate.getText().toString());
+                launcherAddFoodAndExercise.launch(i);
+
             }
         });
 
         btAddWater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launcherAddFoodAndExercise.launch(new Intent(getContext(), AddWaterActivity.class));;
+                Intent i = new Intent(getContext(), AddWaterActivity.class);
+                i.putExtra("date",tvDate.getText().toString());
+                launcherAddFoodAndExercise.launch(i);
             }
         });
         return view;

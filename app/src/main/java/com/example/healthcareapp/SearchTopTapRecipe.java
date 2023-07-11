@@ -28,6 +28,7 @@ public class SearchTopTapRecipe extends AppCompatActivity {
         viewPager.setAdapter(vpa);
         tabLayout.setupWithViewPager(viewPager);
 
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

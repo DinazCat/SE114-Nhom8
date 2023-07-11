@@ -1,8 +1,12 @@
 package com.example.healthcareapp.Fragments;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,12 +18,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
 import android.text.format.DateFormat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,8 +69,9 @@ public class SearchFoodFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_food, container, false);
         tvEngVie = view.findViewById(R.id.textViewAddFoodEngVie);
-        tvDate = view.findViewById(R.id.date);
+
         Calendar calendar = Calendar.getInstance();
+
         String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
 
         spn = (Spinner)view.findViewById(R.id.spinner);
@@ -99,34 +109,6 @@ public class SearchFoodFragment extends Fragment {
         recyclerViewFood = view.findViewById(R.id.recyclerviewSearchFood);
         setRecyclerView(today);
 
-        //Set DATE
-        tvDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        Calendar calendar = Calendar.getInstance();
-                        if (calendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth && calendar.get(Calendar.MONTH) == month && calendar.get(Calendar.YEAR) == year){
-                            tvDate.setText("Today");
-                            String string = DateFormat.format("yyyy-MM-dd", calendar).toString();
-                            setRecyclerView(string);
-                        }
-                        else{
-                            calendar.set(year, month, dayOfMonth);
-                            tvDate.setText(DateFormat.format("dd/MM/yyyy", calendar).toString());
-                            String string = DateFormat.format("yyyy-MM-dd", calendar).toString();
-                            setRecyclerView(string);
-                        }
-                    }
-                }, year, month, day);
-                datePickerDialog.show();
-            }
-        });
         return view;
     }
     private void setRecyclerView(String date) {
@@ -137,106 +119,76 @@ public class SearchFoodFragment extends Fragment {
         foodAdapter = new FoodAdapter(foodList, new ClickFoodItem() {
             @Override
             public void onClickItemFood(food _food) {
-                if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-                    dialog.setTitle("Add");
-                    dialog.setIcon(R.drawable.noti_icon);
-                    dialog.setMessage("You want to add??");
-                    dialog.setCancelable(false);
-                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                final Dialog dialog = new Dialog(getContext());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_add);
+                Window window =dialog.getWindow();
+                if (window == null) {
+                    return;
+                }
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                WindowManager.LayoutParams windowAttributes = window.getAttributes();
+                windowAttributes.gravity = Gravity.CENTER;
+                window.setAttributes(windowAttributes);
+
+                TextView cabs = dialog.findViewById(R.id.cabs);
+                TextView fat = dialog.findViewById(R.id.fat);
+                TextView protein = dialog.findViewById(R.id.protein);
+                Button btnCancel = dialog.findViewById(R.id.cancel);
+                Button btnAdd = dialog.findViewById(R.id.add);
+                EditText number = dialog.findViewById(R.id.editTextNumber);
+                cabs.setText("Cabs: " + _food.getCabsFood());
+                fat.setText("Fat: " + _food.getFatFood());
+                protein.setText("Protein: " + _food.getProteinFood());
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                    btnAdd.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(View v) {
+                            Integer n = Integer.parseInt(number.getText().toString());
+                            food _food2 = _food;
+                            _food2.setCaloriesFood(String.valueOf(Integer.parseInt(_food.getCaloriesFood())*n));
                             if (tvEngVie.getText().toString().equals("Add food")) {
                                 database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                database.child(uid).child(date).child(spn.getSelectedItem().toString()).child(String.valueOf(_food.getIdFood())).setValue(_food);
+                                database.child(uid).child(date).child(spn.getSelectedItem().toString()).child(String.valueOf(_food2.getIdFood())).setValue(_food2);
                                 Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
                             } else {
                                 if (spn.getSelectedItemPosition() == 0) {
                                     database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                    database.child(uid).child(date).child("Breakfast").child(String.valueOf(_food.getIdFood())).setValue(_food);
+                                    database.child(uid).child(date).child("Breakfast").child(String.valueOf(_food.getIdFood())).setValue(_food2);
                                     Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
                                 } else {
                                     if (spn.getSelectedItemPosition() == 1) {
                                         database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                        database.child(uid).child(date).child("Lunch").child(String.valueOf(_food.getIdFood())).setValue(_food);
+                                        database.child(uid).child(date).child("Lunch").child(String.valueOf(_food.getIdFood())).setValue(_food2);
                                         Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
                                     } else {
                                         if (spn.getSelectedItemPosition() == 2) {
                                             database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                            database.child(uid).child(date).child("Dinner").child(String.valueOf(_food.getIdFood())).setValue(_food);
+                                            database.child(uid).child(date).child("Dinner").child(String.valueOf(_food.getIdFood())).setValue(_food2);
                                             Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
                                         } else {
                                             database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                            database.child(uid).child(date).child("Snack").child(String.valueOf(_food.getIdFood())).setValue(_food);
+                                            database.child(uid).child(date).child("Snack").child(String.valueOf(_food.getIdFood())).setValue(_food2);
                                             Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
 
                                         }
                                     }
                                 }
                             }
+                            dialog.dismiss();
                         }
 
                     });
-                    dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    AlertDialog alertDialog = dialog.create();
-                    // Show the Alert Dialog box
-                    alertDialog.show();
-                }
-                else {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-                    dialog.setTitle("Thêm vào");
-                    dialog.setIcon(R.drawable.noti_icon);
-                    dialog.setMessage("Bạn có muốn thêm??");
-                    dialog.setCancelable(false);
-                    dialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (tvEngVie.getText().toString().equals("Add food")) {
-                                database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                database.child(uid).child(date).child(spn.getSelectedItem().toString()).child(String.valueOf(_food.getIdFood())).setValue(_food);
-                                Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-                            } else {
-                                if (spn.getSelectedItemPosition() == 0) {
-                                    database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                    database.child(uid).child(date).child("Breakfast").child(String.valueOf(_food.getIdFood())).setValue(_food);
-                                    Toast.makeText(getContext(), "Thêm Thành công", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    if (spn.getSelectedItemPosition() == 1) {
-                                        database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                        database.child(uid).child(date).child("Lunch").child(String.valueOf(_food.getIdFood())).setValue(_food);
-                                        Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        if (spn.getSelectedItemPosition() == 2) {
-                                            database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                            database.child(uid).child(date).child("Dinner").child(String.valueOf(_food.getIdFood())).setValue(_food);
-                                            Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                            database.child(uid).child(date).child("Snack").child(String.valueOf(_food.getIdFood())).setValue(_food);
-                                            Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                    });
-                    dialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    AlertDialog alertDialog = dialog.create();
-                    // Show the Alert Dialog box
-                    alertDialog.show();
-                }
+                    dialog.show();
             }
         });
         recyclerViewFood.setAdapter(foodAdapter);

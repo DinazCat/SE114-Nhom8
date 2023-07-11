@@ -1,7 +1,7 @@
 package com.example.healthcareapp.Model;
 
 public class food {
-    String idFood, nameFood, caloriesFood, servingFood, imgFood;
+    String idFood, nameFood, caloriesFood, servingFood, imgFood, cabsFood, fatFood, proteinFood;
     public food( ) {
 
     }
@@ -11,6 +11,30 @@ public class food {
         this.caloriesFood = caloriesFood;
         this.servingFood = servingFood;
         this.imgFood = imgFood;
+    }
+
+    public String getCabsFood() {
+        return cabsFood;
+    }
+
+    public String getFatFood() {
+        return fatFood;
+    }
+
+    public String getProteinFood() {
+        return proteinFood;
+    }
+
+    public void setCabsFood(String cabsFood) {
+        this.cabsFood = cabsFood;
+    }
+
+    public void setFatFood(String fatFood) {
+        this.fatFood = fatFood;
+    }
+
+    public void setProteinFood(String proteinFood) {
+        this.proteinFood = proteinFood;
     }
 
     public String getImgFood() {
