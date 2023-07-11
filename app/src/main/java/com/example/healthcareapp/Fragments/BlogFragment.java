@@ -275,13 +275,15 @@ public class BlogFragment extends Fragment {
                                 Info.id = document.getId();
                                 postlist.add(Info);
                             }
-                            PostAdapter adapter = new PostAdapter(postlist,getContext(), getActivity().getSupportFragmentManager(),"blog");
-                           // LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-                          //  mRecyclerView.setLayoutManager(layoutManager);
-                          //  mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                        if(isAdded()) {
+                            PostAdapter adapter = new PostAdapter(postlist, getContext(), getActivity().getSupportFragmentManager(), "blog");
+                            // LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                            //  mRecyclerView.setLayoutManager(layoutManager);
+                            //  mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                             mRecyclerView.setAdapter(adapter);
                             layoutManager.scrollToPositionWithOffset(positionLV, topView);
                             refresh.setRefreshing(false);
+                        }
                     }
                 });
 //                .get()

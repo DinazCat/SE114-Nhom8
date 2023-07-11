@@ -328,6 +328,7 @@ public class ProfileFragment extends Fragment {
                         }
                     });
                 }
+                followersCount.setText("" + followerlist.size());
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -360,6 +361,7 @@ public class ProfileFragment extends Fragment {
                         }
                     });
                 }
+                followingCount.setText("" + followinglist.size());
             }
 
             @Override
