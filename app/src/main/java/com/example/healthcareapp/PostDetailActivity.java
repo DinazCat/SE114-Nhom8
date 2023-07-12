@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,9 +42,12 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -62,6 +67,7 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView FSummary ;
     TextView FTag, Cal, Prep, Cooking, Total;
     String userToken;
+    Button save;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +87,58 @@ public class PostDetailActivity extends AppCompatActivity {
         Prep = findViewById(R.id.tv_prep);
         Cooking = findViewById(R.id.tv_cooking);
         Total = findViewById(R.id.tv_servings);
+        save = findViewById(R.id.savepost);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DocumentReference userRef = FirebaseFirestore.getInstance().collection("SavedPosts").document(curUser.getUid());
+                userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                List<String> postIds = (List<String>) document.get("postIds");
+                                if (postIds != null && postIds.contains(info.id)) {
+                                    // postId đã tồn tại, xử lý tương ứng (ví dụ: hiển thị thông báo)
+                                    Toast.makeText(PostDetailActivity.this, "Post already exist in your wall", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    // Thêm postId vào list postids
+                                    postIds.add(info.id);
+                                    userRef.update("postIds", postIds)
+                                            .addOnSuccessListener(aVoid -> {
+                                                // Thành công, xử lý tương ứng (ví dụ: hiển thị thông báo)
+                                                Toast.makeText(PostDetailActivity.this, "Post is saved successfully in your wall", Toast.LENGTH_SHORT).show();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                // Xảy ra lỗi, xử lý tương ứng (ví dụ: hiển thị thông báo lỗi)
+                                                System.out.println("lỗi ở else t1");
+                                            });
+                                }
+                            }
+                            else {
+                                List<String> postIds = new ArrayList<>();
+                                postIds.add(info.id);
+                                Map<String, Object> savep = new HashMap<>();
+                                savep.put("postIds", postIds);
+                                userRef.set(savep)
+                                        .addOnSuccessListener(aVoid -> {
+                                            // Thành công, xử lý tương ứng (ví dụ: hiển thị thông báo)
+                                            Toast.makeText(PostDetailActivity.this, "Post is saved successfully in your wall", Toast.LENGTH_SHORT).show();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            // Xảy ra lỗi, xử lý tương ứng (ví dụ: hiển thị thông báo lỗi)
+                                            System.out.println("lỗi ở else t2");
+                                        });
+
+                            }
+                        }
+
+                    }
+                });
+            }
+        });
+
 
         Uri data = getIntent().getData();
         if (data != null && data.getScheme().equals("https")) {

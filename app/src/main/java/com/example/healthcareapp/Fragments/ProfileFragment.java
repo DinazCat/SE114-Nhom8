@@ -16,11 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.example.healthcareapp.Adapter.PostAdapter;
@@ -53,6 +56,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProfileFragment extends Fragment {
 
@@ -68,12 +72,14 @@ public class ProfileFragment extends Fragment {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser curUser = auth.getCurrentUser();
     public static ArrayList<PostInformation> postlist;
+    public static ArrayList<PostInformation> savedpostlist;
     private ArrayList<User> followerlist;
     private ArrayList<User> followinglist;
     private LinearLayout bt_posts, bt_followers, bt_following;
     private TextView postsCount, followersCount, followingCount;
     private boolean isFollowed = false;
     private String userToken;
+    private ImageButton menu;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,12 +104,46 @@ public class ProfileFragment extends Fragment {
         followingCount = view.findViewById(R.id.tv_following_count);
 
         Bundle args = getArguments();
+        menu = view.findViewById(R.id.btn_menu);
+        String m = args.getString("userId");
+        String n = curUser.getUid();
+        if(!n.equals(m))
+        {
+            menu.setVisibility(View.INVISIBLE);
+        }
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
+                popupMenu.inflate(R.menu.privatemenu);
+                popupMenu.show();
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId())
+                        {
+                            case R.id.storage:
+                                SavedPostFragment fragment = new SavedPostFragment();
+                                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                transaction.replace(R.id.frame_layout, fragment);
+                                transaction.addToBackStack(null);
+                                transaction.commit();
+                                return true;
+                        }
+
+                        return false;
+                    }
+                });
+            }
+        });
+
         if (args != null) {
             userId = args.getString("userId");
             readUserData();
             readUserPost();
             readFollowers();
             readFollowing();
+            readSavedPostId();
             if(userId.equals(curUser.getUid())){
                 userbtn.setText("Edit Profile");
 
@@ -172,18 +212,18 @@ public class ProfileFragment extends Fragment {
                                     .child(userId)
                                     .child("follow")
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if (dataSnapshot.exists()) {
-                                        sendNotification();
-                                    }
-                                }
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.exists()) {
+                                                sendNotification();
+                                            }
+                                        }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                }
-                            });
+                                        }
+                                    });
 
                         }
                         else {
@@ -369,6 +409,54 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+    }
+    private void readSavedPostId()
+    {
+        DocumentReference userRef = FirebaseFirestore.getInstance().collection("SavedPosts").document(curUser.getUid());
+//        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        List<String> postIds = (List<String>) document.get("postIds");
+//                        readSavedPost(postIds);
+//                        savedCount.setText("" + postIds.size());
+//                    }
+//                }
+//            };
+//    });
+        userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                savedpostlist = new ArrayList<>();
+                List<String> postIds = (List<String>) value.get("postIds");
+                if(postIds != null) {
+                    readSavedPost(postIds);
+                }
+            }
+        });
+    }
+    private void readSavedPost(List<String> Id)
+    {
+        for(int i = 0; i < Id.size(); i++)
+        {
+            DocumentReference userRef = FirebaseFirestore.getInstance().collection("posts").document(Id.get(i));
+            userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            PostInformation Info ;
+                            Info = document.toObject(PostInformation.class);
+                            Info.id = document.getId();
+                            savedpostlist.add(Info);
+                        }
+                    }
+                };
+            });
+        }
     }
     private void sendNotification(){
         FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("token").addListenerForSingleValueEvent(new ValueEventListener() {

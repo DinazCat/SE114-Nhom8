@@ -5,7 +5,7 @@
     <LinearLayout
         android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:background="#FFFAF0"
+        android:background="@color/lightgreen"
         android:orientation="vertical">
         <ImageButton
             android:id="@+id/removeI"
@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wty"
+                android:text="Qty"
                 android:textSize="20dp"
                 android:textColor="@color/black"
                 android:layout_marginLeft="10dp"/>

@@ -23,16 +23,16 @@
     <string name="next">Tiếp theo</string>
     <!--    trang baiviet-->
     <string name="step1">Bước1. Thông tin về món ăn</string>
-    <string name="foodname">Tên món ăn</string>
-    <string name="difficult">Độ khó</string>
-    <string name="total">Khẩu phần:</string>
-    <string name="calories">Calories:</string>
-    <string name="preptime">Thời gian chuẩn bị:</string>
-    <string name="cookingtime">Thời gian nấu:</string>
+    <string name="foodname">Tên món ăn *</string>
+    <string name="difficult">Độ khó *</string>
+    <string name="total">Khẩu phần: *</string>
+    <string name="calories">Calories: *</string>
+    <string name="preptime">Thời gian chuẩn bị: *</string>
+    <string name="cookingtime">Thời gian nấu: *</string>
     <!--    trang baiviet1-->
     <string name="step2">Bước2. Món ăn này được làm như thế nào?</string>
-    <string name="ingredient">Có những nguyên liệu nào?</string>
-    <string name="Recipe">Công thức làm món ăn:</string>
+    <string name="ingredient">Có những nguyên liệu nào? *</string>
+    <string name="Recipe">Công thức làm món ăn: *</string>
     <string name="summary">Nói về món ăn này:</string>
     <!--    trang baiviet2-->
     <string name="step3">Bước3. Chọn hastag cho bài viết</string>

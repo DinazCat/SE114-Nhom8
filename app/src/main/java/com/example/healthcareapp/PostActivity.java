@@ -161,7 +161,7 @@ public class PostActivity extends AppCompatActivity {
                     addDatatoFirestore();
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Please enter post's information!", Toast.LENGTH_LONG);
+                    Toast.makeText(PostActivity.this, "Please enter all information marked!", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -339,7 +339,7 @@ public class PostActivity extends AppCompatActivity {
                         db.collection("posts").document(documentReference.getId()).set(update, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(PostActivity.this, "update post id success", Toast.LENGTH_SHORT).show();
+                              //  Toast.makeText(PostActivity.this, "update post id success", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
