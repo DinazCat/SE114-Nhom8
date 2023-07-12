@@ -305,6 +305,7 @@ public class PostAdapter extends RecyclerView.Adapter {
                                 ((FourImageType) viewHolder).noOfLikes.setText("" + object.likes.size());
                             }
 
+                            if(!curUser.getUid().equals(object.userid))
                             FirebaseDatabase.getInstance().getReference()
                                     .child("notificationSetting")
                                     .child(object.userid)

@@ -72,13 +72,20 @@ public class Fragment_baiviet1 extends Fragment {
         if( PostActivity.thaotac.equals("push"))
         {
             FMaking=""; FSummary="";
+            if(listIdata.size()>0)
+            {
+                IngredientAdapter adapter = new IngredientAdapter(Fragment_baiviet1.this.getActivity(), listIdata);
+                listI.setAdapter(adapter);
+            }
         }
         else{
 
             making.setText(FMaking);
             summary.setText(FSummary);
-            IngredientAdapter adapter = new IngredientAdapter(Fragment_baiviet1.this.getActivity(), listIdata);
-            listI.setAdapter(adapter);
+            if(listIdata.size()>0) {
+                IngredientAdapter adapter = new IngredientAdapter(Fragment_baiviet1.this.getActivity(), listIdata);
+                listI.setAdapter(adapter);
+            }
         }
         addI.setOnClickListener(new View.OnClickListener() {
             @Override

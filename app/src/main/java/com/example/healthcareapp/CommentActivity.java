@@ -197,7 +197,7 @@ public class CommentActivity extends AppCompatActivity {
                                         System.out.println(e);
                                     }
                                 });
-
+                    if(!curUser.getUid().equals(authorId))
                     FirebaseDatabase.getInstance().getReference()
                             .child("notificationSetting")
                             .child(authorId)

@@ -148,14 +148,13 @@ public class PostActivity extends AppCompatActivity {
         Postbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(BaivietFragment.FoodName.getText().toString() != null &&
-                        BaivietFragment.Total.getText().toString() != null &&
-                        BaivietFragment.Cal.getText().toString() != null &&
-                        BaivietFragment.Prep.getText().toString() != null &&
-                        BaivietFragment.Cooking.getText().toString() != null &&
-                        BaivietFragment.FRating != ""&&
-                        Fragment_baiviet1.making != null &&
-                        Fragment_baiviet1.making.getText().toString() != null &&
+                if(!BaivietFragment.FoodName.getText().toString().equals("") &&
+                        !BaivietFragment.Total.getText().toString().equals("") &&
+                        !BaivietFragment.Cal.getText().toString().equals("") &&
+                        !BaivietFragment.Prep.getText().toString().equals("") &&
+                        !BaivietFragment.Cooking.getText().toString().equals("") &&
+                        !BaivietFragment.FRating.equals("")&&
+                        ((Fragment_baiviet1.making != null && !Fragment_baiviet1.making.getText().toString().equals("")) || (!Fragment_baiviet1.FMaking.equals("")))&&
                         Fragment_baiviet1.listIdata.size() > 0)
                 {
                     addDatatoFirestore();
@@ -189,12 +188,17 @@ public class PostActivity extends AppCompatActivity {
                 for(int i = 0; i < AddImgFragment.images.size(); i++) {
                     if(AddImgFragment.images.get(i).toString().substring(0,5).equals("https"))
                     {
-                        sum = sum + 1;
                         fileimgs.add(AddImgFragment.images.get(i).toString());
                     }
-                    uploadImage(AddImgFragment.images.get(i), i);
+                   else uploadImage(AddImgFragment.images.get(i), i);
+                    sum = sum + 1;
                 }
-                if(sum == AddImgFragment.images.size()) editpost();
+                if(sum == AddImgFragment.images.size())
+                {
+                    if(thaotac.equals("push"))
+                        uploadpost();
+                    else editpost();
+                }
             }
             else {
                 if(thaotac.equals("push"))

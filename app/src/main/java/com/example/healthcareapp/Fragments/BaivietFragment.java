@@ -30,7 +30,7 @@ public class BaivietFragment extends Fragment {
         FoodReview = view.findViewById(R.id.ratingbar);
         if( PostActivity.thaotac.equals("push"))
         {
-            FName=""; FCal=""; FTotal = ""; FPrep = "";FCooking=" " ;FRating = "";
+            FName=""; FCal=""; FTotal = ""; FPrep = "";FCooking=" " ;FRating = "1.0";
             FoodReview.setRating(1.0f);
         }
         else{
@@ -40,7 +40,7 @@ public class BaivietFragment extends Fragment {
                 FTotal = "";
                 FPrep = PostActivity.re.getPrep();
                 FCooking= PostActivity.re.getCooking();
-                FRating = "";
+                FRating = "1.0";
                 FoodReview.setRating(1.0f);
 
                 FoodName.setText(FName);

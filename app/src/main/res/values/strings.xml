@@ -20,6 +20,8 @@
     <string name="step1">Step1. Something about food</string>
     <string name="foodname">Food name *</string>
     <string name="difficult">Difficult *</string>
+    <string name="foodname2">Food name:</string>
+    <string name="difficult2">Difficult:</string>
     <string name="total">Total: *</string>
     <string name="calories">Calories: *</string>
     <string name="preptime">Prep time: *</string>
@@ -123,6 +125,11 @@
     <string name="weightTab">Weight</string>
     <string name="heightTab">Height</string>
     <string name="caloriesTab">Calories burned</string>
+    <string name="postsaved"> Saved posts</string>
+    <string name="posts">Posts</string>
+    <string name="follower">Followers</string>
+    <string name="following">Following</string>
+    <string name="savedmenu">Saved</string>
     <string-array name="meals">
         <item> Breakfast </item>
         <item> Lunch </item>

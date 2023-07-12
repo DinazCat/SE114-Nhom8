@@ -24,7 +24,9 @@
     <!--    trang baiviet-->
     <string name="step1">Bước1. Thông tin về món ăn</string>
     <string name="foodname">Tên món ăn *</string>
+    <string name="foodname2">Tên món ăn:</string>
     <string name="difficult">Độ khó *</string>
+    <string name="difficult2">Độ khó:</string>
     <string name="total">Khẩu phần: *</string>
     <string name="calories">Calories: *</string>
     <string name="preptime">Thời gian chuẩn bị: *</string>
@@ -139,6 +141,12 @@
     <string name="weightTab">Cân nặng</string>
     <string name="heightTab">Chiều cao</string>
     <string name="caloriesTab">Calo tiêu thụ</string>
+    <string name="postsaved">Những bài viết đã lưu</string>
+    <string name="posts">Bài viết</string>
+    <string name="follower">Người theo dõi</string>
+    <string name="following">Đang theo dõi</string>
+    <string name="savedmenu">Đã lưu</string>
+
     <string-array name="meals">
         <item> Bữa sáng </item>
         <item> Bữa trưa </item>
