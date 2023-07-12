@@ -92,6 +92,7 @@ public class AddNewFoodFragment extends Fragment {
                         .cameraOnly()
                         .maxResultSize(1080,1080)
                         .start(101);
+
             }
         });
 

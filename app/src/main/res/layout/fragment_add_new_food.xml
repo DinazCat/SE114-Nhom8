@@ -30,109 +30,128 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerviewNewFood">
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="110dp"
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/nameofnewfood"
-            android:textColor="@color/forestgreen"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/addIngredientName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/addFoodName"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_gravity="top"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/search_view_bg"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/recyclerviewNewFood">
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/nameofnewfood"
+                android:textColor="@color/forestgreen"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/addIngredientName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="110dp"
+            <EditText
+                android:id="@+id/addFoodName"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="top"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/search_view_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="30dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/calofnewfood"
-            android:textColor="@color/forestgreen"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/addIngredientName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/addFoodCalorie"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_gravity="top"
-            android:digits="0123456789"
-            android:inputType="phone"
-            android:background="@drawable/search_view_bg"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/calofnewfood"
+                android:textColor="@color/forestgreen"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/addIngredientName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="110dp"
+            <EditText
+                android:id="@+id/addFoodCalorie"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="top"
+                android:digits="0123456789"
+                android:inputType="phone"
+                android:background="@drawable/search_view_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/servingofnewfood"
+                android:textColor="@color/forestgreen"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/addIngredientName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <Spinner
+                android:id="@+id/addServing"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:background="@drawable/search_view_bg"
+                app:layout_constraintTop_toBottomOf="@id/linear" />
+
+        </LinearLayout>
+        <ImageButton
+            android:id="@+id/imgpicker"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/ic_addphoto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"/>
+
+        <Button
+            android:id="@+id/saveFood2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/servingofnewfood"
-            android:textColor="@color/forestgreen"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/addIngredientName"
+            android:layout_marginTop="20dp"
+            android:text="@string/savefood"
+            android:textSize="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <Spinner
-            android:id="@+id/addServing"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:background="@drawable/search_view_bg"
-            app:layout_constraintTop_toBottomOf="@id/linear" />
-
-    </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/imgpicker" />
 
     <LinearLayout
         android:id="@+id/choose"
@@ -143,8 +162,8 @@
         android:background="#FAFAD2"
         android:gravity="center"
         android:orientation="horizontal"
+        android:layout_marginTop="240dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/saveFood2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -190,26 +209,5 @@
         </LinearLayout>
 
     </LinearLayout>
-    <ImageButton
-        android:id="@+id/imgpicker"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:background="@drawable/ic_addphoto"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"/>
-
-    <Button
-        android:id="@+id/saveFood2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:text="@string/savefood"
-        android:textSize="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgpicker" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -69,7 +71,10 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         String name = this.typeList.get(this.meals.get(groupPosition)).get(childPosition).getNameType();
         String cl = this.typeList.get(this.meals.get(groupPosition)).get(childPosition).getNumberType();
         String unit = this.typeList.get(this.meals.get(groupPosition)).get(childPosition).getUnitType();
-        threeType type = new threeType(id,name,cl,unit);
+        String cabs = this.typeList.get(this.meals.get(groupPosition)).get(childPosition).getCabs();
+        String fat = this.typeList.get(this.meals.get(groupPosition)).get(childPosition).getFat();
+        String protein = this.typeList.get(this.meals.get(groupPosition)).get(childPosition).getProtein();
+        threeType type = new threeType(id,name,cl,unit,cabs,fat,protein);
         return type;
     }
 
@@ -109,6 +114,27 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.food_layout,null);
         }
+        LinearLayout nutri = convertView.findViewById(R.id.linearLayoutNutri);
+        nutri.setVisibility(View.INVISIBLE);
+
+        if (topicTitle.getUnitType().equals(" calories"))
+        {
+            nutri.setVisibility(View.VISIBLE);
+            ProgressBar cabs = convertView.findViewById(R.id.cabsFood);
+            ProgressBar fat = convertView.findViewById(R.id.fatFood);
+            ProgressBar protein = convertView.findViewById(R.id.proteinFood);
+            if (topicTitle.getCabs()!=null) {
+                cabs.setProgress(Integer.parseInt(topicTitle.getCabs()));
+                fat.setProgress(Integer.parseInt(topicTitle.getFat()));
+                protein.setProgress(Integer.parseInt(topicTitle.getProtein()));
+            }
+            else {
+                cabs.setProgress(50);
+                fat.setProgress(50);
+                protein.setProgress(50);
+            }
+        }
+
         TextView topicTV = convertView.findViewById(R.id.textViewFoods);
         TextView topicTV1 = convertView.findViewById(R.id.textViewFoodCalories);
         TextView topicTV2 = convertView.findViewById(R.id.type);

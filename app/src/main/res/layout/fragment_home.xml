@@ -196,7 +196,7 @@
                             app:layout_constraintDimensionRatio="1:1"
                             app:layout_constraintHorizontal_chainStyle="spread"
                             app:trackColor="@color/white"
-
+                            android:progress="0"
                             app:indicatorSize="150dp"
                             app:trackThickness="10dp"
                             app:indicatorColor="@color/textgreen"
