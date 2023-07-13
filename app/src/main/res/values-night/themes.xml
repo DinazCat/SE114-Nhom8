@@ -22,4 +22,26 @@
         <item name="android:background">@color/black</item>
     </style>
 
+    <style name="homeBG">
+        <item name="android:background">@drawable/bg_home_dark</item>
+    </style>
+
+    <style name="home_border">
+        <item name="android:background">@drawable/border_calories_dark</item>
+    </style>
+    <style name="home_text">
+        <item name="android:textColor">#A4D1A0</item>
+    </style>
+    <style name="bg">
+        <item name="android:background">#4D6742</item>
+    </style>
+    <style name="note_bg">
+        <item name="android:background">@drawable/bg_home_note_dark</item>
+    </style>
+    <style name="button_add">
+        <item name="android:background">@drawable/btn_add_dark</item>
+    </style>
+    <style name="add_bg">
+        <item name="android:background">#658166</item>
+    </style>
 </resources>

@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.example.healthcareapp.Fragments.AddNewFoodFragment;
 import com.example.healthcareapp.Fragments.AddRecipeFragment;
 import com.example.healthcareapp.Fragments.AddWaterFragment;
+import com.example.healthcareapp.Fragments.FoodAddedFragment;
 import com.example.healthcareapp.Fragments.HomeFragment;
 import com.example.healthcareapp.Fragments.SearchExerciseFragment;
 import com.example.healthcareapp.Fragments.SearchFoodFragment;
@@ -34,6 +35,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new SearchFoodFragment();
             case 1:
+                return new FoodAddedFragment();
+            case 2:
                 return new AddNewFoodFragment();
             default:
                 return new HomeFragment();
@@ -42,7 +45,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Nullable
@@ -55,6 +58,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                     title = "Add Food";
                     break;
                 case 1:
+                    title = "New Food Added";
+                    break;
+                case 2:
                     title = "Add New Food";
                     break;
             }
@@ -65,6 +71,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                     title = "Thêm thức ăn";
                     break;
                 case 1:
+                    title = "Thức ăn mới đã thêm";
+                    break;
+                case 2:
                     title = "Thêm thức ăn mới";
                     break;
             }

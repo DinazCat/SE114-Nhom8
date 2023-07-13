@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E9F4E6"
+    style="@style/bg"
     tools:context=".Fragments.SearchFoodFragment">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:gravity="center"
-        android:textColor="@color/textgreen"
+        android:textColor="@color/forestgreen"
         android:textStyle="bold"
         android:text="@string/addfood"
         app:layout_constraintEnd_toEndOf="parent"

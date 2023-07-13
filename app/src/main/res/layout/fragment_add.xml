@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.AddFragment"
-    android:background="#E9F4E6">
+    style="@style/bg">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/border_calories"
+        style="@style/home_border"
         android:orientation="horizontal"
         android:layout_marginHorizontal="10dp"
         android:gravity="center_horizontal">
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/linearL1"
-        android:background="#fff"
+        style="@style/add_bg"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -178,7 +178,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="163dp"
+        android:layout_marginTop="169dp"
         android:orientation="horizontal"
         android:layout_gravity="center|top"
         >
@@ -188,15 +188,16 @@
             android:text="@string/Addfood"
             android:textSize="16dp"
             android:id="@+id/addFood"
+            style="@style/button_add"
             android:layout_marginRight="5dp"
             />
-
         <Button
             android:layout_width="170dp"
             android:layout_height="40dp"
             android:text="@string/Addexercise"
             android:textSize="16dp"
             android:id="@+id/addExercise"
+            style="@style/button_add"
             android:layout_marginRight="5dp"
             />
 
@@ -205,7 +206,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="212dp"
         android:orientation="horizontal"
         android:layout_gravity="center|top"
         >
@@ -214,6 +215,7 @@
             android:layout_height="40dp"
             android:text="@string/Addrecipe"
             android:textSize="16dp"
+            style="@style/button_add"
             android:id="@+id/addRecipe"
             android:layout_marginRight="5dp"
             />
@@ -223,6 +225,7 @@
             android:layout_height="40dp"
             android:text="@string/Addwater"
             android:textSize="16dp"
+            style="@style/button_add"
             android:id="@+id/addWater"
             android:layout_marginRight="5dp"
             />
@@ -233,7 +236,7 @@
         android:id="@+id/expandableLV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="259dp"
         android:layout_marginBottom="50dp"
         android:childDivider="#ddd"
         />

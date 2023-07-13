@@ -61,7 +61,7 @@ public class SearchFoodFragment extends Fragment {
     private List<food> foodList;
     private SearchView searchView;
     private Spinner spn;
-    DatabaseReference database, database1;
+    DatabaseReference database, database1,database2;
     TextView tvDate, tvEngVie;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     @Override
@@ -150,45 +150,45 @@ public class SearchFoodFragment extends Fragment {
                     }
                 });
 
-                    btnAdd.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Integer n = Integer.parseInt(number.getText().toString());
-                            food _food2 = _food;
-                            _food2.setCaloriesFood(String.valueOf(Integer.parseInt(_food.getCaloriesFood())*n));
-                            if (tvEngVie.getText().toString().equals("Add food")) {
+                btnAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Integer n = Integer.parseInt(number.getText().toString());
+                        food _food2 = _food;
+                        _food2.setCaloriesFood(String.valueOf(Integer.parseInt(_food.getCaloriesFood())*n));
+                        if (tvEngVie.getText().toString().equals("Add food")) {
+                            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                            database.child(uid).child(date).child(spn.getSelectedItem().toString()).child(String.valueOf(_food2.getIdFood())).setValue(_food2);
+                            Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (spn.getSelectedItemPosition() == 0) {
                                 database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                database.child(uid).child(date).child(spn.getSelectedItem().toString()).child(String.valueOf(_food2.getIdFood())).setValue(_food2);
+                                database.child(uid).child(date).child("Breakfast").child(String.valueOf(_food.getIdFood())).setValue(_food2);
                                 Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
                             } else {
-                                if (spn.getSelectedItemPosition() == 0) {
+                                if (spn.getSelectedItemPosition() == 1) {
                                     database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                    database.child(uid).child(date).child("Breakfast").child(String.valueOf(_food.getIdFood())).setValue(_food2);
+                                    database.child(uid).child(date).child("Lunch").child(String.valueOf(_food.getIdFood())).setValue(_food2);
                                     Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    if (spn.getSelectedItemPosition() == 1) {
+                                    if (spn.getSelectedItemPosition() == 2) {
                                         database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                        database.child(uid).child(date).child("Lunch").child(String.valueOf(_food.getIdFood())).setValue(_food2);
+                                        database.child(uid).child(date).child("Dinner").child(String.valueOf(_food.getIdFood())).setValue(_food2);
                                         Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        if (spn.getSelectedItemPosition() == 2) {
-                                            database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                            database.child(uid).child(date).child("Dinner").child(String.valueOf(_food.getIdFood())).setValue(_food2);
-                                            Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                            database.child(uid).child(date).child("Snack").child(String.valueOf(_food.getIdFood())).setValue(_food2);
-                                            Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
+                                        database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                                        database.child(uid).child(date).child("Snack").child(String.valueOf(_food.getIdFood())).setValue(_food2);
+                                        Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
 
-                                        }
                                     }
                                 }
                             }
-                            dialog.dismiss();
                         }
+                        dialog.dismiss();
+                    }
 
-                    });
-                    dialog.show();
+                });
+                dialog.show();
             }
         });
         recyclerViewFood.setAdapter(foodAdapter);
@@ -202,6 +202,22 @@ public class SearchFoodFragment extends Fragment {
         }
 
         database1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    food in = dataSnapshot.getValue(food.class);
+                    foodList.add(in);
+                }
+                foodAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        database2 = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
+        database2.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {

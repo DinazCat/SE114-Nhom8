@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/bg"
     tools:context=".Fragments.SearchExerciseFragment">
     <TextView
         android:id="@+id/textViewExercise"
@@ -23,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/border_calories"
+        style="@style/home_border"
         android:orientation="horizontal"
         android:layout_marginHorizontal="10dp"
         android:gravity="center_horizontal"

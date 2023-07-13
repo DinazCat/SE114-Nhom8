@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bh_home"
+    style="@style/homeBG"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeFragment">
 
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/border_calories"
+            style="@style/home_border"
             android:orientation="horizontal"
             android:layout_marginHorizontal="10dp"
             android:gravity="center_horizontal">
@@ -53,7 +53,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/border_calories"
+            style="@style/home_border"
             android:orientation="vertical"
             android:layout_marginHorizontal="10dp"
             >
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/RemainingGoalFoodExercire"
-                android:textColor="#444444"
+                style="@style/home_text"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:layout_marginTop="20dp"
@@ -293,7 +293,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/border_calories"
+            style="@style/home_border"
             android:orientation="horizontal"
             android:layout_marginHorizontal="10dp">
             <ImageView

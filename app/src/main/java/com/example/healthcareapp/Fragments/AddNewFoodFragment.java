@@ -53,18 +53,16 @@ import java.util.List;
 import java.util.Random;
 
 public class AddNewFoodFragment extends Fragment {
-    public static Uri images;
+    public static Uri imagesNewFood;
     ImageButton cam, gal;
     LinearLayout chooseImg;
-    RecyclerView recyclerViewNewFood;
-    List<food> newFoodList;
-    NewFoodAdapter newFoodAdapter;
     Button btSaveFood, btAddImage;
-    EditText etNameNewFood, etCalorieNewFood;
+    EditText etNameNewFood, etCalorieNewFood, edCarbs, edFat, edProtein;
     DatabaseReference database, database1, db;
     private Spinner spn;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     TextView tvEngVie;
+    ImageButton img;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,6 +71,8 @@ public class AddNewFoodFragment extends Fragment {
         cam = view.findViewById(R.id.camera);
         gal = view.findViewById(R.id.gallery);
         chooseImg = view.findViewById(R.id.choose);
+        img = view.findViewById(R.id.imgpicker);
+
         Addimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +83,7 @@ public class AddNewFoodFragment extends Fragment {
 
             }
         });
-        System.out.println(images+"size");
+        System.out.println(imagesNewFood+"size");
         cam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,9 +92,9 @@ public class AddNewFoodFragment extends Fragment {
                         .cameraOnly()
                         .maxResultSize(1080,1080)
                         .start(101);
-
             }
         });
+
 
         gal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +107,6 @@ public class AddNewFoodFragment extends Fragment {
             }
         });
 
-        tvEngVie = view.findViewById(R.id.textView5);
         btSaveFood = view.findViewById(R.id.saveFood2);
 
         Calendar calendar = Calendar.getInstance();
@@ -115,6 +114,10 @@ public class AddNewFoodFragment extends Fragment {
 
         etNameNewFood = view.findViewById(R.id.addFoodName);
         etCalorieNewFood = view.findViewById(R.id.addFoodCalorie);
+        edProtein = view.findViewById(R.id.addFoodProtein);
+        edCarbs = view.findViewById(R.id.addFoodCarb);
+        edFat = view.findViewById(R.id.addFoodFat);
+
         //spn
         spn = (Spinner)view.findViewById(R.id.addServing);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(), R.array.serving, android.R.layout.simple_spinner_item);
@@ -131,90 +134,7 @@ public class AddNewFoodFragment extends Fragment {
 
             }
         });
-        //region RecyleViewFood
-        recyclerViewNewFood = view.findViewById(R.id.recyclerviewNewFood);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewNewFood.getContext());
-        recyclerViewNewFood.setLayoutManager(linearLayoutManager);
-        newFoodList = new ArrayList<>();
-        newFoodAdapter = new NewFoodAdapter(newFoodList, new ClickFoodItem() {
-            @Override
-            public void onClickItemFood(food _food) {
-                etNameNewFood.setText(_food.getNameFood());
-                etCalorieNewFood.setText(_food.getCaloriesFood());
-                for (int i=0; i<spn.getCount(); i++) {
-                    if (spn.getItemAtPosition(i).equals(_food.getServingFood()))
-                        spn.setSelection(i);
-                }
-                DatabaseReference database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
-                database.child(uid).child(_food.getIdFood()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        snapshot.getRef().removeValue();
 
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-                // Xóa trong recycle view food khong cho add nữa
-                if (tvEngVie.getText().toString().equals("List New Food You Added")) {
-                    DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foodsEng");
-                    database1.child(_food.getIdFood()).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            snapshot.getRef().removeValue();
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
-                else {
-                    DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foods");
-                    database1.child(_food.getIdFood()).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            snapshot.getRef().removeValue();
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
-
-            }
-        });
-
-        recyclerViewNewFood.setAdapter(newFoodAdapter);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(recyclerViewNewFood.getContext(), DividerItemDecoration.VERTICAL);
-        recyclerViewNewFood.addItemDecoration(itemDecoration);
-
-        database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
-        database.child(uid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                newFoodList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    food _food = dataSnapshot.getValue(food.class);
-                    newFoodList.add(_food);
-                }
-                newFoodAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        //endregion
 
         //lưu dữ liệu xuống 2 tree food và newfooduseradded
         btSaveFood.setOnClickListener(new View.OnClickListener() {
@@ -240,23 +160,22 @@ public class AddNewFoodFragment extends Fragment {
                                 _food.setNameFood(etNameNewFood.getText().toString().trim());
                                 _food.setCaloriesFood(etCalorieNewFood.getText().toString().trim());
                                 _food.setServingFood(spn.getSelectedItem().toString().trim());
-                                _food.setImgFood(String.valueOf(images));
+                                _food.setImgFood(String.valueOf(imagesNewFood));
+                                _food.setCabsFood(edCarbs.getText().toString().trim());
+                                _food.setFatFood(edFat.getText().toString().trim());
+                                _food.setProteinFood(edProtein.getText().toString().trim());
+
                                 database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
                                 database.child(uid).child(_food.getIdFood()).setValue(_food);
 
-                                if (tvEngVie.getText().toString().equals("List New Food You Added")) {
-                                    DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foodsEng");
-                                    database1.child(_food.getIdFood()).setValue(_food);
-                                } else {
-                                    DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foods");
-                                    database1.child(_food.getIdFood()).setValue(_food);
-                                }
                                 etNameNewFood.setText("");
                                 etCalorieNewFood.setText("");
+                                edCarbs.setText("");
+                                edFat.setText("");
+                                edProtein.setText("");
 
                                 Toast.makeText(getContext(), "Add New Food Success", Toast.LENGTH_SHORT).show();
 
-                                newFoodAdapter.notifyDataSetChanged();
                             }
 
                         });
@@ -292,23 +211,22 @@ public class AddNewFoodFragment extends Fragment {
                                 _food.setNameFood(etNameNewFood.getText().toString().trim());
                                 _food.setCaloriesFood(etCalorieNewFood.getText().toString().trim());
                                 _food.setServingFood(spn.getSelectedItem().toString().trim());
-                                _food.setImgFood(String.valueOf(images));
+                                _food.setImgFood(String.valueOf(imagesNewFood));
+                                _food.setCabsFood(edCarbs.getText().toString().trim());
+                                _food.setFatFood(edFat.getText().toString().trim());
+                                _food.setProteinFood(edProtein.getText().toString().trim());
+
                                 database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
                                 database.child(uid).child(_food.getIdFood()).setValue(_food);
 
-                                if (tvEngVie.getText().toString().equals("List New Food You Added")) {
-                                    DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foodsEng");
-                                    database1.child(_food.getIdFood()).setValue(_food);
-                                } else {
-                                    DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foods");
-                                    database1.child(_food.getIdFood()).setValue(_food);
-                                }
                                 etNameNewFood.setText("");
                                 etCalorieNewFood.setText("");
+                                edCarbs.setText("");
+                                edFat.setText("");
+                                edProtein.setText("");
 
                                 Toast.makeText(getContext(), "Thêm thức ăn mới thành công", Toast.LENGTH_SHORT).show();
 
-                                newFoodAdapter.notifyDataSetChanged();
                             }
 
                         });
@@ -345,16 +263,17 @@ public class AddNewFoodFragment extends Fragment {
         if (resultCode == Activity.RESULT_OK && requestCode == 101 && data != null) {
             if (data != null) {
                 Uri uri = data.getData();
-                if ( uri != null ) images= uri;
+                if ( uri != null ) imagesNewFood= uri;
 
             }
         }
         else  if (requestCode == PICK_IMAGE) {
             if (data != null) {
                 Uri uri = data.getData();
-                if ( uri != null ) images=uri;
+                if ( uri != null ) imagesNewFood=uri;
 
             }
         }
+        img.setImageURI(imagesNewFood);
     }
 }
