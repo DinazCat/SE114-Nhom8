@@ -324,12 +324,14 @@ public class ProfileFragment extends Fragment {
                     Info.id = document.getId();
                     postlist.add(Info);
                 }
-                PostAdapter adapter = new PostAdapter(postlist,getContext(), getActivity().getSupportFragmentManager(),"profile");
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-                mRecyclerView.setLayoutManager(linearLayoutManager);
-                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                mRecyclerView.setAdapter(adapter);
-                postsCount.setText("" + postlist.size());
+                if(isAdded()) {
+                    PostAdapter adapter = new PostAdapter(postlist, getContext(), getActivity().getSupportFragmentManager(), "profile");
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+                    mRecyclerView.setLayoutManager(linearLayoutManager);
+                    mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                    mRecyclerView.setAdapter(adapter);
+                    postsCount.setText("" + postlist.size());
+                }
             }
         });
     }
