@@ -2,27 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/home"
-        android:title="Home"
+        android:title="@string/home"
         android:icon="@drawable/baseline_home_24"
         />
     <item
         android:id="@+id/graph"
-        android:title="Graph"
+        android:title="@string/graph"
         android:icon="@drawable/baseline_auto_graph_24"
         />
     <item
         android:id="@+id/add"
-        android:title="Add"
+        android:title="@string/addBtt"
         android:icon="@drawable/baseline_add_24"
         />
     <item
         android:id="@+id/blogs"
-        android:title="Blogs"
+        android:title="@string/blogs"
         android:icon="@drawable/baseline_collections_24"
         />
     <item
         android:id="@+id/settings"
-        android:title="Settings"
+        android:title="@string/settings"
         android:icon="@drawable/baseline_settings_24"
         />
 

@@ -323,12 +323,12 @@ public class LoginActivity extends AppCompatActivity {
                         else {
                             String level = document.getString("activityLevel");
                             if (level.isEmpty()){
-                                finish();
                                 startActivity(new Intent(LoginActivity.this, QuestionNameAgeActivity.class));
+                                finish();
                             }
                             else {
-                                finish();
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
                             }
                         }
 

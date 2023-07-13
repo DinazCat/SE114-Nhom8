@@ -2,6 +2,7 @@ package com.example.healthcareapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,6 +17,9 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.healthcareapp.Fragments.AddFragment;
 import com.example.healthcareapp.Fragments.BlogFragment;
@@ -93,6 +97,15 @@ public class MainActivity extends AppCompatActivity {
         if(myVariable.equals("Eng")) setLocale("en");
         else setLocale("vie");
 
+        //changeTheme
+        Boolean isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
+        if(isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
     }
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -106,6 +119,32 @@ public class MainActivity extends AppCompatActivity {
         Configuration config = new Configuration();
         config.setLocale(locale);
         getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Window window = getWindow();
+        View view = getWindow().getDecorView();
+        int currentNightMode = newConfig.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                window.setStatusBarColor(getResources().getColor(R.color.forestgreen, getTheme()));
+                window.setNavigationBarColor(getResources().getColor(R.color.grey, getTheme()));
+                view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+                binding.bottomAppBar.setBackgroundTint(getColorStateList(R.color.white));
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                window.setStatusBarColor(getResources().getColor(R.color.black, getTheme()));
+                window.setNavigationBarColor(getResources().getColor(R.color.black, getTheme()));
+                view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                binding.bottomAppBar.setBackgroundTint(getColorStateList(R.color.brown));
+                break;
+
+        }
     }
 
 

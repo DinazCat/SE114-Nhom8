@@ -16,6 +16,8 @@
     <color name="forestgreen">#84D07D</color>
     <color name="green3">#00CD00</color>
     <color name="gray">#BBBBBB</color>
+    <color name="grey">#F0F0F0</color>
     <color name="boldyellow">#FFCC00</color>
     <color name="red">#F12727</color>
+    <color name="brown">#2B2B2B</color>
 </resources>

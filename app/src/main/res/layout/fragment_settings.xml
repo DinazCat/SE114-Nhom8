@@ -82,16 +82,16 @@
         android:layout_height="2dp"
         android:tint="@color/forestgreen"
         android:layout_marginVertical="10dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
+    <Switch
+        android:id="@+id/darkModeSwitch"
+        android:drawableLeft="@drawable/baseline_dark_mode_24"
+        android:text="Dark Mode"
         android:layout_height="wrap_content"
-        android:text="@string/darkmode"
+        android:layout_width="match_parent"
+        android:textColor="#666666"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:drawableLeft="@drawable/baseline_dark_mode_24"
-        android:drawablePadding="10dp"
-        android:id="@+id/darkmode"/>
+        android:drawablePadding="10dp"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"

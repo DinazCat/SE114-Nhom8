@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,7 +19,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.healthcareapp.ChangeGoalActivity;
@@ -38,6 +41,7 @@ public class SettingsFragment extends Fragment {
 
     private FirebaseAuth auth;
     private TextView btn_ChangeGoal;
+    Switch darkModeSwitch;
     GoogleSignInOptions gOptions;
     GoogleSignInClient gClient;
     SharedPreferences sharedPreferences ;
@@ -125,8 +129,42 @@ public class SettingsFragment extends Fragment {
                 launcherChangeGoal.launch(new Intent(getContext(), ChangeGoalActivity.class));
             }
         });
+
+        //change theme
+        darkModeSwitch = view.findViewById(R.id.darkModeSwitch);
+        Boolean isDarkMode = sharedPreferences.getBoolean("isDarkMode", true);
+        darkModeSwitch.setChecked(isDarkMode);
+        darkModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("isDarkMode", true);
+                    editor.apply();
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.frame_layout, new SettingsFragment());
+                    transaction.commit();
+                }
+                else{
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("isDarkMode", false);
+                    editor.apply();
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.frame_layout, new SettingsFragment());
+                    transaction.commit();
+                }
+
+            }
+        });
+
+
         return view;
     }
+
     ActivityResultLauncher<Intent> launcherChangeGoal = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {

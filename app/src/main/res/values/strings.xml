@@ -130,6 +130,13 @@
     <string name="follower">Followers</string>
     <string name="following">Following</string>
     <string name="savedmenu">Saved</string>
+
+    <string name="home">Home</string>
+    <string name="graph">Graph</string>
+    <string name="addBtt">Add</string>
+    <string name="blogs">Blogs</string>
+    <string name="settings">Settings</string>
+
     <string-array name="meals">
         <item> Breakfast </item>
         <item> Lunch </item>

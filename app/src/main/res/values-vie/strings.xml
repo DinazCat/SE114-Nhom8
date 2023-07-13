@@ -147,6 +147,12 @@
     <string name="following">Đang theo dõi</string>
     <string name="savedmenu">Đã lưu</string>
 
+    <string name="home">Trang chủ</string>
+    <string name="graph">Biểu đồ</string>
+    <string name="addBtt">Thêm</string>
+    <string name="blogs">Bài viết</string>
+    <string name="settings">Cài đặt</string>
+
     <string-array name="meals">
         <item> Bữa sáng </item>
         <item> Bữa trưa </item>
