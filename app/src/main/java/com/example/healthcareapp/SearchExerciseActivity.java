@@ -123,6 +123,7 @@ public class SearchExerciseActivity extends AppCompatActivity {
                         }
                     }
                 }, year, month, day);
+                datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
                 datePickerDialog.show();
             }
         });

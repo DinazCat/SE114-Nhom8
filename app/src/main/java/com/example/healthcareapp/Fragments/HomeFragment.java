@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     CircularProgressIndicator cpi;
     DatabaseReference database, database1;
-    ImageView imageViewNote;
+    ImageView imageViewNote, imageViewBack;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment {
         tv_bmi = view.findViewById(R.id.bmi);
         tv_foxsay = view.findViewById(R.id.foxSay);
         tv_analysis = view.findViewById(R.id.analysis);
-
+        imageViewBack = view.findViewById(R.id.back_today);
         imageViewNote = view.findViewById(R.id.note);
 
         //bmi thay đổi theo ngày khi sửa
@@ -124,7 +124,6 @@ public class HomeFragment extends Fragment {
                             setWater();
                             setFoodAndExercise(today);
 
-
                         }
                         else{
                             calendar.set(year, month, dayOfMonth);
@@ -133,10 +132,33 @@ public class HomeFragment extends Fragment {
                             setBaseGoal();
                             setWater();
                             setFoodAndExercise(string);
+                            if(imageViewBack.getVisibility()==View.INVISIBLE)
+                                imageViewBack.setVisibility(View.VISIBLE);
+                            else imageViewBack.setVisibility(View.INVISIBLE);
+                            imageViewBack.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) { tv_date.setText("Today");}
+                                    else {tv_date.setText("Hôm nay");}
+                                    Calendar calendar1 = Calendar.getInstance();
+                                    String today = DateFormat.format("yyyy-MM-dd", calendar1).toString();
+                                    setBaseGoal();
+                                    tv_dinner.setText("");
+                                    tv_lunch.setText("");
+                                    tv_breakfast.setText("");
+                                    tv_Water.setText("");
+                                    tv_snack.setText("");
+                                    tv_exercise.setText("");
 
+                                    setWater();
+                                    setFoodAndExercise(today);
+                                    imageViewBack.setVisibility(View.INVISIBLE);
+                                }
+                            });
                         }
                     }
                 }, year, month, day);
+                datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
                 datePickerDialog.show();
             }
         });

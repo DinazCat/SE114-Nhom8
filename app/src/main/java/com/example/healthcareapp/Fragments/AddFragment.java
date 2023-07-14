@@ -26,6 +26,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +70,7 @@ public class AddFragment extends Fragment {
     Button btAddFood, btAddExercise, btAddRecipe, btAddWater;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private FragmentAListener listenter;
+    ImageView imageViewBack;
     TextView tvFoodCalories, tvExerciseCalories, tvGoalCalories, tvRemainingCalories, tvDate, tvGoal;
 
     public interface FragmentAListener{
@@ -83,6 +85,7 @@ public class AddFragment extends Fragment {
 
         Calendar calendar = Calendar.getInstance();
         String date = DateFormat.format("yyyy-MM-dd", calendar).toString();
+        imageViewBack = view.findViewById(R.id.back_today);
         tvExerciseCalories = view.findViewById(R.id.exerciseCalories);
         tvFoodCalories = view.findViewById(R.id.foodCalories);
         tvGoalCalories = view.findViewById(R.id.goalCalories);
@@ -366,9 +369,43 @@ public class AddFragment extends Fragment {
                                 }
                             });
                             expandableListView.setAdapter(listViewAdapter);
+                            if(imageViewBack.getVisibility()==View.INVISIBLE)
+                                imageViewBack.setVisibility(View.VISIBLE);
+                            else imageViewBack.setVisibility(View.INVISIBLE);
+                            imageViewBack.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) { tvDate.setText("Today");}
+                                    else {tvDate.setText("Hôm nay");}
+                                    Calendar calendar1 = Calendar.getInstance();
+                                    String today = DateFormat.format("yyyy-MM-dd", calendar1).toString();
+                                    setBaseGoal();
+                                    setList(today);
+                                    showList(today);
+                                    ExpandableListViewAdapter listViewAdapter = new ExpandableListViewAdapter(view.getContext(), expandableListView.getContext(), meals, threeList, string, new ClickNewFoodItem() {
+                                        @Override
+                                        public void onClickItemNewFoodDelete(food _food) {
+
+                                        }
+
+                                        @Override
+                                        public void onClickItemNewFoodAdd(food _food, String date) {
+
+                                        }
+
+                                        @Override
+                                        public void onClickItemDelete(threeType th, int groupPosition, int childPosition) {
+
+                                        }
+                                    });
+                                    expandableListView.setAdapter(listViewAdapter);
+                                    imageViewBack.setVisibility(View.INVISIBLE);
+                                }
+                            });
                         }
                     }
                 }, year, month, day);
+                datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
                 datePickerDialog.show();
             }
         });
@@ -593,7 +630,6 @@ public class AddFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -617,7 +653,6 @@ public class AddFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -641,7 +676,6 @@ public class AddFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -662,7 +696,6 @@ public class AddFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -683,7 +716,6 @@ public class AddFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -704,7 +736,6 @@ public class AddFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -736,7 +767,6 @@ public class AddFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -760,7 +790,6 @@ public class AddFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -784,7 +813,6 @@ public class AddFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -808,7 +836,7 @@ public class AddFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+
                 }
             });
 
@@ -829,7 +857,7 @@ public class AddFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+
                 }
             });
 
@@ -851,7 +879,7 @@ public class AddFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getView().getContext(), "fail", Toast.LENGTH_SHORT).show();
+
                 }
             });
         }

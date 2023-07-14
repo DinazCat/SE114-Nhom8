@@ -106,6 +106,7 @@ public class SearchExerciseFragment extends Fragment {
                         }
                     }
                 }, year, month, day);
+                datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
                 datePickerDialog.show();
             }
         });

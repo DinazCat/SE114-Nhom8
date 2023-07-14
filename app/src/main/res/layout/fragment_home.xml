@@ -38,7 +38,14 @@
                 android:textStyle="bold"
                 android:layout_margin="10dp"
                 />
-
+            <ImageView
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+                android:visibility="invisible"
+            android:id="@+id/back_today"
+            android:layout_marginLeft="20dp"
+            app:srcCompat="@drawable/back_48px"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
