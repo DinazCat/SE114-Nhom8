@@ -96,6 +96,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
                                 database.child(uid).child(String.valueOf(randomID)).child(String.valueOf(nameRecipe)).child(in.getIdIngredient()).setValue(in);
                                 Toast.makeText(AddIngredientsActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
                             }
+                            editTextQuantity.setText("");
                         }
                     });
                     dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -126,6 +127,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
                                 database.child(uid).child(String.valueOf(randomID)).child(String.valueOf(nameRecipe)).child(in.getIdIngredient()).setValue(in);
                                 Toast.makeText(AddIngredientsActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
                             }
+                            editTextQuantity.setText("");
                         }
                     });
                     dialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {

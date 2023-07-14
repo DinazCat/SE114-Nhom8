@@ -71,7 +71,8 @@ public class AddFragment extends Fragment {
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private FragmentAListener listenter;
     ImageView imageViewBack;
-    TextView tvFoodCalories, tvExerciseCalories, tvGoalCalories, tvRemainingCalories, tvDate, tvGoal;
+    public static TextView tvRemainingCalories;
+    TextView tvFoodCalories, tvExerciseCalories, tvGoalCalories, tvDate, tvGoal;
 
     public interface FragmentAListener{
         void onInputASent(CharSequence input);
