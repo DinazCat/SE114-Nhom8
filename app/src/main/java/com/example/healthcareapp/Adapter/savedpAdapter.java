@@ -1,17 +1,20 @@
 package com.example.healthcareapp.Adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healthcareapp.Fragments.ProfileFragment;
 import com.example.healthcareapp.Fragments.SavedPostFragment;
 import com.example.healthcareapp.Model.PostInformation;
+import com.example.healthcareapp.PostDetailActivity;
 import com.example.healthcareapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -61,6 +64,14 @@ public class savedpAdapter extends BaseAdapter {
         TextView diffi = view.findViewById(R.id.tv_difficulty);
         CircleImageView img = view.findViewById(R.id.img);
        ImageButton delete = view.findViewById(R.id.clear);
+        LinearLayout Element = view.findViewById(R.id.press);
+        Element.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PostDetailActivity.info = items.get(i);
+                activity.startActivity(new Intent(activity,PostDetailActivity.class));
+            }
+        });
         foodname.setText(items.get(i).postFoodName);
         calo.setText(items.get(i).Calories + " cals/serving");
         diffi.setText(items.get(i).postFoodRating);

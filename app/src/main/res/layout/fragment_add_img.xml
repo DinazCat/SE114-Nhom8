@@ -48,7 +48,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:id="@+id/choose"
-                android:background="#FAFAD2"
+                android:background="@color/lightgreen"
                 android:gravity="center"
                 android:visibility="invisible"
                 android:orientation="horizontal">

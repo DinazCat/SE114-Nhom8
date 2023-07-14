@@ -33,6 +33,7 @@
                 android:layout_marginLeft="10dp"/>
             <EditText
                 android:id="@+id/wty"
+                android:inputType="number"
                 android:layout_width="50dp"
                 android:layout_height ="wrap_content"
                 android:layout_marginLeft="5dp" />

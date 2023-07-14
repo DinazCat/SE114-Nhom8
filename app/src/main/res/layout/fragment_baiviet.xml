@@ -75,6 +75,7 @@
                             android:layout_marginLeft="15dp" />
                         <EditText
                             android:id="@+id/write1"
+                            android:inputType="number"
                             android:layout_width="150dp"
                             android:layout_height ="wrap_content"
                             android:textAlignment="center"
@@ -103,6 +104,7 @@
                             android:layout_marginLeft="15dp" />
                         <EditText
                             android:id="@+id/write2"
+                            android:inputType="number"
                             android:layout_width="150dp"
                             android:layout_height ="wrap_content"
                             android:textAlignment="center"

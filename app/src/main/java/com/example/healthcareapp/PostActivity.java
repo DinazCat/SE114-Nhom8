@@ -21,8 +21,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.healthcareapp.Fragments.AddImgFragment;
 import com.example.healthcareapp.Fragments.BaivietFragment;
+import com.example.healthcareapp.Fragments.BlogFragment;
 import com.example.healthcareapp.Fragments.Fragment_baiviet1;
 import com.example.healthcareapp.Fragments.Fragment_baiviet2;
+import com.example.healthcareapp.Fragments.SearchFragment;
 import com.example.healthcareapp.Model.Noti;
 import com.example.healthcareapp.Model.PostInformation;
 import com.example.healthcareapp.Model.recipe;
@@ -83,12 +85,14 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
         backBtn = findViewById(R.id.backBtn);
         nextBtn = findViewById(R.id.nextBtn);
+        Button Postbtn =  findViewById(R.id.dang);
 //        userimg = findViewById(R.id.iv_user);
 //        username = findViewById(R.id.tv_username);
         re = getIntentonshare();
         header = findViewById(R.id.header);
         if(thaotac.equals( "edit")) {
             header.setText("Sửa bài viết");
+            Postbtn.setText("Save");
         }
 //        if(user.getPhotoUrl()!=null){
 //            Picasso.get().load(user.getPhotoUrl()).into(userimg);
@@ -136,7 +140,13 @@ public class PostActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PostActivity.this, MainActivity.class));
+            //   startActivity(new Intent(PostActivity.this, SearchFragment.class));
+              finish();
+//               BlogFragment fragment = new BlogFragment();
+//                FragmentManager fragmentManager = getSupportFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.frame_layout,fragment);
+//                fragmentTransaction.commit();
             }
         });
 
@@ -144,7 +154,7 @@ public class PostActivity extends AppCompatActivity {
         storageReference = storage.getReference();
         db = FirebaseFirestore.getInstance();
 
-        Button Postbtn =  findViewById(R.id.dang);
+
         Postbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -188,16 +198,14 @@ public class PostActivity extends AppCompatActivity {
                 for(int i = 0; i < AddImgFragment.images.size(); i++) {
                     if(AddImgFragment.images.get(i).toString().substring(0,5).equals("https"))
                     {
+                        sum = sum + 1;
                         fileimgs.add(AddImgFragment.images.get(i).toString());
                     }
                    else uploadImage(AddImgFragment.images.get(i), i);
-                    sum = sum + 1;
                 }
                 if(sum == AddImgFragment.images.size())
                 {
-                    if(thaotac.equals("push"))
-                        uploadpost();
-                    else editpost();
+                    editpost();
                 }
             }
             else {
@@ -344,6 +352,7 @@ public class PostActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void unused) {
                               //  Toast.makeText(PostActivity.this, "update post id success", Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                         });
                     }
@@ -375,6 +384,7 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(PostActivity.this, "Post saved!!", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
