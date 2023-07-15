@@ -52,8 +52,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     @Override
     public void onBindViewHolder(@NonNull FoodViewHolder holder, int position) {
         final food _food = foodList.get(position);
-        if (_food == null) return;
-        Picasso.get().load(_food.getImgFood()).into(holder.imgFood);
+        if (_food.getImgFood() != null || !_food.getImgFood().equals("null")) {
+            Picasso.get().load(_food.getImgFood()).into(holder.imgFood);
+        }
         holder.tvNameFood.setText(_food.getNameFood());
         holder.tvCaloriesFood.setText(_food.getCaloriesFood());
         holder.tvServing.setText(_food.getServingFood());

@@ -57,11 +57,11 @@ import java.util.List;
 
 
 public class SearchFoodFragment extends Fragment {
-    private RecyclerView recyclerViewFood;
-    private FoodAdapter foodAdapter;
-    private List<food> foodList;
+    public static RecyclerView recyclerViewFood;
+    public static FoodAdapter foodAdapter;
+    public static List<food> foodList;
     private SearchView searchView;
-    private Spinner spn;
+    public static Spinner spn;
     DatabaseReference database, database1,database2;
     public TextView tvEngVie;
     ImageView back_star,front_star;
@@ -338,7 +338,7 @@ public class SearchFoodFragment extends Fragment {
         recyclerViewFood.setAdapter(foodAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(recyclerViewFood.getContext(), DividerItemDecoration.VERTICAL);
         recyclerViewFood.addItemDecoration(itemDecoration);
-        if (tvEngVie.getText().toString().equals("Add food")) {
+        if (LanguageUtils.getCurrentLanguage()==Language.ENGLISH) {
             database1 = FirebaseDatabase.getInstance().getReference("foodsEng");
         }
         else {

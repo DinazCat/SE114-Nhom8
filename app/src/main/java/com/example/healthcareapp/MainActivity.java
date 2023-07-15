@@ -119,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
         Configuration config = new Configuration();
         config.setLocale(locale);
         getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+        binding.bottomNavigationView.getMenu().clear();
+        binding.bottomNavigationView.inflateMenu(R.menu.bottom_menu);
     }
     @Override
     public void onConfigurationChanged(Configuration newConfig) {

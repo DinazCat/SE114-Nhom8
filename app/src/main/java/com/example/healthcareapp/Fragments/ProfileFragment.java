@@ -309,7 +309,7 @@ public class ProfileFragment extends Fragment {
     private void readUserPost(){
         collectionReference = db.collection("posts");
         com.google.firebase.firestore.Query query = collectionReference.whereEqualTo("userid", userId);
-        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        query.orderBy("posttime", com.google.firebase.firestore.Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {

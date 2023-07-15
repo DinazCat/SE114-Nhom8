@@ -209,7 +209,7 @@ public class PostActivity extends AppCompatActivity {
                 }
             }
             else {
-                if(thaotac.equals("push"))
+                if(thaotac.equals("push") || thaotac.equals("Share") )
                     uploadpost();
                 else editpost();
             }
@@ -301,7 +301,7 @@ public class PostActivity extends AppCompatActivity {
                 // Got the download URL
                 fileimgs.add(uri.toString());
                 if(i + 1 == AddImgFragment.images.size()) {
-                    if(thaotac.equals("push"))
+                    if(thaotac.equals("push") || thaotac.equals("Share"))
                         uploadpost();
                     else editpost();
                 }

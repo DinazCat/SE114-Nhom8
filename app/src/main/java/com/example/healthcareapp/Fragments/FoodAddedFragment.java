@@ -1,6 +1,10 @@
 package com.example.healthcareapp.Fragments;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,19 +14,29 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.format.DateFormat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.healthcareapp.Adapter.FoodAdapter;
 import com.example.healthcareapp.Adapter.NewFoodAdapter;
 import com.example.healthcareapp.Language;
 import com.example.healthcareapp.LanguageUtils;
 import com.example.healthcareapp.ListInterface.ClickFoodItem;
 import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.R;
+import com.example.healthcareapp.SearchTopTabActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +45,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class FoodAddedFragment extends Fragment {
@@ -43,7 +58,9 @@ public class FoodAddedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_food_added, container, false);
+        Calendar calendar = Calendar.getInstance();
 
+        String date = DateFormat.format("yyyy-MM-dd", calendar).toString();
         //region RecyleViewFood
         recyclerViewNewFood = view.findViewById(R.id.recyclerviewNewFood);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewNewFood.getContext());
@@ -80,6 +97,9 @@ public class FoodAddedFragment extends Fragment {
 
                                 }
                             });
+                            Intent i = new Intent(view.getContext(), SearchTopTabActivity.class);
+                            startActivity(i);
+
                         }
                     });
                     dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {

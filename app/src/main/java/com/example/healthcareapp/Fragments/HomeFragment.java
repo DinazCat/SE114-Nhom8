@@ -52,6 +52,7 @@ public class HomeFragment extends Fragment {
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     CircularProgressIndicator cpi;
     DatabaseReference database, database1;
+    int basegoal;
     ImageView imageViewNote, imageViewBack;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -168,6 +169,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setFoodAndExercise(String date) {
+        setBaseGoal();
             database = FirebaseDatabase.getInstance().getReference("foodDiary");
             database.child(uid).child(date).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -219,12 +221,12 @@ public class HomeFragment extends Fragment {
                         calo += Integer.parseInt(in.getCaloriesBurnedAMin());
                     }
                     tv_exercise.setText(String.valueOf(calo));
-                    tv_remaining.setText(String.valueOf(Integer.parseInt(tv_baseGoal.getText().toString()) + calo - Integer.parseInt(tv_remaining.getText().toString()) ));
-                    int goalCalo = Integer.parseInt(tv_baseGoal.getText().toString());
+                    tv_remaining.setText(String.valueOf(basegoal + calo - Integer.parseInt(tv_remaining.getText().toString()) ));
+
                     int totalCalo = Integer.parseInt(tv_remaining.getText().toString());
 
-                    if (goalCalo!=0)  {
-                        int p = (totalCalo*100)/goalCalo;
+                    if (basegoal!=0)  {
+                        int p = (totalCalo*100)/basegoal;
                         cpi.setProgress(100-p);}
 
                     if (LanguageUtils.getCurrentLanguage()==Language.ENGLISH) {
@@ -280,6 +282,7 @@ public class HomeFragment extends Fragment {
                     }
                     if(bmiList.size() <= 0){
                         tv_baseGoal.setText(String.valueOf(bmiInfos.get(0).CaloriesNeedToBurn()));
+                        basegoal = bmiInfos.get(0).CaloriesNeedToBurn();
                         tv_bmi.setText(String.valueOf(bmiInfos.get(0).CalculatorBMI()));
                         if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
                         tv_foxsay.setText(bmiInfos.get(0).foxSayBMIEng()); }
@@ -290,6 +293,7 @@ public class HomeFragment extends Fragment {
                         char[] ch = new char[10];
                         String.valueOf(bmiInfos.get(bmiList.size()-1).CalculatorBMI()).getChars(0,4,ch,0);
                         tv_bmi.setText(String.valueOf(ch));
+                        basegoal = bmiInfos.get(bmiList.size()-1).CaloriesNeedToBurn();
                         if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
                         tv_foxsay.setText(bmiList.get(bmiList.size()-1).foxSayBMIEng()); }
                         else {tv_foxsay.setText(bmiList.get(bmiList.size()-1).foxSayBMIVie()); }

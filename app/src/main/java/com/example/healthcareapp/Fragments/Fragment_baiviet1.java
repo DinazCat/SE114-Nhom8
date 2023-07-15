@@ -53,6 +53,7 @@ public class Fragment_baiviet1 extends Fragment {
             databaseCalo.child(uid).child(PostActivity.re.getIdRecipe()).child(PostActivity.re.getNameRecipe()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    listIdata.clear();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         ingredient in = dataSnapshot.getValue(ingredient.class);
                         IngredientData object = new IngredientData();
