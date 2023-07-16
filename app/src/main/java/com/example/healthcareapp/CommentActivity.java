@@ -129,10 +129,12 @@ public class CommentActivity extends AppCompatActivity {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         commentList.clear();
                             for (DocumentSnapshot document : value.getDocuments()) {
-                                if(commentIds.contains(document.getId())) {
-                                    Comment comment = document.toObject(Comment.class);
-                                    comment.setId(document.getId());
-                                    commentList.add(comment);
+                                if (document.contains("postId")) {
+                                    if (postId.equals(document.getString("postId"))) {
+                                        Comment comment = document.toObject(Comment.class);
+                                        comment.setId(document.getId());
+                                        commentList.add(comment);
+                                    }
                                 }
                             }
                             commentAdapter.notifyDataSetChanged();
@@ -169,8 +171,8 @@ public class CommentActivity extends AppCompatActivity {
                     DocumentReference document = task.getResult();
                     String commentId = document.getId();
                     comment.setId(commentId);
-                    commentList.add(comment);
-                    commentAdapter.notifyDataSetChanged();
+                    //commentList.add(comment);
+                    //commentAdapter.notifyDataSetChanged();
                     DocumentReference postRef = FirebaseFirestore.getInstance().collection("posts").document(postId);
                     postRef.update("comments", FieldValue.arrayUnion(commentId));
                     Toast.makeText(CommentActivity.this, "Comment added!", Toast.LENGTH_SHORT).show();
