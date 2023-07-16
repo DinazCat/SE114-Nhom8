@@ -2,16 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/bg"
+    android:textAlignment="inherit"
     tools:context=".AddNewFoodActivity">
+
     <ImageButton
         android:id="@+id/back"
         android:layout_width="30dp"
-        android:layout_marginTop="10dp"
         android:layout_height="30dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="122dp"
         android:background="@drawable/ic_backview"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,9 +25,9 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:gravity="center"
         android:text="@string/addnewfood"
-        android:layout_marginTop="50dp"
         android:textColor="@color/forestgreen"
         android:textSize="26dp"
         android:textStyle="bold"
@@ -36,8 +38,8 @@
     <LinearLayout
         android:id="@+id/linearLayoutRecipeName"
         android:layout_width="wrap_content"
-        android:layout_marginTop="50dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,17 +58,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/addIngredientName"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:layout_gravity="top"
             android:layout_marginTop="5dp"
             android:background="@drawable/search_view_bg"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addIngredientName"
+                android:layout_width="180dp"
+                android:layout_height="40dp"
+                android:layout_gravity="top"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:background="#E9F4E6"
+                android:hint="name"
+                android:drawableTint="#E9F4E6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
     </LinearLayout>
 
     <Button
@@ -74,12 +93,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/addIn"
-        app:layout_goneMarginTop="150dp"
-        android:textSize="24dp"
         android:layout_marginTop="80dp"
+        android:text="@string/addIn"
+        android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutRecipeName" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutRecipeName"
+        app:layout_goneMarginTop="150dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

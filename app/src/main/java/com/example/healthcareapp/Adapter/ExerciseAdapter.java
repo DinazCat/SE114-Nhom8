@@ -44,7 +44,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     public void onBindViewHolder(@NonNull ExerciseViewHolder holder, int position) {
         exercise e = exerciseList.get(position);
         if (e == null) return;
-        if (e.getImgExercise() != null)
+        if (e.getImgExercise()!= null)
         Picasso.get().load(e.getImgExercise()).into(holder.imgExercise);
 
         holder.tvNameExercise.setText(e.getNameExercise());

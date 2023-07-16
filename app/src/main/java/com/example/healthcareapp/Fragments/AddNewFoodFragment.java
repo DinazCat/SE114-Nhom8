@@ -224,7 +224,8 @@ public class AddNewFoodFragment extends Fragment {
                                 edCarbs.setText("");
                                 edFat.setText("");
                                 edProtein.setText("");
-
+                                int id = getResources().getIdentifier("android:drawable/" + R.drawable.ic_addphoto, null, null);
+                                img.setImageResource(id);
                                 Toast.makeText(getContext(), "Thêm thức ăn mới thành công", Toast.LENGTH_SHORT).show();
 
                             }

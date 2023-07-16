@@ -170,33 +170,41 @@ public class SearchFoodFragment extends Fragment {
                 btnAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Integer n = Integer.parseInt(number.getText().toString());
-                        food _food2 = _food;
-                        _food2.setCaloriesFood(String.valueOf(Integer.parseInt(_food.getCaloriesFood())*n));
-                        if (tvEngVie.getText().toString().equals("Add food")) {
-                            database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                            database.child(uid).child(date).child(spn.getSelectedItem().toString()).child(String.valueOf(_food2.getIdFood())).setValue(_food2);
-                            Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
-                        } else {
-                            if (spn.getSelectedItemPosition() == 0) {
+                        if (number.getText().equals("")) {
+                            if (tvEngVie.getText().toString().equals("Add food")) {
+                                Toast.makeText(getView().getContext(), "Add quanlity", Toast.LENGTH_SHORT).show();
+                            }
+                            else {Toast.makeText(getView().getContext(), "Thêm số lượng", Toast.LENGTH_SHORT).show();}
+                        }
+                        else {
+                            Integer n = Integer.parseInt(number.getText().toString());
+                            food _food2 = _food;
+                            _food2.setCaloriesFood(String.valueOf(Integer.parseInt(_food.getCaloriesFood()) * n));
+                            if (tvEngVie.getText().toString().equals("Add food")) {
                                 database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                database.child(uid).child(date).child("Breakfast").child(String.valueOf(_food.getIdFood())).setValue(_food2);
+                                database.child(uid).child(date).child(spn.getSelectedItem().toString()).child(String.valueOf(_food2.getIdFood())).setValue(_food2);
                                 Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
                             } else {
-                                if (spn.getSelectedItemPosition() == 1) {
+                                if (spn.getSelectedItemPosition() == 0) {
                                     database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                    database.child(uid).child(date).child("Lunch").child(String.valueOf(_food.getIdFood())).setValue(_food2);
+                                    database.child(uid).child(date).child("Breakfast").child(String.valueOf(_food.getIdFood())).setValue(_food2);
                                     Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    if (spn.getSelectedItemPosition() == 2) {
+                                    if (spn.getSelectedItemPosition() == 1) {
                                         database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                        database.child(uid).child(date).child("Dinner").child(String.valueOf(_food.getIdFood())).setValue(_food2);
+                                        database.child(uid).child(date).child("Lunch").child(String.valueOf(_food.getIdFood())).setValue(_food2);
                                         Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        database = FirebaseDatabase.getInstance().getReference("foodDiary");
-                                        database.child(uid).child(date).child("Snack").child(String.valueOf(_food.getIdFood())).setValue(_food2);
-                                        Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
+                                        if (spn.getSelectedItemPosition() == 2) {
+                                            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                                            database.child(uid).child(date).child("Dinner").child(String.valueOf(_food.getIdFood())).setValue(_food2);
+                                            Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            database = FirebaseDatabase.getInstance().getReference("foodDiary");
+                                            database.child(uid).child(date).child("Snack").child(String.valueOf(_food.getIdFood())).setValue(_food2);
+                                            Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
 
+                                        }
                                     }
                                 }
                             }
