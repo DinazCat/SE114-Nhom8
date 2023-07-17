@@ -66,7 +66,7 @@ public class FoodAddedFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewNewFood.getContext());
         recyclerViewNewFood.setLayoutManager(linearLayoutManager);
         newFoodList = new ArrayList<>();
-        newFoodAdapter = new NewFoodAdapter(newFoodList, new ClickFoodItem() {
+        newFoodAdapter = new NewFoodAdapter(newFoodList,new ClickFoodItem() {
             @Override
             public void onClickItemFood(food _food) {
                 //etNameNewFood.setText(_food.getNameFood());
@@ -77,7 +77,7 @@ public class FoodAddedFragment extends Fragment {
                 //}
                 if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-                    dialog.setTitle("Delete");
+                    dialog.setTitle("Delete2");
                     dialog.setIcon(R.drawable.noti_icon);
                     dialog.setMessage("You want to delete??");
                     dialog.setCancelable(false);
@@ -133,6 +133,8 @@ public class FoodAddedFragment extends Fragment {
 
                                 }
                             });
+                            Intent i = new Intent(view.getContext(), SearchTopTabActivity.class);
+                            startActivity(i);
                         }
 
                     });

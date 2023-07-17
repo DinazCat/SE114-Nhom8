@@ -146,7 +146,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
         });
         //ADD LIST TO RECYCLERVIEW
         recyclerView.setAdapter(ingredientAdapterAdd);
-        if (tvEngVie.getText().toString().equals("Add New Food")) {
+        if (LanguageUtils.getCurrentLanguage()==Language.ENGLISH) {
             database1 = FirebaseDatabase.getInstance().getReference("ingredientsEng");
         }
         else {
@@ -155,6 +155,7 @@ public class AddIngredientsActivity extends AppCompatActivity {
         database1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ingredientArrayList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ingredient in = dataSnapshot.getValue(ingredient.class);
                     ingredientArrayList.add(in);

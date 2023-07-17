@@ -53,6 +53,7 @@ import java.util.List;
 import java.util.Random;
 
 public class AddNewFoodFragment extends Fragment {
+    boolean imageCheck=false;
     public static Uri imagesNewFood;
     ImageButton cam, gal;
     LinearLayout chooseImg;
@@ -141,8 +142,10 @@ public class AddNewFoodFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
-                    if (etCalorieNewFood.getText().toString().trim().isEmpty() || etNameNewFood.getText().toString().trim().isEmpty()) {
-                        Toast.makeText(getContext(), "Please Enter Name, Calorie and Serving", Toast.LENGTH_SHORT).show();
+                    if (etCalorieNewFood.getText().toString().trim().isEmpty() || etNameNewFood.getText().toString().trim().isEmpty()
+                            || edCarbs.getText().toString().trim().isEmpty() || edFat.getText().toString().trim().isEmpty()
+                            || edProtein.getText().toString().trim().isEmpty() || imageCheck==false) {
+                        Toast.makeText(getContext(), "Please Enter Full", Toast.LENGTH_SHORT).show();
                     } else {
                         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                         dialog.setTitle("Save");
@@ -173,7 +176,9 @@ public class AddNewFoodFragment extends Fragment {
                                 edCarbs.setText("");
                                 edFat.setText("");
                                 edProtein.setText("");
-
+                                int id = getResources().getIdentifier("android:drawable/" + R.drawable.ic_addphoto, null, null);
+                                img.setImageResource(id);
+                                imageCheck=false;
                                 Toast.makeText(getContext(), "Add New Food Success", Toast.LENGTH_SHORT).show();
 
                             }
@@ -192,8 +197,10 @@ public class AddNewFoodFragment extends Fragment {
                     }
                 }
                 else {
-                    if (etCalorieNewFood.getText().toString().trim().isEmpty() || etNameNewFood.getText().toString().trim().isEmpty()) {
-                        Toast.makeText(getContext(), "Vui lòng điền đủ thông tin tên, lượng calories và phần thức ăn ", Toast.LENGTH_SHORT).show();
+                    if (etCalorieNewFood.getText().toString().trim().isEmpty() || etNameNewFood.getText().toString().trim().isEmpty()
+                            || edCarbs.getText().toString().trim().isEmpty() || edFat.getText().toString().trim().isEmpty()
+                            || edProtein.getText().toString().trim().isEmpty() || imageCheck==false) {
+                        Toast.makeText(getContext(), "Vui lòng điền đủ thông tin phần thức ăn ", Toast.LENGTH_SHORT).show();
                     } else {
                         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                         dialog.setTitle("Lưu");
@@ -226,6 +233,7 @@ public class AddNewFoodFragment extends Fragment {
                                 edProtein.setText("");
                                 int id = getResources().getIdentifier("android:drawable/" + R.drawable.ic_addphoto, null, null);
                                 img.setImageResource(id);
+                                imageCheck=false;
                                 Toast.makeText(getContext(), "Thêm thức ăn mới thành công", Toast.LENGTH_SHORT).show();
 
                             }
@@ -260,6 +268,7 @@ public class AddNewFoodFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        imageCheck=true;
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == 101 && data != null) {
             if (data != null) {

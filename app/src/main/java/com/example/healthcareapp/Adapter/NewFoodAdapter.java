@@ -1,6 +1,8 @@
 package com.example.healthcareapp.Adapter;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +12,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.healthcareapp.Fragments.SearchFoodFragment;
 import com.example.healthcareapp.Language;
 import com.example.healthcareapp.LanguageUtils;
 import com.example.healthcareapp.ListInterface.ClickFoodItem;
@@ -22,6 +29,7 @@ import com.example.healthcareapp.ListInterface.ClickRecipeItem;
 import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.Model.recipe;
 import com.example.healthcareapp.R;
+import com.example.healthcareapp.SearchTopTabActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,15 +45,16 @@ import java.util.List;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.grpc.Context;
 
 public class NewFoodAdapter extends RecyclerView.Adapter<NewFoodAdapter.NewFoodViewHolder>{
     List<food> newFoodList;
     ClickFoodItem clickFoodItem;
 
+
     public NewFoodAdapter(List<food> newFoodList, ClickFoodItem clickFoodItem) {
         this.newFoodList = newFoodList;
         this.clickFoodItem = clickFoodItem;
-
     }
     public void setFilteredList(List<food> filteredList) {
         this.newFoodList = filteredList;
@@ -63,7 +72,7 @@ public class NewFoodAdapter extends RecyclerView.Adapter<NewFoodAdapter.NewFoodV
     public void onBindViewHolder(@NonNull NewFoodAdapter.NewFoodViewHolder holder, int position) {
         food _food = newFoodList.get(position);
         if (_food == null) return;
-        if (_food.getImgFood()!=null || _food.getImgFood()=="null") {
+        if (_food.getImgFood()!=null || _food.getImgFood()!="null") {
             Picasso.get().load(_food.getImgFood()).into(holder.imgFood);
         }
         holder.newFoodName.setText(_food.getNameFood());
@@ -81,6 +90,11 @@ public class NewFoodAdapter extends RecyclerView.Adapter<NewFoodAdapter.NewFoodV
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            for (int i=0; i<SearchFoodFragment.foodList.size();i++){
+                                if (SearchFoodFragment.foodList.get(i).getIdFood()==_food.getIdFood())
+                                    SearchFoodFragment.foodList.remove(i);
+                                SearchFoodFragment.foodAdapter.notifyDataSetChanged();
+                            }
                             // Xóa trong recycle view new food
                             DatabaseReference database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
                             database.child(uid).child(_food.getIdFood()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -95,20 +109,7 @@ public class NewFoodAdapter extends RecyclerView.Adapter<NewFoodAdapter.NewFoodV
 
                                 }
                             });
-                            // Xóa trong recycle view food khong cho add nữa
-                            DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foods");
-                            database1.child(_food.getIdFood()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    snapshot.getRef().removeValue();
 
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
                         }
 
                     });
@@ -135,20 +136,6 @@ public class NewFoodAdapter extends RecyclerView.Adapter<NewFoodAdapter.NewFoodV
                             // Xóa trong recycle view new food
                             DatabaseReference database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
                             database.child(uid).child(_food.getIdFood()).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    snapshot.getRef().removeValue();
-
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-                            // Xóa trong recycle view food khong cho add nữa
-                            DatabaseReference database1 = FirebaseDatabase.getInstance().getReference("foods");
-                            database1.child(_food.getIdFood()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     snapshot.getRef().removeValue();
@@ -209,6 +196,7 @@ public class NewFoodAdapter extends RecyclerView.Adapter<NewFoodAdapter.NewFoodV
 
 
     }
+
 }
 
 
