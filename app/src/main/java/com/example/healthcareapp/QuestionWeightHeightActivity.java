@@ -30,16 +30,22 @@ public class QuestionWeightHeightActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (editTextHeight.getText().toString().trim().isEmpty() || editTextWeight.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(QuestionWeightHeightActivity.this, "Input cannot be blank", Toast.LENGTH_LONG).show();
+                    Toast.makeText(QuestionWeightHeightActivity.this, "Input cannot be blank", Toast.LENGTH_SHORT).show();
 
                 }
                 else{
-                    Intent intent = new Intent(QuestionWeightHeightActivity.this, QuestionSexActivity.class);
-                    intent.putExtra("name", _name);
-                    intent.putExtra("age", _age);
-                    intent.putExtra("height", editTextHeight.getText().toString());
-                    intent.putExtra("weight", editTextWeight.getText().toString());
-                    startActivity(intent);
+                    if(Integer.parseInt(editTextHeight.getText().toString()) <= 0
+                            || Integer.parseInt(editTextWeight.getText().toString()) <= 0){
+                        Toast.makeText(QuestionWeightHeightActivity.this, "Weight and height must be positive integer", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Intent intent = new Intent(QuestionWeightHeightActivity.this, QuestionSexActivity.class);
+                        intent.putExtra("name", _name);
+                        intent.putExtra("age", _age);
+                        intent.putExtra("height", String.valueOf(Integer.parseInt(editTextHeight.getText().toString())));
+                        intent.putExtra("weight", String.valueOf(Integer.parseInt(editTextWeight.getText().toString())));
+                        startActivity(intent);
+                    }
                 }
             }
         });

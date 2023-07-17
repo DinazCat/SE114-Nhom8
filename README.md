@@ -2,7 +2,7 @@
 ## Giới thiệu
 ### Ứng dụng được xây dựng với mục đích:
 - Giúp người dùng theo dõi lượng calo tiêu thụ hàng ngày.
-- Cung cấp thông tin chi tiết về các thành phần dinh dưỡng của thực phẩm như calo, protein, chất báo, carbohydrate
+- Cung cấp thông tin chi tiết về các thành phần dinh dưỡng của thực phẩm như calo, protein, chất béo, carbohydrate
 - Tạo một trang mạng xã hội cho mình để chia sẻ món ăn mà bạn tâm đắc với người khác cũng như mở rộng thêm kiến thức về thực phẩm thông qua việc tìm hiểu các công thức nấu ăn mà người khác chia sẻ.
 ### Công nghệ sử dụng:
 - Java

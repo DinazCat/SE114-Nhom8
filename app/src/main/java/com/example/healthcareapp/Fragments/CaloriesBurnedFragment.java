@@ -215,7 +215,7 @@ public class CaloriesBurnedFragment extends Fragment {
     //show chart
     public void showChartForYear(ArrayList<BarEntry> entries, ArrayList<String> dates, String item){
         barDataSet = new BarDataSet(entries, item);
-        barDataSet.setValueTextColor(Color.rgb(132, 208, 125));
+        barDataSet.setValueTextColor(Color.rgb(73, 190, 37));
         barData = new BarData(barDataSet);
         barChart.clear();
         barChart.setData(barData);
@@ -261,7 +261,7 @@ public class CaloriesBurnedFragment extends Fragment {
     }
     public void showChartForWeek(ArrayList<BarEntry> entries, ArrayList<Date> dates, String item){
         barDataSet = new BarDataSet(entries, item);
-        barDataSet.setValueTextColor(Color.rgb(132, 208, 125));
+        barDataSet.setValueTextColor(Color.rgb(73, 190, 37));
         barData = new BarData(barDataSet);
         barChart.clear();
         barChart.notifyDataSetChanged();

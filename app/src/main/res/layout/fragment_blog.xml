@@ -71,7 +71,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/img_avatar"
                     android:clickable="true"
-                    android:scaleType="fitCenter" />
+                    android:scaleType="centerCrop" />
             </androidx.cardview.widget.CardView>
             <TextView
                 android:id="@+id/tv_addPost"

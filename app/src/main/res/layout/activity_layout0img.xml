@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:text="UserName"
                     android:textSize="20dp"
-                    android:textColor="@color/black"
+                    style="@style/text_color"
                     android:layout_marginLeft="5dp"/>
                 <TextView
                     android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/foodname2"
                 android:textSize="20dp"
-                android:textColor="@color/black"
+                style="@style/text_color"
                 android:layout_marginLeft="10dp" />
             <TextView
                 android:id="@+id/write"
@@ -73,15 +73,15 @@
                 android:layout_height ="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="20dp"
-                android:textColor="@color/black"
+                style="@style/text_color"
                 android:text="bữa ăn ngon" />
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/difficult2"
+            style="@style/text_color"
             android:textSize="20dp"
-            android:textColor="@color/black"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"/>
         <RatingBar
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:text="Calories:"
                 android:textSize="20dp"
-                android:textColor="@color/black"
+                style="@style/text_color"
                 android:layout_marginLeft="10dp" />
             <TextView
                 android:id="@+id/write1"
@@ -108,11 +108,12 @@
                 android:layout_height ="wrap_content"
                 android:text="200"
                 android:textSize="18dp"
-                android:textColor="@color/black"
+                style="@style/text_color"
                 android:layout_marginLeft="15dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:text="(Cals/serving)"
                 android:textSize="20dp"
                 android:textColor="@color/gray"
@@ -125,7 +126,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:text="@string/seedetail"
-            android:textColor="#0000FF"
+            android:textColor="#226EE8"
             android:id="@+id/seeD"
             android:clickable="true"
             android:textSize="18dp" />

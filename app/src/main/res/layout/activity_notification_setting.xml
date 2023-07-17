@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".NotificationSettingActivity"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:background="@color/lightgreen">
+    android:padding="10dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -103,6 +102,7 @@
         android:textSize="16dp"
         android:text="@string/longtext"
         android:background="#F6F6F5"
+        android:textColor="@color/black"
         android:paddingLeft="10dp"
         android:paddingVertical="15dp"
         android:layout_marginTop="270dp"/>

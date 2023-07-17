@@ -71,6 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/age"
+            android:inputType="number"
             android:id="@+id/et_age"
             android:layout_margin="4dp"
             android:textColor="@color/black"
@@ -99,6 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/weightTab"
+            android:inputType="number"
             android:id="@+id/et_weight"
             android:layout_margin="4dp"
             android:textColor="@color/black"
@@ -111,6 +113,7 @@
             android:hint="@string/heightTab"
             android:id="@+id/et_height"
             android:layout_margin="4dp"
+            android:inputType="number"
             android:textColor="@color/black"
             android:drawableLeft="@drawable/ic_height"
             android:layout_marginTop="10dp"
@@ -150,6 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/black"
                 android:text="Camera"/>
         </LinearLayout>
 
@@ -168,7 +172,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="Gallery"/>
+                android:text="Gallery"
+                android:textColor="@color/black"/>
         </LinearLayout>
 
     </LinearLayout>

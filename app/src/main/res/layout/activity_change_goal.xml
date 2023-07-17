@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     style="@style/bg"
     android:layout_height="match_parent"
-    android:background="#E9F4E6"
     android:orientation="vertical"
     tools:context=".ChangeBmiAndGoal">
     <ImageButton

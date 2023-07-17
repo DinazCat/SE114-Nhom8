@@ -2,6 +2,8 @@ package com.example.healthcareapp.Fragments;
 
 import static android.content.ContentValues.TAG;
 
+import static java.lang.Integer.parseInt;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -142,7 +144,18 @@ public class EditProfileFragment extends Fragment {
                     uploadImage(imageUri);
                 }
                 else {
-                    updateProfile();
+                    if (etAge.getText().toString().trim().isEmpty()||etWeight.getText().toString().trim().isEmpty()||etHeight.getText().toString().trim().isEmpty()) {
+                        Toast.makeText(getActivity(), "Input cannot be blank", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        if (Integer.parseInt(etAge.getText().toString()) <= 0
+                                || Integer.parseInt(etWeight.getText().toString()) <= 0
+                                || Integer.parseInt(etHeight.getText().toString()) <= 0) {
+                            Toast.makeText(getActivity(), "Age, weight and height must be positive integer", Toast.LENGTH_SHORT).show();
+                        } else {
+                            updateProfile();
+                        }
+                    }
                 }
 
             }
@@ -385,9 +398,9 @@ public class EditProfileFragment extends Fragment {
     public void updateBmi(){
         bmiInfo bmi_info = new bmiInfo();
         bmi_info.userID = user.getUid();
-        bmi_info.age = etAge.getText().toString();
-        bmi_info.height = etHeight.getText().toString();
-        bmi_info.weight = etWeight.getText().toString();
+        bmi_info.age = String.valueOf(Integer.parseInt(etAge.getText().toString()));
+        bmi_info.height = String.valueOf(Integer.parseInt(etHeight.getText().toString()));
+        bmi_info.weight = String.valueOf(Integer.parseInt(etWeight.getText().toString()));
         int index = spnSex.getSelectedItemPosition();
         switch (index){
             case 0:

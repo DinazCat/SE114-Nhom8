@@ -239,9 +239,8 @@ public class WeightGraphFragment extends Fragment{
 
         lineDataSet = new LineDataSet(entries, item);
         lineDataSet.setDrawHighlightIndicators(false);
-        lineDataSet.setValueTextColor(Color.rgb(132, 208, 125));
+        lineDataSet.setValueTextColor(Color.rgb(73, 190, 37));
         lineData = new LineData(lineDataSet);
-
         lineChart.clear();
         lineChart.setData(lineData);
         lineChart.getDescription().setText("");
@@ -289,7 +288,7 @@ public class WeightGraphFragment extends Fragment{
     public void showChartForWeek(ArrayList<Entry> entries, ArrayList<Date> dates, String item){
         lineDataSet = new LineDataSet(entries, item);
         lineDataSet.setDrawHighlightIndicators(false);
-        lineDataSet.setValueTextColor(Color.rgb(132, 208, 125));
+        lineDataSet.setValueTextColor(Color.rgb(73, 190, 37));
         lineData = new LineData(lineDataSet);
         lineChart.clear();
         lineChart.notifyDataSetChanged();

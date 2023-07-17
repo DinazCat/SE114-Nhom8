@@ -23,6 +23,7 @@
                 android:layout_width="150dp"
                 android:layout_height ="wrap_content"
                 android:inputType="textMultiLine"
+                android:textColor="@color/black"
                 android:scrollHorizontally="false"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -33,12 +34,14 @@
                 android:layout_marginLeft="10dp"/>
             <EditText
                 android:id="@+id/wty"
+                android:textColor="@color/black"
                 android:inputType="number"
                 android:layout_width="50dp"
                 android:layout_height ="wrap_content"
                 android:layout_marginLeft="5dp" />
             <Spinner
                 android:id="@+id/spinner"
+                android:textColor="@color/black"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:entries="@array/selectUnit" />

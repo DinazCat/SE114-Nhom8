@@ -41,13 +41,17 @@ public class QuestionNameAgeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (editTextName.getText().toString().trim().isEmpty() || editTextAge.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(QuestionNameAgeActivity.this, "Input cannot be blank", Toast.LENGTH_LONG).show();
+                    Toast.makeText(QuestionNameAgeActivity.this, "Input cannot be blank", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Intent intent1 = new Intent(QuestionNameAgeActivity.this, QuestionWeightHeightActivity.class);
-                    intent1.putExtra("name", editTextName.getText().toString());
-                    intent1.putExtra("age", editTextAge.getText().toString());
-                    startActivity(intent1);
+                    if (Integer.parseInt(editTextAge.getText().toString()) <= 0) {
+                        Toast.makeText(QuestionNameAgeActivity.this, "Age must be a positive integer", Toast.LENGTH_LONG).show();
+                    } else {
+                        Intent intent1 = new Intent(QuestionNameAgeActivity.this, QuestionWeightHeightActivity.class);
+                        intent1.putExtra("name", editTextName.getText().toString());
+                        intent1.putExtra("age", String.valueOf(Integer.parseInt(editTextAge.getText().toString())));
+                        startActivity(intent1);
+                    }
                 }
             }
         });

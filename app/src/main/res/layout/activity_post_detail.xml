@@ -99,7 +99,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
-                        android:textColor="#000000"
                         android:text="Servings"/>
                 </LinearLayout>
                 <LinearLayout
@@ -121,7 +120,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
-                        android:textColor="#000000"
                         android:text="Prep"/>
                 </LinearLayout>
                 <LinearLayout
@@ -143,7 +141,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
-                        android:textColor="#000000"
                         android:text="Cooking"/>
                 </LinearLayout>
             </LinearLayout>
@@ -171,7 +168,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
-                        android:textColor="#000000"
                         android:text="Cal/serving"/>
                 </LinearLayout>
                 <LinearLayout
@@ -195,7 +191,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
-                        android:textColor="#000000"
                         android:text="Difficulty"/>
                 </LinearLayout>
             </LinearLayout>
