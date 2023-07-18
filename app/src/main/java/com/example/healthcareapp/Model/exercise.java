@@ -27,6 +27,11 @@ public class exercise {
         this.minutePerformed = minutePerformed;
     }
 
+
+    public void setImgExercise(String imgExercise) {
+        this.imgExercise = imgExercise;
+    }
+
     public String getImgExercise() {
         return imgExercise;
     }

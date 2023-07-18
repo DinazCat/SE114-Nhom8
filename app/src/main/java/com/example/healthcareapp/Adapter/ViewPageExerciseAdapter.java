@@ -1,14 +1,13 @@
 package com.example.healthcareapp.Adapter;
 
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.healthcareapp.ExerciseAddedFragment;
+import com.example.healthcareapp.Fragments.AddNewExerciseFragment;
 import com.example.healthcareapp.Fragments.AddNewFoodFragment;
-import com.example.healthcareapp.Fragments.AddRecipeFragment;
-import com.example.healthcareapp.Fragments.AddWaterFragment;
 import com.example.healthcareapp.Fragments.FoodAddedFragment;
 import com.example.healthcareapp.Fragments.HomeFragment;
 import com.example.healthcareapp.Fragments.SearchExerciseFragment;
@@ -20,11 +19,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+public class ViewPageExerciseAdapter extends FragmentStatePagerAdapter {
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     private final ArrayList<String> fragmentTitle = new ArrayList<>();
 
-    public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+    public ViewPageExerciseAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
     }
 
@@ -35,9 +34,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new SearchExerciseFragment();
             case 1:
-                return new FoodAddedFragment();
+                return new ExerciseAddedFragment();
             case 2:
-                return new AddNewFoodFragment();
+                return new AddNewExerciseFragment();
             default:
                 return new HomeFragment();
         }
@@ -55,26 +54,25 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
             switch (position) {
                 case 0:
-                    title = "Add Food";
+                    title = "Add Exercise";
                     break;
                 case 1:
-                    title = "New Food Added";
+                    title = "New Exercise Added";
                     break;
                 case 2:
-                    title = "Add New Food";
+                    title = "Add New Exercise";
                     break;
             }
-        }
-        else {
+        } else {
             switch (position) {
                 case 0:
-                    title = "Thêm thức ăn";
+                    title = "Thêm hoạt động";
                     break;
                 case 1:
-                    title = "Thức ăn mới đã thêm";
+                    title = "Hoạt động mới đã thêm";
                     break;
                 case 2:
-                    title = "Thêm thức ăn mới";
+                    title = "Thêm hoạt động mới";
                     break;
             }
         }

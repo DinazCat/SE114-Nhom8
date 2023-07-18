@@ -44,6 +44,7 @@ import com.example.healthcareapp.R;
 import com.example.healthcareapp.SearchExerciseActivity;
 import com.example.healthcareapp.SearchTopTabActivity;
 import com.example.healthcareapp.SearchTopTapRecipe;
+import com.example.healthcareapp.TopTabExerciseActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -427,7 +428,7 @@ public class AddFragment extends Fragment {
         btAddExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getContext(), SearchExerciseActivity.class);
+                Intent i = new Intent(getContext(), TopTabExerciseActivity.class);
                 i.putExtra("date",tvDate.getText().toString());
                 launcherAddFoodAndExercise.launch(i);
             }

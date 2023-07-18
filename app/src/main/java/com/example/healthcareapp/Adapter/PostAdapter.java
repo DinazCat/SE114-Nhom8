@@ -406,8 +406,17 @@ public class PostAdapter extends RecyclerView.Adapter {
                         .appendQueryParameter("id", object.id)
                         .appendQueryParameter("title", object.postFoodName);
                 String postUri = builder.build().toString();
+                String Ingredient="";
+                if(object.Ingredient.size()>0) {
+                    Ingredient =  object.Ingredient.get(0).name + " (" + object.Ingredient.get(0).wty + " " + object.Ingredient.get(0).unit + ")";
+                    int i = 1;
+                    while (i < object.Ingredient.size()) {
+                        Ingredient = Ingredient  + ", " + object.Ingredient.get(i).name + " (" + object.Ingredient.get(i).wty + " " + object.Ingredient.get(i).unit + ")";
+                        i=i+1;
+                    }
+                }
                 String shareBody = "Tên món ăn: " + object.postFoodName + "\n" +
-                        "Nguyên liệu: " + object.Ingredient + "\n" +
+                        "Nguyên liệu: " + Ingredient + "\n" +
                         "Độ khó: " + object.postFoodRating+ "\n" +
                         "Cách làm: \n" + object.postFoodMaking+ "\n" +
                         "Tổng kết: " + object.postFoodSummary + "\n\n" +

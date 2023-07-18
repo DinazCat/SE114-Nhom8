@@ -55,8 +55,8 @@ public class SearchExerciseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_exercise);tvEngVie = findViewById(R.id.textViewExercise);
-
+        setContentView(R.layout.activity_search_exercise);
+        tvEngVie = findViewById(R.id.textViewExercise);
         Intent i = this.getIntent();
         String date = i.getStringExtra("date");
         tvDate = findViewById(R.id.date);

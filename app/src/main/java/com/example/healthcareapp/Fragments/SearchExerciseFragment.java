@@ -1,10 +1,15 @@
 package com.example.healthcareapp.Fragments;
 
+import static android.app.Activity.RESULT_OK;
 import static com.example.healthcareapp.LanguageUtils.CURRENT_LANGUAGE;
 import static com.example.healthcareapp.LanguageUtils.getCurrentLanguage;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,10 +21,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
 import android.text.format.DateFormat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +41,7 @@ import com.example.healthcareapp.ListInterface.ClickFoodItem;
 import com.example.healthcareapp.Model.exercise;
 import com.example.healthcareapp.Model.food;
 import com.example.healthcareapp.R;
+import com.example.healthcareapp.SearchExerciseActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,6 +60,7 @@ public class SearchExerciseFragment extends Fragment {
     private List<exercise> exerciseList;
     private SearchView searchViewExercise;
     TextView tvDate;
+    Button btn_back;
     DatabaseReference database, database1;
     TextView tvEngVie;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -57,7 +69,8 @@ public class SearchExerciseFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_exercise, container, false);
         tvEngVie = view.findViewById(R.id.textViewExercise);
-        tvDate = view.findViewById(R.id.date);
+
+
         Calendar calendar = Calendar.getInstance();
         String today = DateFormat.format("yyyy-MM-dd", calendar).toString();
 
@@ -81,35 +94,6 @@ public class SearchExerciseFragment extends Fragment {
         recyclerViewExercise = view.findViewById(R.id.recyclerviewSearchExercise);
         setRecyclerView(today);
 
-        //Set DATE
-        tvDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        Calendar calendar = Calendar.getInstance();
-                        if (calendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth && calendar.get(Calendar.MONTH) == month && calendar.get(Calendar.YEAR) == year){
-                            tvDate.setText("Today");
-                            String string = DateFormat.format("yyyy-MM-dd", calendar).toString();
-                            setRecyclerView(string);
-                        }
-                        else{
-                            calendar.set(year, month, dayOfMonth);
-                            tvDate.setText(DateFormat.format("dd/MM/yyyy", calendar).toString());
-                            String string = DateFormat.format("yyyy-MM-dd", calendar).toString();
-                            setRecyclerView(string);
-                        }
-                    }
-                }, year, month, day);
-                datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-                datePickerDialog.show();
-            }
-        });
         return view;
     }
     private void setRecyclerView(String date) {
@@ -121,59 +105,58 @@ public class SearchExerciseFragment extends Fragment {
             @Override
             public void onClickItemExercise(exercise e) {
                 if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-                    dialog.setTitle("Adddfsdfsdg");
-                    dialog.setIcon(R.drawable.noti_icon);
-                    dialog.setMessage("You want to add??");
-                    dialog.setCancelable(false);
-                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    final Dialog dialog = new Dialog(getContext());
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.dialog_add_excercise);
+                    Window window =dialog.getWindow();
+                    if (window == null) {
+                        return;
+                    }
+                    window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                    window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                    WindowManager.LayoutParams windowAttributes = window.getAttributes();
+                    windowAttributes.gravity = Gravity.CENTER;
+                    window.setAttributes(windowAttributes);
+
+                    Button btnCancel = dialog.findViewById(R.id.cancel);
+                    Button btnAdd = dialog.findViewById(R.id.add);
+                    EditText number = dialog.findViewById(R.id.editTextNumber);
+
+
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    btnAdd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Integer n = Integer.parseInt(number.getText().toString());
+                            exercise e2 = e;
+                            e2.setCaloriesBurnedAMin(String.valueOf(Integer.parseInt(e.getCaloriesBurnedAMin())/Integer.parseInt(e.getMinutePerformed())*n));
                             database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
                             database.child(uid).child(date).child(String.valueOf(e.getIdExercise())).setValue(e);
                             Toast.makeText(getContext(), "Add Succes", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
                         }
+
                     });
-                    dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    AlertDialog alertDialog = dialog.create();
-                    // Show the Alert Dialog box
-                    alertDialog.show();
-                }
-                else {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-                    dialog.setTitle("Thêm vào");
-                    dialog.setIcon(R.drawable.noti_icon);
-                    dialog.setMessage("Bạn có muốn thêm hoạt động này vào không??");
-                    dialog.setCancelable(false);
-                    dialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            database = FirebaseDatabase.getInstance().getReference("exerciseDiary");
-                            database.child(uid).child(date).child(String.valueOf(e.getIdExercise())).setValue(e);
-                            Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    dialog.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    AlertDialog alertDialog = dialog.create();
-                    // Show the Alert Dialog box
-                    alertDialog.show();
+                    dialog.show();
                 }
             }
         });
         recyclerViewExercise.setAdapter(exerciseAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(recyclerViewExercise.getContext(), DividerItemDecoration.VERTICAL);
         recyclerViewExercise.addItemDecoration(itemDecoration);
-        database1 = FirebaseDatabase.getInstance().getReference(LanguageUtils.getDatabaseName("exercises"));
+        if (tvEngVie.getText().toString().equals("Add Exercise")) {
+            database1 = FirebaseDatabase.getInstance().getReference("exercisesEng");
+        }
+        else {
+            database1 = FirebaseDatabase.getInstance().getReference("exercises");
+        }
         database1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
