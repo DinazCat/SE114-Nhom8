@@ -33,7 +33,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new SearchExerciseFragment();
+                return new SearchFoodFragment();
             case 1:
                 return new FoodAddedFragment();
             case 2:

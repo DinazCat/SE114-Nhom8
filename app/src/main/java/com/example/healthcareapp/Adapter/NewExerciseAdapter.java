@@ -36,7 +36,7 @@ public class NewExerciseAdapter extends RecyclerView.Adapter<NewExerciseAdapter.
     ClickExerciseItem clickExerciseItem;
 
 
-    public NewExerciseAdapter(List<exercise> newFoodList, ClickExerciseItem clickFoodItem) {
+    public NewExerciseAdapter(List<exercise> newFoodList, ClickExerciseItem clickExerciseItem) {
         this.newExerciseList = newFoodList;
         this.clickExerciseItem = clickExerciseItem;
     }

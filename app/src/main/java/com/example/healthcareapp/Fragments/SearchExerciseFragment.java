@@ -61,7 +61,7 @@ public class SearchExerciseFragment extends Fragment {
     private SearchView searchViewExercise;
     TextView tvDate;
     Button btn_back;
-    DatabaseReference database, database1;
+    DatabaseReference database, database1, database2;
     TextView tvEngVie;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     @Override
@@ -163,6 +163,22 @@ public class SearchExerciseFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     exercise in = dataSnapshot.getValue(exercise.class);
                     exerciseList.add(in);
+                }
+                exerciseAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        database2 = FirebaseDatabase.getInstance().getReference("newExerciseUserAdd");
+        database2.child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    exercise exercise = dataSnapshot.getValue(exercise.class);
+                    exerciseList.add(exercise);
                 }
                 exerciseAdapter.notifyDataSetChanged();
             }
