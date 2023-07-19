@@ -116,6 +116,8 @@ public class AddWaterActivity extends AppCompatActivity {
                                 w.setIdwater(String.valueOf(randomID));
                                 databaseReference.child(uid).child(date).child(String.valueOf(randomID)).setValue(w);
 
+                                edtWater.setText("");
+                                Toast.makeText(AddWaterActivity.this, "Add success", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -152,6 +154,8 @@ public class AddWaterActivity extends AppCompatActivity {
                                 w.setIdwater(String.valueOf(randomID));
                                 databaseReference.child(uid).child(date).child(String.valueOf(randomID)).setValue(w);
 
+                                edtWater.setText("");
+                                Toast.makeText(AddWaterActivity.this, "Thêm thành công", Toast.LENGTH_LONG).show();
                             }
                         }
                     });

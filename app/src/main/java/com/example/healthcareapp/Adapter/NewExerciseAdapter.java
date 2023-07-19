@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.healthcareapp.Fragments.SearchExerciseFragment;
 import com.example.healthcareapp.Fragments.SearchFoodFragment;
 import com.example.healthcareapp.Language;
 import com.example.healthcareapp.LanguageUtils;
@@ -74,13 +75,13 @@ public class NewExerciseAdapter extends RecyclerView.Adapter<NewExerciseAdapter.
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            for (int i=0; i<SearchFoodFragment.foodList.size();i++){
-                                if (SearchFoodFragment.foodList.get(i).getIdFood()==e.getIdExercise())
-                                    SearchFoodFragment.foodList.remove(i);
-                                SearchFoodFragment.foodAdapter.notifyDataSetChanged();
+                            for (int i=0; i< SearchExerciseFragment.exerciseList.size();i++){
+                                if (SearchExerciseFragment.exerciseList.get(i).getIdExercise()==e.getIdExercise())
+                                    SearchExerciseFragment.exerciseList.remove(i);
+                                SearchExerciseFragment.exerciseAdapter.notifyDataSetChanged();
                             }
                             // Xóa trong recycle view new food
-                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
+                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("newExerciseUserAdd");
                             database.child(uid).child(e.getIdExercise()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -118,7 +119,7 @@ public class NewExerciseAdapter extends RecyclerView.Adapter<NewExerciseAdapter.
                         public void onClick(DialogInterface dialog, int which) {
                             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             // Xóa trong recycle view new food
-                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("newFoodUserAdd");
+                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("newExerciseUserAdd");
                             database.child(uid).child(e.getIdExercise()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {

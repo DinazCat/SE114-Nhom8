@@ -65,13 +65,23 @@
             android:background="@drawable/water_"
             android:layout_gravity="center"
             />
-        <EditText
-            android:id="@+id/water"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:background="@drawable/search_view_bg"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="5dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/water"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="ml" />
+        </com.google.android.material.textfield.TextInputLayout>
         <Button
             android:id="@+id/save"
             android:layout_width="wrap_content"

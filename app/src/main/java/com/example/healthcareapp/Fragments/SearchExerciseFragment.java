@@ -56,8 +56,8 @@ import java.util.List;
 public class SearchExerciseFragment extends Fragment {
 
     private RecyclerView recyclerViewExercise;
-    private ExerciseAdapter exerciseAdapter;
-    private List<exercise> exerciseList;
+    public static ExerciseAdapter exerciseAdapter;
+    public static List<exercise> exerciseList;
     private SearchView searchViewExercise;
     TextView tvDate;
     Button btn_back;
