@@ -1,11 +1,16 @@
 package com.example.healthcareapp.Model;
 
 public class threeType {
-    boolean isFood=false;
+    boolean isFood;
 
     public void setFoodTrue() {
         isFood = true;
     }
+
+    public void setFood(boolean food) {
+        isFood = food;
+    }
+
     public boolean getIsFood(){
         return isFood;
     }

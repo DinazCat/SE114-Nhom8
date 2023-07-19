@@ -62,6 +62,8 @@ public class Fragment_baiviet1 extends Fragment {
                         object.unit = "gram";
                         listIdata.add(object);
                     }
+                    IngredientAdapter adapter = new IngredientAdapter(Fragment_baiviet1.this.getActivity(), listIdata);
+                    listI.setAdapter(adapter);
                 }
 
                 @Override
@@ -70,7 +72,7 @@ public class Fragment_baiviet1 extends Fragment {
                 }
             });
         }
-        if( PostActivity.thaotac.equals("push"))
+        if(PostActivity.thaotac.equals("push"))
         {
             FMaking=""; FSummary="";
             if(listIdata.size()>0)

@@ -624,6 +624,7 @@ public class AddFragment extends Fragment {
                         type.setCabs(in.getCabsFood());
                         type.setFat(in.getFatFood());
                         type.setProtein(in.getProteinFood());
+                        type.setFood(true);
                         breakfast.add(type);
                     }
                     threeList.put("Breakfast", breakfast);
@@ -647,6 +648,7 @@ public class AddFragment extends Fragment {
                         type.setCabs(in.getCabsFood());
                         type.setFat(in.getFatFood());
                         type.setProtein(in.getProteinFood());
+                        type.setFood(true);
                         lunch.add(type);
                     }
                     threeList.put("Lunch", lunch);
@@ -670,6 +672,7 @@ public class AddFragment extends Fragment {
                         type.setCabs(in.getCabsFood());
                         type.setFat(in.getFatFood());
                         type.setProtein(in.getProteinFood());
+                        type.setFood(true);
                         dinner.add(type);
                     }
                     threeList.put("Dinner", dinner);
@@ -690,6 +693,7 @@ public class AddFragment extends Fragment {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         food in = dataSnapshot.getValue(food.class);
                         threeType type = new threeType(in.getIdFood(), in.getNameFood(), in.getCaloriesFood(), " calories",in.getCabsFood(),in.getFatFood(),in.getProteinFood());
+                        type.setFood(true);
                         snack.add(type);
                     }
                     threeList.put("Snack", snack);
@@ -709,7 +713,8 @@ public class AddFragment extends Fragment {
                     exercise.clear();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         exercise in = dataSnapshot.getValue(exercise.class);
-                        threeType type = new threeType(in.getIdExercise(), in.getNameExercise(), in.getCaloriesBurnedAMin(), " Calorie");
+                        threeType type = new threeType(in.getIdExercise(), in.getNameExercise(), in.getCaloriesBurnedAMin(), " calories");
+                        type.setFood(false);
                         exercise.add(type);
                     }
                     threeList.put("Exercise", exercise);
@@ -730,6 +735,7 @@ public class AddFragment extends Fragment {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         water in = dataSnapshot.getValue(water.class);
                         threeType type = new threeType(in.getIdwater(), "water", in.getWaterAmount(), " ml");
+                        type.setFood(false);
                         water.add(type);
                     }
                     threeList.put("Water", water);
@@ -761,6 +767,7 @@ public class AddFragment extends Fragment {
                         type.setCabs(in.getCabsFood());
                         type.setFat(in.getFatFood());
                         type.setProtein(in.getProteinFood());
+                        type.setFood(true);
                         breakfast.add(type);
                     }
                     threeList.put("Bữa sáng", breakfast);
@@ -784,6 +791,7 @@ public class AddFragment extends Fragment {
                         type.setCabs(in.getCabsFood());
                         type.setFat(in.getFatFood());
                         type.setProtein(in.getProteinFood());
+                        type.setFood(true);
                         lunch.add(type);
                     }
                     threeList.put("Bữa trưa", lunch);
@@ -807,6 +815,7 @@ public class AddFragment extends Fragment {
                         type.setCabs(in.getCabsFood());
                         type.setFat(in.getFatFood());
                         type.setProtein(in.getProteinFood());
+                        type.setFood(true);
                         dinner.add(type);
                     }
                     threeList.put("Bữa tối", dinner);
@@ -830,6 +839,7 @@ public class AddFragment extends Fragment {
                         type.setCabs(in.getCabsFood());
                         type.setFat(in.getFatFood());
                         type.setProtein(in.getProteinFood());
+                        type.setFood(true);
                         snack.add(type);
                     }
                     threeList.put("Ăn vặt", snack);
@@ -851,6 +861,7 @@ public class AddFragment extends Fragment {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         exercise in = dataSnapshot.getValue(exercise.class);
                         threeType type = new threeType(in.getIdExercise(), in.getNameExercise(), in.getCaloriesBurnedAMin(), " calories");
+                        type.setFood(false);
                         exercise.add(type);
                     }
                     threeList.put("Hoạt động", exercise);
@@ -873,6 +884,7 @@ public class AddFragment extends Fragment {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         water in = dataSnapshot.getValue(water.class);
                         threeType type = new threeType(in.getIdwater(), "Nước", in.getWaterAmount(), " ml");
+                        type.setFood(false);
                         water.add(type);
                     }
                     threeList.put("Nước", water);

@@ -117,7 +117,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         LinearLayout nutri = convertView.findViewById(R.id.linearLayoutNutri);
         nutri.setVisibility(View.INVISIBLE);
 
-        if (topicTitle.getUnitType().equals(" calories"))
+        if (topicTitle.getFat()!=null)
         {
             nutri.setVisibility(View.VISIBLE);
             ProgressBar cabs = convertView.findViewById(R.id.cabsFood);
@@ -129,9 +129,9 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
                 protein.setProgress(Integer.parseInt(topicTitle.getProtein()));
             }
             else {
-                cabs.setProgress(50);
-                fat.setProgress(50);
-                protein.setProgress(50);
+                cabs.setProgress(10);
+                fat.setProgress(20);
+                protein.setProgress(10);
             }
         }
 

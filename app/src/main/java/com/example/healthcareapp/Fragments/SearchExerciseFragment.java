@@ -104,7 +104,6 @@ public class SearchExerciseFragment extends Fragment {
         exerciseAdapter = new ExerciseAdapter(exerciseList, new ClickExerciseItem() {
             @Override
             public void onClickItemExercise(exercise e) {
-                if (LanguageUtils.getCurrentLanguage() == Language.ENGLISH) {
                     final Dialog dialog = new Dialog(getContext());
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_add_excercise);
@@ -145,7 +144,6 @@ public class SearchExerciseFragment extends Fragment {
 
                     });
                     dialog.show();
-                }
             }
         });
         recyclerViewExercise.setAdapter(exerciseAdapter);
