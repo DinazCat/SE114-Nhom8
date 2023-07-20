@@ -164,12 +164,13 @@
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:layout_marginTop="404dp"
         android:background="@color/lightgreen"
         android:gravity="center"
         android:orientation="horizontal"
-        android:layout_marginTop="240dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.549"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
